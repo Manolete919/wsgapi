@@ -15,8 +15,10 @@
 	<ui:define name="content">
 	<p:growl id="msgs" showDetail="true" />
 
-		<p:panel header="Crear filtros" style="margin-bottom:20px">
-			<p:panelGrid columns="2">
+		<p:panel header="Crear filtros para series" style="margin-bottom:20px">
+		<center>
+		
+	
 				<h:panelGrid columns="4" cellpadding="5">
 					<h:outputLabel value="Usuario"></h:outputLabel>
 					<h:outputLabel value="#{menuVista.usuario.idUsuario}"></h:outputLabel>
@@ -26,25 +28,20 @@
 
 					<h:outputLabel value="Nombre : *" for="txt_nombre"></h:outputLabel>
 					<p:inputText id="txt_nombre"
-						value="#{collectorFiltrosSerie.filtro.nombre}" required="false" />
+						value="#{collectorFiltrosSerie.filtro.nombre}" required="true" requiredMessage="Ingrese el nombre" />
 						
 					<h:outputLabel value="Configurados:" for="txt_configurado"/>	
-					<p:commandButton id="txt_configurado" actionListener="#{collectorFiltrosSerie.consultarSentencias}"  oncomplete="PF('filtroDialog').show()" update="detalleQuery"  icon="ui-icon-info" />
+					<p:commandButton id="txt_configurado" actionListener="#{collectorFiltrosSerie.consultarSentencias}" immediate="true"  oncomplete="PF('filtroDialog').show()" update="detalleQuery"  icon="ui-icon-info" />
 						
 
 					<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
 					<h:panelGrid columns="2">
-						<p:inputText id="txt_bind" size="3" value="#{collectorFiltrosSerie.filtro.indiceFiltro}"
-						required="false" />
+						<p:inputText id="txt_bind" requiredMessage="Ingrese un valor numerico para el indice"  size="3" value="#{collectorFiltrosSerie.filtro.indiceFiltro}"
+						required="true" />
 						
-						<p:commandButton id="sqlQuery" actionListener="#{collectorFiltrosSerie.consultarSentencias}"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+						<p:commandButton id="sqlQuery" actionListener="#{collectorFiltrosSerie.consultarSentencias}" immediate="true"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
 					
 					</h:panelGrid>
-					
-					
-					
-			
-
 					
 					<p:commandButton id="btn_add" value="Agregar"
 						update="filtros msgs @parent"
@@ -54,17 +51,21 @@
 					</p:commandButton>
 					<p:commandButton id="btn_reset" value="Resetear" type="reset" />
 				</h:panelGrid>
-				<p:commandButton ajax="false" value="Guardar" update="msg filtrosConfigurados"
-					actionListener="#{collectorFiltrosSerie.guardarFiltros}" />
-			</p:panelGrid>
+				
+		</center>
 		</p:panel>
 
 		<p:outputPanel id="filtros">
-			<p:dataTable value="#{collectorFiltrosSerie.filtros}" var="filtro"
+			<p:dataTable value="#{collectorFiltrosSerie.filtros}" var="filtro" emptyMessage="No hay filtros configurados"
+			resizableColumns="true"
 				id="filtrosTable">
 
 				<p:column headerText="nombre">
 					<h:outputText value="#{filtro.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Indice">
+					<h:outputText value="#{filtro.indiceFiltro}" />
 				</p:column>
 
 				<p:column headerText="Accion">
@@ -74,6 +75,11 @@
 							removeFrom="#{collectorFiltrosSerie.filtros}" unique="true" />
 					</p:commandLink>
 				</p:column>
+				
+				<f:facet name="footer">
+				<p:commandButton ajax="false" disabled="#{collectorFiltrosSerie.filtros.size()==0}" value="Guardar" update=":form:msg :form:filtrosConfigurados"
+					actionListener="#{collectorFiltrosSerie.guardarFiltros}" />
+				</f:facet>
 
 			</p:dataTable>
 		</p:outputPanel>

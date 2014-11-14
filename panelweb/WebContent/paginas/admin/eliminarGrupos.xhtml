@@ -18,13 +18,17 @@
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable id="gruposAEliminar" value="#{grupoEliminar.usuarioGrupos}" selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id}"
+					<p:dataTable id="gruposAEliminar" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id}"
 						style="margin:10px;" var="usuarioGrupo">
-						<f:facet name="header">
-            				Grupos configurados para: #{menuVista.usuario.idUsuario}
+						
+						<f:facet name="header">          				
+            				<h:outputText value="Grupos configurados para: #{menuVista.usuario.idUsuario}" />
         				</f:facet>
-        				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-        			
+        				
+        				
+        				
+        				<p:column selectionMode="multiple"  style="text-align:center"/>
+        				
         				
         				<p:column headerText="ID">
         					<h:outputText value="#{usuarioGrupo.grupo.idGrupo}" />
@@ -33,17 +37,17 @@
         				<p:column headerText="Nombre">
         					<h:outputText value="#{usuarioGrupo.grupo.descripcion}" />
         				</p:column>
+        				
+        				<f:facet name="footer">
+        					<p:commandButton id="eliminarSeleccionados" value="Eliminar" disabled="#{grupoEliminar.usuarioGrupos.size() == 0}" update=":form:msgs :form:gruposAEliminar"
+								actionListener="#{grupoEliminar.eliminarGruposSeleccionados}">						
+							</p:commandButton>
+				        </f:facet>
 						
 					</p:dataTable>
 				</p:column>
 			</p:row>
-			<p:row>
-				<p:column>
-					<p:commandButton value="Eliminar" update="gruposAEliminar msgs"
-						actionListener="#{grupoEliminar.eliminarGruposSeleccionados}">						
-					</p:commandButton>
-				</p:column>
-			</p:row>
+			
 		</p:panelGrid>
 
 	</ui:define>

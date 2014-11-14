@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -288,9 +289,7 @@ public class IndicadorEditar implements Serializable{
    	
     	if(this.hasRole("ROLE_ADMIN")){
     		
-    		
-
-    		
+    		  		
     		
     		try{
     			
@@ -306,26 +305,18 @@ public class IndicadorEditar implements Serializable{
 	        		
 	    			
 	    			indicadorBeanRemote.mergeIndicador(this.getIndicador());
+	    				    			
 	    			
-	    			/*for(GrupoIndicador grupoIndicador : grupoEliminacionIndicadores ){
-	    				System.out.println(" EEE " + grupoIndicador.getGrupo().getDescripcion());
-	    			}
-	            	*/
-	    			/*for(GrupoIndicador grupoIndicador : grupoCreacionIndicadores ){
-	    				System.out.println(" CRE " + grupoIndicador.getIndicador().getNombre());
-	    			}*/
-	    			
-	    			
-	                addMessage("Los datos fueron actualizados exitosamente!!");
+	                addMessage("Los datos fueron actualizados exitosamente!!",FacesMessage.SEVERITY_INFO);
 	                
 	                menuVista.actualizarMenu();
                 
         		}else{
-        			addMessage("Debe existir al menos un grupo asignado!!");
+        			addMessage("Debe existir al menos un grupo asignado",FacesMessage.SEVERITY_WARN);
         		}
         		
     		}catch(Exception e){
-    			addMessage("Hubo algun error!!");
+    			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
     			e.printStackTrace();
     		}
     		
@@ -333,15 +324,18 @@ public class IndicadorEditar implements Serializable{
     	
     	
     	}else{
-    		addMessage("NO TIENE PERMISO ADMINISTRADOR PARA REALIZAR ESTA ACCION!!");
+    		addMessage("NO TIENE PERMISO ADMINISTRADOR PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
     	}
 	
     }
      
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+    
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 
 

@@ -21,12 +21,12 @@
 			<p:row>			
 				<p:column rowspan="2">Grupo</p:column>
 				<p:column>Asignado a:</p:column>
-				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}"/></p:column>			
+				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}" /></p:column>			
 			</p:row>
 			<p:row>		
 				<p:column>Nombre Grupo:</p:column>
 				<p:column><p:inputText
-						value="#{grupoNuevo.usuarioGrupo.grupo.descripcion}" /></p:column>			
+						value="#{grupoNuevo.usuarioGrupo.grupo.descripcion}" required="true" requiredMessage="Ingrese el nombre del Grupo" /></p:column>			
 			</p:row>
 			
 			

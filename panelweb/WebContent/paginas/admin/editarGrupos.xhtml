@@ -28,11 +28,11 @@
 				<p:column>
 
 
-					<p:dataTable id="tabla" value="#{grupoEditar.usuarioGrupos}"
+					<p:dataTable id="tabla" value="#{grupoEditar.usuarioGrupos}" resizableColumns="true" emptyMessage="No hay grupos"
 						style="margin:10px;" var="usuarioGrupo">
 						
-						<p:column headerText="Descripicon">
-							<p:inputText value="#{usuarioGrupo.grupo.descripcion}" />
+						<p:column headerText="Descripicon" >
+							<p:inputText required="true" requiredMessage="La descripcion no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
 						</p:column>
 
 						<p:column headerText="Activo/Inactivo">
@@ -42,6 +42,9 @@
 						<p:column headerText="Activo/Inactivo">
 							<p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" />
 						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Actualizar"  update=":form:msgs,tabla" disabled="#{grupoEditar.usuarioGrupos.size() == 0 }" actionListener="#{grupoEditar.actualizarUsuarioGrupos}" /> 													
+						</f:facet>
 											
 	
 					</p:dataTable>
@@ -49,21 +52,6 @@
 
 				</p:column>
 			</p:row>
-
-			
-				<p:row>
-				
-					<p:column>
-					<center>
-						<p:commandButton value="Actualizar"  update="msgs tabla"
-							actionListener="#{grupoEditar.actualizarUsuarioGrupos}"> 						
-							</p:commandButton>
-							</center>
-					</p:column>
-					
-				</p:row>
-			
-
 
 		</p:panelGrid>
 

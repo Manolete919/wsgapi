@@ -28,19 +28,19 @@
 				<p:row>
 					<p:column>Nombre Indicador:</p:column>
 					<p:column>
-						<p:inputText value="#{indicadorNuevo.indicador.nombre}" />
+						<p:inputText value="#{indicadorNuevo.indicador.nombre}" required="true" requiredMessage="Ingrese nombre de indicador" />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>Servicio de Consulta:</p:column>
 					<p:column>
 						<p:panelGrid columns="2">
-							<p:selectOneMenu id="servicio"  value="#{indicadorNuevo.indiceWsgServicio}"  effect="fold"
+							<p:selectOneMenu id="servicio"  required="true" requiredMessage="Seleccione un servicio" value="#{indicadorNuevo.indiceWsgServicio}"  effect="fold"
 								editable="false" >
 								<f:selectItems  value="#{indicadorNuevo.wsgServicioSelect}" />
 							</p:selectOneMenu>
 													
-							<p:commandButton id="sqlQuery" actionListener="#{indicadorNuevo.consultarSentencias}"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+							<p:commandButton id="sqlQuery" actionListener="#{indicadorNuevo.consultarSentencias}"  immediate="true" oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
 						
 						</p:panelGrid>
 					</p:column>
@@ -50,7 +50,7 @@
 					<p:column rowspan="1">Grupos</p:column>
 	
 					<p:column colspan="2">					
-						<p:pickList id="pickList" value="#{indicadorNuevo.grupos}"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
+						<p:pickList id="pickList" value="#{indicadorNuevo.grupos}" required="true" requiredMessage="Asigne un grupo"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
 							<f:facet name="sourceCaption">Disponibles</f:facet>
 				        	<f:facet name="targetCaption">Agregados</f:facet>
 				        </p:pickList>
@@ -103,7 +103,7 @@
 					<p:column>Descripcion Breve:</p:column>
 					<p:column>
 						<p:inputText value="#{indicadorNuevo.indicadorSerie.nombre}"
-							required="false" />
+							required="true" requiredMessage="Ingrese nombre de serie" />
 					</p:column>
 				</p:row>
 

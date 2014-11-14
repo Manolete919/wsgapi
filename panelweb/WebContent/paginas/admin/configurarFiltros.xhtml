@@ -27,16 +27,16 @@
 
 			<p:row>
 				<p:column>
-					<p:dataTable id="tabla"
+					<p:dataTable id="tabla" emptyMessage="No hay filtros configurados"
 						value="#{filtrosConfiguracion.filtros}"
 						style="margin:10px;" var="filtro">
 
 						<p:column headerText="Filtro">
-							<h:inputText
+							<h:inputText required="true" requiredMessage="El Nombre de Filtro no debe estar vacio"
 								value="#{filtro.nombre}" />
 						</p:column>
 						<p:column headerText="Indice">
-							<p:inputText
+							<p:inputText required="true" requiredMessage="El Indice no debe estar vacio"
 								value="#{filtro.indiceFiltro}" />
 						</p:column>
 
@@ -44,22 +44,19 @@
 							<p:outputLabel
 								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
 						</p:column>
+						
+						<f:facet name="footer">
+							<p:column>
+								<p:commandButton disabled="#{filtrosConfiguracion.filtros.size()==0}" value="Actualizar" update=":form:msgs,tabla"
+								actionListener="#{filtrosConfiguracion.actualizarFiltros}" />
+							</p:column>
+						</f:facet>
 
 					</p:dataTable>
 
 				</p:column>
 			</p:row>
 			
-			<p:row>
-				<p:column>
-					<p:commandButton value="Actualizar" update="msgs tabla"
-					actionListener="#{filtrosConfiguracion.actualizarFiltros}" />
-				</p:column>
-			</p:row>
-
-
-
-
 		</p:panelGrid>
 
 	

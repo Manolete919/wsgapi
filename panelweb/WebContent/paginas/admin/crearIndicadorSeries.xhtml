@@ -15,21 +15,21 @@
 	<ui:define name="content">
 	<p:growl id="msgs" showDetail="true" />
 		
-			<p:panel header="Crear Series" style="margin-bottom:20px">
-				<p:panelGrid columns="2">
-
+			<p:panel header="Crear Series para un indicador" style="margin-bottom:20px">
+				
+				<center>
 					<h:panelGrid columns="4" cellpadding="5">
 
 						<h:outputLabel value="Usuario"></h:outputLabel>
 						<h:outputLabel
-							value="#{menuVista.usuario.idUsuario}"></h:outputLabel>
+							value="#{menuVista.usuario.nombre}"></h:outputLabel>
 						<h:outputLabel value="Indicador:"></h:outputLabel>
 						<h:outputLabel
 							value="#{menuVista.indicador.nombre}"></h:outputLabel>
 
-						<h:outputLabel value="Etiqueta : *" for="txt_eti_serie"></h:outputLabel>
+						<h:outputLabel value="Nombre : *" for="txt_eti_serie"></h:outputLabel>
 						<p:inputText id="txt_eti_serie"
-							value="#{collectorIndicadorSerie.indicadorSerie.nombre}" required="false" />
+							value="#{collectorIndicadorSerie.indicadorSerie.nombre}" requiredMessage="Se requiere un nombre " required="true" />
 
 
 						<p:commandButton id="btn_resetSerie" value="Resetear"
@@ -41,13 +41,10 @@
 								addTo="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
 						</p:commandButton>
 					</h:panelGrid>
-					<p:commandButton  value="Guardar"
-						actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"></p:commandButton>
-				</p:panelGrid>
+			</center>
 			</p:panel>
 			<p:outputPanel id="indicadorSeries">
-				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" var="indicadorSerie"
-					id="pSeriesTable">
+				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie" id="pSeriesTable">
 
 					<p:column headerText="Nombre">
 						<h:outputText value="#{indicadorSerie.nombre}" />
@@ -60,6 +57,10 @@
 								removeFrom="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
 						</p:commandLink>
 					</p:column>
+					
+					<f:facet name="footer">
+						<p:commandButton  disabled="#{collectorIndicadorSerie.indicadorSeries.size()==0}" value="Guardar" actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"/>
+					</f:facet>
 
 				</p:dataTable>
 			</p:outputPanel>

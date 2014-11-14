@@ -41,18 +41,14 @@
 						<p:column headerText="Valor">
 							<p:inputText value="#{indicadorSerieFiltro.valor}" />
 						</p:column>
+						
+						<f:facet name="footer">
+							<p:commandButton disabled="#{filtrosSeriesConfiguracion.indicadorSerieFiltros.size()==0}" value="Grabar Valores" update=":form:msgs" actionListener="#{filtrosSeriesConfiguracion.guardarFiltrosSeries}" />
+						</f:facet>
+						
 					</p:dataTable>
 				</p:column>
 			</p:row>
-
-			<p:row>
-				<p:column>
-					<p:commandButton value="Grabar Valores" update="msgs"
-						actionListener="#{filtrosSeriesConfiguracion.guardarFiltrosSeries}" />
-				</p:column>
-			</p:row>
-
-
 
 
 		</p:panelGrid>

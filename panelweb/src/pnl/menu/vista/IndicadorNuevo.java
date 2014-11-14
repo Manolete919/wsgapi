@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -217,34 +218,41 @@ public class IndicadorNuevo implements Serializable {
 		
 
 		if (this.hasRole("ROLE_ADMIN")) {
+			
+			if(!grupos.getTarget().isEmpty()){
+				try {
 
-			try {
+					grupoIndicadorBeanRemote.persistGrupoIndicadores(grupoIndicadores);
 
-				grupoIndicadorBeanRemote.persistGrupoIndicadores(grupoIndicadores);
+					// ACTUALIZAR MENU
 
-				// ACTUALIZAR MENU
+					addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
 
-				addMessage("Se guardo exitosamente!!");
+					menuVista.actualizarMenu();
+					indicador = new Indicador();
+					indicadorSerie = new IndicadorSerie();
 
-				menuVista.actualizarMenu();
-				indicador = new Indicador();
-				indicadorSerie = new IndicadorSerie();
+					
 
-				
+				} catch (Exception e) {
+					
+					addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
 
-			} catch (Exception e) {
-				addMessage("Hubo algun error");
-				e.printStackTrace();
+					e.printStackTrace();
+				}
+			}else{
+				addMessage("Debe asignarlo a algun grupo",FacesMessage.SEVERITY_WARN);
 			}
 
+
 		} else {
-			addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!");
+			addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION",FacesMessage.SEVERITY_WARN);
 		}
 
 	}
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
 				summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}

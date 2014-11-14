@@ -22,7 +22,7 @@
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable id="filtroTabla"  value="#{filtrosEliminar.filtros}" selection="#{filtrosEliminar.selectedFiltros}" rowKey="#{filtro.idFiltro}"
+					<p:dataTable id="filtroTabla" emptyMessage="No hay filtros configurados" value="#{filtrosEliminar.filtros}" selection="#{filtrosEliminar.selectedFiltros}" rowKey="#{filtro.idFiltro}"
 						style="margin:10px;" var="filtro">
 		
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
@@ -45,14 +45,13 @@
 								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
 						</p:column>
 						
+						<f:facet name="footer">
+							<p:commandButton value="Eliminar" disabled="#{filtrosEliminar.filtros.size()==0}" update=":form:msgs,filtroTabla"
+								actionListener="#{filtrosEliminar.eliminarFiltrosSeleccionados}">						
+							</p:commandButton>
+						</f:facet>
+						
 					</p:dataTable>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:commandButton value="Eliminar" update="msgs filtroTabla"
-						actionListener="#{filtrosEliminar.eliminarFiltrosSeleccionados}">						
-					</p:commandButton>
 				</p:column>
 			</p:row>
 		</p:panelGrid>

@@ -18,12 +18,13 @@
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable id="indicadoresAElminar" value="#{indicadorEliminar.indicadores}" selection="#{indicadorEliminar.selectedIndicadores}" rowKey="#{indicador.idIndicador}"
+					<p:dataTable id="indicadoresAElminar" resizableColumns="true" value="#{indicadorEliminar.indicadores}" selection="#{indicadorEliminar.selectedIndicadores}" rowKey="#{indicador.idIndicador}"
 						style="margin:10px;" var="indicador">
 						<f:facet name="header">
-            				Indicadores configurados para: #{menuVista.usuario.idUsuario}
+							<h:outputText value="Indicadores configurados para: #{menuVista.usuario.idUsuario}" />
+            				
         				</f:facet>
-        				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+        				<p:column selectionMode="multiple" style="text-align:center" />
         			
         				
         				<p:column headerText="ID">
@@ -33,17 +34,20 @@
         				<p:column headerText="Nombre">
         					<h:outputText value="#{indicador.nombre}" />
         				</p:column>
+        				
+	        			<f:facet name="footer">
+							<p:commandButton value="Eliminar" disabled="#{indicadorEliminar.indicadores.size() == 0}" update=":menuForm:lbxIndicadores :form:indicadoresAElminar :form:msgs"
+								actionListener="#{indicadorEliminar.eliminarIndicadoreSeleccionados}">						
+							</p:commandButton>
+				        </f:facet>
 						
 					</p:dataTable>
+					
+
+			        
 				</p:column>
 			</p:row>
-			<p:row>
-				<p:column>
-					<p:commandButton value="Eliminar" update=":menuForm:lbxIndicadores indicadoresAElminar msgs"
-						actionListener="#{indicadorEliminar.eliminarIndicadoreSeleccionados}">						
-					</p:commandButton>
-				</p:column>
-			</p:row>
+
 		</p:panelGrid>
 
 	</ui:define>

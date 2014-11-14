@@ -32,7 +32,7 @@
 						style="margin:10px;" var="indicadorSerie">
 						
 						<p:column headerText="Nombre">
-							<p:inputText value="#{indicadorSerie.nombre}" />
+							<p:inputText value="#{indicadorSerie.nombre}" required="true" requiredMessage="El nombre no debe estar vacio"  />
 						</p:column>
 
 						<p:column headerText="Estado">
@@ -43,27 +43,20 @@
 							<p:selectBooleanCheckbox value="#{indicadorSerie.estadoBoolean}" />
 						</p:column>
 						
+						<f:facet name="footer">
+							<p:commandButton value="Actualizar" disabled="#{indicadorSerieEditar.indicadorSeries.size() == 0 }"  update=":form:msgs,tabla"
+								actionListener="#{indicadorSerieEditar.actualizar}"> 
+									<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
+									<f:param name="idModelo" value="#{menuVista.indicador.modeloGrafico.idModelo}" />																
+							</p:commandButton>
+						</f:facet>
+						
 	
 					</p:dataTable>
 
 
 				</p:column>
 			</p:row>
-
-			<p:row>
-				<p:column>
-				
-					<p:commandButton value="Actualizar"  update="msgs tabla"
-						actionListener="#{indicadorSerieEditar.actualizar}"> 
-							<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
-							<f:param name="idModelo" value="#{menuVista.indicador.modeloGrafico.idModelo}" />								
-						
-						</p:commandButton>
-				</p:column>
-			</p:row>
-
-
-
 
 		</p:panelGrid>
 

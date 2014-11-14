@@ -18,7 +18,7 @@ public class Tema implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		tema="black-tie";
+		tema="blitzer";
 	}
 
 	public String getTema() {
