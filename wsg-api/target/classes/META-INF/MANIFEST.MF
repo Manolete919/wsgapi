@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+mode: development
+Implementation-Version: 0.0.1
+Built-By: Desarrollo
+Class-Path: eclipselink-2.4.2.jar javax.persistence-2.0.5.jar commonj.
+ sdo-2.1.1.jar
+Extension-Name: wsg-api
+Build-Jdk: 1.8.0_05
+Created-By: Maven Integration for Eclipse
+Specification-Version: 1.0
+url: http://maven.apache.org
+
