@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>wsg.interfaz</groupId>
+  <artifactId>wsg-api</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <eclipselink.version>2.4.2</eclipselink.version>
+  </properties>
+
+  <name>jeis_dat-api</name>
+  <url>http://maven.apache.org</url>
+  
+  <repositories>
+    <repository>
+        <id>eclipselink</id>
+        <url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url>
+    </repository>
+    
+   </repositories>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+        	<artifactId>maven-compiler-plugin</artifactId>
+        	<version>3.1</version>
+        	<configuration>
+          		<source>1.7</source>
+          		<target>1.7</target>
+        	</configuration>
+      	</plugin>
+      	
+      	<!-- WebLogic Server 12c Maven Plugin -->
+      	<!-- ver configuracion del plugin en http://docs.oracle.com/cd/E24329_01/web.1211/e24368/maven.htm -->
+        <plugin>
+            <groupId>com.oracle.weblogic</groupId>
+            <artifactId>wls-maven-plugin</artifactId>
+            <version>12.1.2-0-0</version>
+        </plugin>
+        
+        <!-- http://docs.oracle.com/cd/E24329_01/web.1211/e24443/maven_deployer.htm -->
+        <plugin> 
+	      <groupId>com.oracle.weblogic</groupId> 
+	      <artifactId>weblogic-maven-plugin</artifactId> 
+	      <version>12.1.2-0-0</version> 
+	      <configuration> 
+	          <adminurl>t3://localhost:7001</adminurl>
+	          <user>weblogic</user> 
+	          <password>12345678</password> 
+	          <upload>true</upload> 
+	          <action>deploy</action> 	          
+	          <remote>false</remote> 
+	          <verbose>true</verbose> 
+			  <source>${project.build.directory}/${project.build.finalName}.${project.packaging}</source> 
+	         <name>${project.build.finalName}</name> 
+	         <library>true</library>
+	      </configuration> 
+      
+	      	<!-- executions> 
+	         <execution> 
+	            <phase>install</phase> 	            
+	              <goals> 	              
+	                <goal>deploy</goal> 	                
+	              </goals> 
+	         </execution> 
+	       </executions--> 
+     
+  		</plugin> 
+       
+        <!-- http://maven.apache.org/shared/maven-archiver/examples/manifestEntries.html -->
+        <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-jar-plugin</artifactId>
+	        <version>2.5</version>       	
+	        <configuration>
+	          <archive>
+	            <!--manifestFile>src/main/java/META-INF/MANIFEST.MF</manifestFile-->
+	            <index>true</index>
+	            <manifest>
+	              <addClasspath>true</addClasspath>
+	            </manifest>
+	            <manifestEntries>
+	              <mode>development</mode>
+	              <url>${project.url}</url>
+	              <Extension-Name>wsg-api</Extension-Name>
+	              <Specification-Version>1.0</Specification-Version>
+	              <Implementation-Version>0.0.1</Implementation-Version>            
+	            </manifestEntries>
+	          </archive>
+	        </configuration>
+   	 	</plugin> 
+   	 	
+   	 	<!-- https://code.google.com/p/eclipselink-staticweave-maven-plugin/  -->
+   	 	<plugin>
+	        <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
+	        <groupId>au.com.alderaan</groupId>
+	        <version>1.0.4</version>
+	        <executions>
+	            <execution>
+	                <goals>
+	                    <goal>weave</goal>
+	                </goals>	               
+	                <phase>process-classes</phase>
+	                <configuration>
+	                    <logLevel>ALL</logLevel>
+	                    <includeProjectClasspath>true</includeProjectClasspath>
+	                </configuration>
+	            </execution>
+	        </executions>
+	        <dependencies>
+	            <dependency>
+	                <groupId>org.eclipse.persistence</groupId>
+	                <artifactId>eclipselink</artifactId>
+	                <version>${eclipselink.version}</version>
+	            </dependency>
+	        </dependencies>
+    	</plugin>
+  	</plugins>
+  	<pluginManagement>
+  		<plugins>
+  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+  			<plugin>
+  				<groupId>org.eclipse.m2e</groupId>
+  				<artifactId>lifecycle-mapping</artifactId>
+  				<version>1.0.0</version>
+  				<configuration>
+  					<lifecycleMappingMetadata>
+  						<pluginExecutions>
+  							<pluginExecution>
+  								<pluginExecutionFilter>
+  									<groupId>au.com.alderaan</groupId>
+  									<artifactId>
+  										eclipselink-staticweave-maven-plugin
+  									</artifactId>
+  									<versionRange>
+  										[1.0.4,)
+  									</versionRange>
+  									<goals>
+  										<goal>weave</goal>
+  									</goals>
+  								</pluginExecutionFilter>
+  								<action>
+  									<ignore></ignore>
+  								</action>
+  							</pluginExecution>
+  						</pluginExecutions>
+  					</lifecycleMappingMetadata>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
+
+  <dependencies>
+  
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- WebLogic Server 12c Maven Plugin -->
+    <!-- ver configuracion del plugin en http://docs.oracle.com/cd/E24329_01/web.1211/e24368/maven.htm -->
+    <dependency>
+    	<groupId>javax</groupId>
+        <artifactId>javaee-web-api</artifactId>
+        <version>6.0</version>
+        <scope>provided</scope>
+     </dependency>
+                
+     <dependency>
+         <groupId>org.eclipse.persistence</groupId>
+         <artifactId>eclipselink</artifactId>
+         <version>${eclipselink.version}</version>        
+     </dependency>
+               
+  	</dependencies>
+
+</project>
