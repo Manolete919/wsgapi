@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event
+			listener="#{indicadorEditar.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView">
+		</f:event>
+	</ui:define>
+	
+	<ui:define name="overlay"></ui:define>
+
+	<ui:define name="content">
+		
+		<p:growl id="msgs" />
+		<center>
+		<p:panelGrid style="margin-top:17px;">
+			<f:facet name="header">
+				<p:row>			
+					<p:column colspan="3">Actualización de Indicadores</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>			
+				<p:column rowspan="3">Indicador</p:column>
+				<p:column>Asignado a:</p:column>
+				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}"/></p:column>			
+			</p:row>
+			<p:row>		
+				<p:column>Nombre Indicador:</p:column>
+				<p:column><p:inputText
+						value="#{indicadorEditar.indicador.nombre}" /></p:column>			
+			</p:row>
+			<p:row>		
+				<p:column>Servicio de Consulta:</p:column>
+				<p:column>
+					<p:panelGrid columns="2">
+						<p:selectOneMenu id="servicio"  value="#{indicadorEditar.indiceWsgServicio}"  effect="fold"
+							editable="false" >
+							<f:selectItems  value="#{indicadorEditar.wsgServicioSelect}" />
+						</p:selectOneMenu>
+												
+						<p:commandButton id="sqlQuery" actionListener="#{indicadorEditar.consultarSentencias}"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+					
+					</p:panelGrid>
+				</p:column>
+			</p:row>
+	
+			<p:row>
+				<p:column rowspan="1">Grupos</p:column>
+
+				<p:column colspan="2">					
+					<p:pickList id="pickList" value="#{indicadorEditar.grupos}"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
+						<f:facet name="sourceCaption">Disponibles</f:facet>
+			        	<f:facet name="targetCaption">Agregados</f:facet>
+			        </p:pickList>
+				</p:column>
+			</p:row>
+			
+			
+			<p:row>
+		        <p:column colspan="3" styleClass="ui-widget-header">
+		            <p:spacer height="15"/>
+		        </p:column>
+		    </p:row>
+		    
+
+		    <p:row>			
+				<p:column rowspan="3">Gráfico</p:column>
+				<p:column>Modelo Gráfico:</p:column>
+				<p:column><p:selectOneMenu id="modelo"
+						value="#{indicadorEditar.indiceModeloGrafico}" effect="fold" editable="false">
+						<f:selectItems value="#{indicadorEditar.modeloGraficoSelect}" />
+					</p:selectOneMenu></p:column>			
+			</p:row>
+			<p:row>		
+				<p:column>Titulo Eje Horizontal:</p:column>
+				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjex}" /></p:column>			
+			</p:row>
+
+		    <p:row>		
+				<p:column>Titulo Eje Vertical:</p:column>
+				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjey}" /></p:column>			
+			</p:row>
+			
+			
+			<p:row>
+		        <p:column colspan="3" styleClass="ui-widget-header">
+		            <p:spacer height="15"/>
+		        </p:column>
+		    </p:row>
+		    
+
+		    
+		    
+		    <f:facet name="footer">
+		    	<p:row>	    	
+		    		<p:column colspan="3">
+		    			<center>
+		           			<p:commandButton value="Actualizar"  update=":menuForm:lbxIndicadores msgs pickList"
+								actionListener="#{indicadorEditar.actualizarGrupoIndicador}" />
+						</center>
+		        	</p:column>	        	
+		        </p:row>	    
+		    </f:facet>		    
+		</p:panelGrid>
+
+	</center>
+
+    <p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="detalleQuery" style="text-align:center;">     
+        	<h:outputText value="#{indicadorEditar.query}" style="display:block"/>     
+        </p:outputPanel>
+    </p:dialog>
+
+		
+	</ui:define>
+
+</ui:composition>

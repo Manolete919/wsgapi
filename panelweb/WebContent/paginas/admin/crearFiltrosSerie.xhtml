@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{collectorFiltrosSerie.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+	<p:growl id="msgs" showDetail="true" />
+
+		<p:panel header="Crear filtros" style="margin-bottom:20px">
+			<p:panelGrid columns="2">
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel value="Usuario"></h:outputLabel>
+					<h:outputLabel value="#{menuVista.usuario.idUsuario}"></h:outputLabel>
+					<h:outputLabel value="Indicador:"></h:outputLabel>
+					<h:outputLabel
+						value="#{menuVista.indicador.nombre}"></h:outputLabel>
+
+					<h:outputLabel value="Nombre : *" for="txt_nombre"></h:outputLabel>
+					<p:inputText id="txt_nombre"
+						value="#{collectorFiltrosSerie.filtro.nombre}" required="false" />
+						
+					<h:outputLabel value="Configurados:" for="txt_configurado"/>	
+					<p:commandButton id="txt_configurado" actionListener="#{collectorFiltrosSerie.consultarSentencias}"  oncomplete="PF('filtroDialog').show()" update="detalleQuery"  icon="ui-icon-info" />
+						
+
+					<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
+					<h:panelGrid columns="2">
+						<p:inputText id="txt_bind" size="3" value="#{collectorFiltrosSerie.filtro.indiceFiltro}"
+						required="false" />
+						
+						<p:commandButton id="sqlQuery" actionListener="#{collectorFiltrosSerie.consultarSentencias}"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+					
+					</h:panelGrid>
+					
+					
+					
+			
+
+					
+					<p:commandButton id="btn_add" value="Agregar"
+						update="filtros msgs @parent"
+						action="#{collectorFiltrosSerie.reinit}">
+						<p:collector value="#{collectorFiltrosSerie.filtro}"
+							addTo="#{collectorFiltrosSerie.filtros}" unique="true" />
+					</p:commandButton>
+					<p:commandButton id="btn_reset" value="Resetear" type="reset" />
+				</h:panelGrid>
+				<p:commandButton ajax="false" value="Guardar" update="msg filtrosConfigurados"
+					actionListener="#{collectorFiltrosSerie.guardarFiltros}" />
+			</p:panelGrid>
+		</p:panel>
+
+		<p:outputPanel id="filtros">
+			<p:dataTable value="#{collectorFiltrosSerie.filtros}" var="filtro"
+				id="filtrosTable">
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{filtro.nombre}" />
+				</p:column>
+
+				<p:column headerText="Accion">
+					<p:commandLink value="Eliminar" update=":form:filtros"
+						process=":form:filtros">
+						<p:collector value="#{filtro}"
+							removeFrom="#{collectorFiltrosSerie.filtros}" unique="true" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</p:outputPanel>
+		
+		<p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="detalleQuery" style="text-align:center;">	     
+	        	<h:outputText value="#{collectorFiltrosSerie.query}" style="display:block"/>	     
+	        </p:outputPanel>
+	    </p:dialog>
+	    
+		  <p:dialog header="Filtro Info" widgetVar="filtroDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="filtroDetail" style="text-align:center;">
+				<p:dataTable id="filtrosConfigurados" value="#{collectorFiltrosSerie.filtrosConfigurados}" emptyMessage="No hay configurados" var="filtro">
+					<p:column headerText="Nombre">
+						<h:outputText value="#{filtro.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Indice">
+						<h:outputText value="#{filtro.indiceFiltro}" />
+					</p:column>
+				</p:dataTable>
+	        </p:outputPanel>
+	    </p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>

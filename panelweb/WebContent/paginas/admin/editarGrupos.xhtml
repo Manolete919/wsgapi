@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+
+	
+	<ui:define name="overlay"></ui:define>
+
+	<ui:define name="content">
+		
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:panelGrid style="margin-top:20px">
+		
+			<f:facet name="header">
+				<p:row>
+					<p:column>Actualizacion de Grupos</p:column>
+				</p:row>
+			</f:facet>
+
+
+			<p:row>
+				<p:column>
+
+
+					<p:dataTable id="tabla" value="#{grupoEditar.usuarioGrupos}"
+						style="margin:10px;" var="usuarioGrupo">
+						
+						<p:column headerText="Descripicon">
+							<p:inputText value="#{usuarioGrupo.grupo.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Activo/Inactivo">
+							<p:outputLabel value="#{usuarioGrupo.grupo.estado}" />
+						</p:column>
+						
+						<p:column headerText="Activo/Inactivo">
+							<p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" />
+						</p:column>
+											
+	
+					</p:dataTable>
+
+
+				</p:column>
+			</p:row>
+
+			
+				<p:row>
+				
+					<p:column>
+					<center>
+						<p:commandButton value="Actualizar"  update="msgs tabla"
+							actionListener="#{grupoEditar.actualizarUsuarioGrupos}"> 						
+							</p:commandButton>
+							</center>
+					</p:column>
+					
+				</p:row>
+			
+
+
+		</p:panelGrid>
+
+
+		
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{filtrosConfiguracion.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+
+
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		<p:growl id="msgs" showDetail="true" />
+
+
+		<p:panelGrid style="margin-top:20px">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Actualizacion de  Filtros</p:column>
+				</p:row>
+			</f:facet>
+
+
+			<p:row>
+				<p:column>
+					<p:dataTable id="tabla"
+						value="#{filtrosConfiguracion.filtros}"
+						style="margin:10px;" var="filtro">
+
+						<p:column headerText="Filtro">
+							<h:inputText
+								value="#{filtro.nombre}" />
+						</p:column>
+						<p:column headerText="Indice">
+							<p:inputText
+								value="#{filtro.indiceFiltro}" />
+						</p:column>
+
+						<p:column headerText="Dueno">
+							<p:outputLabel
+								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:commandButton value="Actualizar" update="msgs tabla"
+					actionListener="#{filtrosConfiguracion.actualizarFiltros}" />
+				</p:column>
+			</p:row>
+
+
+
+
+		</p:panelGrid>
+
+	
+
+
+			
+		
+
+
+	</ui:define>
+
+</ui:composition>

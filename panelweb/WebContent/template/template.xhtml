@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<ui:insert name="head">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Panel</title>
+	</ui:insert>
+</h:head>
+
+<h:body>
+	<ui:insert name="top">
+		<h:form id="formBarra">
+			<p:growl id="messages" />
+			<p:menubar id="menuBar">
+				<p:submenu label="Grupos" icon="ui-icon-grip-diagonal-se"> 
+					<p:menuitem icon="ui-icon-document" value="Nuevo" url="/paginas/admin/nuevoGrupo.xhtml" />
+					<p:separator />
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar" url="/paginas/admin/editarGrupos.xhtml" />
+					<p:separator />
+					<p:menuitem icon="ui-icon-trash" value="Eliminar" 
+						url="/paginas/admin/eliminarGrupos.xhtml" />
+				</p:submenu>
+			
+				<p:submenu label="Indicador" icon="ui-icon-image">
+					<p:menuitem icon="ui-icon-document" value="Nuevo" url="/paginas/admin/nuevoIndicador.xhtml" />
+					<p:separator />
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar"  disabled="#{menuVista.indicador.idIndicador == 0}" url="/paginas/admin/editarIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+					<p:separator />
+					<p:menuitem icon="ui-icon-trash" value="Eliminar" 
+						url="/paginas/admin/eliminarIndicadores.xhtml" />
+				</p:submenu>
+				<p:submenu rendered="#{menuVista.indicador.idIndicador != 0}" label="Filtros" icon="ui-icon-search">
+					<p:submenu label="Nuevo" icon="ui-icon-document">
+						<p:menuitem value="Filtros de Indicador"
+							url="/paginas/admin/crearFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+						<p:separator />
+						<p:menuitem value="Filtros de Serie"
+							url="/paginas/admin/crearFiltrosSerie.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+					</p:submenu>
+					<p:separator />
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar" url="/paginas/admin/configurarFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+						
+					<p:separator />
+					<p:menuitem icon="ui-icon-trash" value="Eliminar" url="/paginas/admin/eliminarFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+				</p:submenu>
+
+				<p:submenu label="Serie" rendered="#{menuVista.indicador.idIndicador != 0}" icon="ui-icon-grip-dotted-horizontal">
+				
+					<p:menuitem icon="ui-icon-document" value="Nuevo" url="/paginas/admin/crearIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+					<p:separator />
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar"   url="/paginas/admin/editarIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />						
+				
+					<p:separator />
+					<p:menuitem icon="ui-icon-wrench" value="Filtros" url="/paginas/admin/configurarFiltrosSeries.xhtml?ind=#{menuVista.indicador.idIndicador}"/>
+			
+					<p:separator />
+					<p:menuitem icon="ui-icon-trash" value="Eliminar" url="/paginas/admin/eliminarIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+					
+				</p:submenu>
+				
+
+
+				<f:facet name="options">	
+		<h:panelGrid columns="3">
+			Tema: 
+	        <p:themeSwitcher value="#{selectOneView.option}" id="basic" style="width:165px">
+	            <f:selectItems value="#{selectOneView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme.name}" />
+	        	<p:ajax event="change" listener="#{selectOneView.guardarCambios}" />
+	        </p:themeSwitcher>
+      		<p:commandButton action="#{loginMgmtBean.logout}"  ajax="false" value="Salir"
+			icon="ui-icon-extlink" />
+  		</h:panelGrid>
+		
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</ui:insert>
+
+	<p:layout  fullPage="false" style="margin-top:10px;">
+		<p:layoutUnit position="west"  size="300" header="Usuario: #{menuVista.usuario.idUsuario}"
+			resizable="true" closable="true" collapsible="true">
+			<ui:insert name="left">
+				<h:form id="menuForm">
+					<p:selectOneListbox  id="lbxIndicadores" value="#{menuVista.opcion}"
+						style="width:90%">
+						<c:forEach var="indicador" items="#{menuVista.indicadores}"
+							varStatus="index">
+							<f:selectItem itemLabel="#{indicador.nombre}"
+								itemValue="${index.count}" />
+						</c:forEach>
+						<p:ajax listener="#{menuVista.redireccionarAGrafico}" event="click" />
+					</p:selectOneListbox>
+					<p:growl autoUpdate="true" showDetail="true" />
+				</h:form>
+			</ui:insert>
+		</p:layoutUnit>
+
+
+		<p:layoutUnit position="center" resizable="true">
+			<h:form id="form">
+				<ui:insert name="overlay">
+					<c:if test="#{menuVista.indicador.idIndicador != 0}">
+						<p:toolbar>
+							<f:facet name="left">
+								<p:menuButton value="Filtros">
+									<p:menuitem value="Filtrar Datos"  icon="ui-icon-search"  url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+								</p:menuButton>
+							</f:facet>
+						</p:toolbar>
+					</c:if>
+					<p:outputLabel rendered="#{menuVista.indicador.idIndicador == 0}" value="El indicador no existe, o ha sido eliminado" />
+					
+				</ui:insert>
+				<ui:insert name="content">
+			        			Center
+			    </ui:insert>
+			</h:form>
+		</p:layoutUnit>
+
+
+	</p:layout>
+
+
+
+
+</h:body>
+
+</html>

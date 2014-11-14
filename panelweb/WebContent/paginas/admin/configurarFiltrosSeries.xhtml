@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{filtrosSeriesConfiguracion.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+
+
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		<p:growl id="msgs" showDetail="true" />
+
+
+		<p:panelGrid style="margin-top:20px">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Configuración de Filtros de Series</p:column>
+				</p:row>
+			</f:facet>
+
+
+			<p:row>
+				<p:column>
+
+
+					<p:dataTable emptyMessage="No existen filtros de Series para configurar" value="#{filtrosSeriesConfiguracion.indicadorSerieFiltros}"
+						style="margin:10px;" var="indicadorSerieFiltro">
+						<p:column headerText="Serie">
+							<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}" />
+						</p:column>
+						<p:column headerText="Filtro">
+							<h:outputText
+								value="#{indicadorSerieFiltro.filtro.nombre}" />
+						</p:column>
+						<p:column headerText="Valor">
+							<p:inputText value="#{indicadorSerieFiltro.valor}" />
+						</p:column>
+					</p:dataTable>
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<p:commandButton value="Grabar Valores" update="msgs"
+						actionListener="#{filtrosSeriesConfiguracion.guardarFiltrosSeries}" />
+				</p:column>
+			</p:row>
+
+
+
+
+		</p:panelGrid>
+
+
+	</ui:define>
+
+</ui:composition>

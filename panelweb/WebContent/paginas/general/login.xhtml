@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<title>Login Panel</title>
+	</f:facet>
+	<style type="text/css">
+body {
+	font-size: 10px;
+	width: 100%;
+	display: layout;
+}
+</style>
+</h:head>
+<h:body>
+
+
+	<h:form id="loginForm" prependId="false">
+		<center>
+			<p:panel id="panelLogin"
+				style=" font-size: 15px; width:400px; border:0 ">
+				<h:outputText
+					style="text-align:center; color:#848484; font-size: 25px; font: bold 150% sans-serif;"
+					value="Inicio de sesión" />
+				<br />
+				<p:separator></p:separator>
+				<p:messages globalOnly="true"></p:messages>
+				<p:message for="j_password" />
+				<h:panelGrid columns="2">
+
+					<h:graphicImage value="/resources/images/password.png" width="81" />
+					<h:column>
+						<h:panelGrid columns="2">
+							<h:outputText value="Usuario " />
+							<h:panelGroup>
+								<p:inputText id="j_username" required="true"
+									value="#{loginMgmtBean.userName}"
+									requiredMessage="Please enter username"></p:inputText>
+								<p:watermark for="j_username" value="Ingrese su usuario" />
+							</h:panelGroup>
+							<h:outputText value="Clave  " />
+							<h:panelGroup>
+								<p:password maxlength="18" value="#{loginMgmtBean.password}"
+									id="j_password" validatorMessage="INGRESE CLAVE">
+									<f:validateLength minimum="1" for="j_password" />
+
+								</p:password>
+								<p:watermark for="j_password" value="Ingrese su clave" />
+							</h:panelGroup>
+						</h:panelGrid>
+					</h:column>
+				</h:panelGrid>
+
+
+				<p:commandButton value="Entrar" icon="ui-icon-person" ajax="false"
+					style="border:1 solid #ccc;background:transparent;" 
+					action="#{loginMgmtBean.login}" update="panelLogin"></p:commandButton>
+			</p:panel>
+		</center>
+	</h:form>
+
+</h:body>
+</html>

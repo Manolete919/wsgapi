@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="overlay"></ui:define>
+
+	<ui:define name="content">		
+	<center>
+		<p:panelGrid style="margin-top:17px;">
+			<f:facet name="header">
+				<p:row>			
+					<p:column colspan="3">Creación de Grupo</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>			
+				<p:column rowspan="2">Grupo</p:column>
+				<p:column>Asignado a:</p:column>
+				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}"/></p:column>			
+			</p:row>
+			<p:row>		
+				<p:column>Nombre Grupo:</p:column>
+				<p:column><p:inputText
+						value="#{grupoNuevo.usuarioGrupo.grupo.descripcion}" /></p:column>			
+			</p:row>
+			
+			
+			<p:row>
+		        <p:column colspan="3" styleClass="ui-widget-header">
+		            <p:spacer height="15"/>
+		        </p:column>
+		    </p:row>
+		    
+
+		    
+		    
+		    <f:facet name="footer">
+		    	<p:row>	    	
+		    		<p:column colspan="3">
+		    			<center>
+		           			<p:commandButton value="Guardar" ajax="false" update="msgs"
+								actionListener="#{grupoNuevo.guardarUsuarioGrupo}" />
+						</center>
+		        	</p:column>	        	
+		        </p:row>	    
+		    </f:facet>		    
+		</p:panelGrid>
+		</center>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{indicadorSerieEditar.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+	
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:panelGrid style="margin-top:20px">
+		
+			<f:facet name="header">
+				<p:row>
+					<p:column>Actualizacion de Serie</p:column>
+				</p:row>
+			</f:facet>
+
+
+			<p:row>
+				<p:column>
+
+
+					<p:dataTable id="tabla" value="#{indicadorSerieEditar.indicadorSeries}"
+						style="margin:10px;" var="indicadorSerie">
+						
+						<p:column headerText="Nombre">
+							<p:inputText value="#{indicadorSerie.nombre}" />
+						</p:column>
+
+						<p:column headerText="Estado">
+							<p:outputLabel value="#{indicadorSerie.estado}" />
+						</p:column>
+						
+						<p:column headerText="Visible">
+							<p:selectBooleanCheckbox value="#{indicadorSerie.estadoBoolean}" />
+						</p:column>
+						
+	
+					</p:dataTable>
+
+
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+				
+					<p:commandButton value="Actualizar"  update="msgs tabla"
+						actionListener="#{indicadorSerieEditar.actualizar}"> 
+							<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
+							<f:param name="idModelo" value="#{menuVista.indicador.modeloGrafico.idModelo}" />								
+						
+						</p:commandButton>
+				</p:column>
+			</p:row>
+
+
+
+
+		</p:panelGrid>
+
+
+	</ui:define>
+
+</ui:composition>

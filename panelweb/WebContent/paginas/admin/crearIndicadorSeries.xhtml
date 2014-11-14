@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{collectorIndicadorSerie.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+	<p:growl id="msgs" showDetail="true" />
+		
+			<p:panel header="Crear Series" style="margin-bottom:20px">
+				<p:panelGrid columns="2">
+
+					<h:panelGrid columns="4" cellpadding="5">
+
+						<h:outputLabel value="Usuario"></h:outputLabel>
+						<h:outputLabel
+							value="#{menuVista.usuario.idUsuario}"></h:outputLabel>
+						<h:outputLabel value="Indicador:"></h:outputLabel>
+						<h:outputLabel
+							value="#{menuVista.indicador.nombre}"></h:outputLabel>
+
+						<h:outputLabel value="Etiqueta : *" for="txt_eti_serie"></h:outputLabel>
+						<p:inputText id="txt_eti_serie"
+							value="#{collectorIndicadorSerie.indicadorSerie.nombre}" required="false" />
+
+
+						<p:commandButton id="btn_resetSerie" value="Resetear"
+							type="reset" />
+						<p:commandButton id="btn_addSerie" value="Agregar"
+							update="indicadorSeries msgs @parent"
+							action="#{collectorIndicadorSerie.reinit}">
+							<p:collector value="#{collectorIndicadorSerie.indicadorSerie}"
+								addTo="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
+						</p:commandButton>
+					</h:panelGrid>
+					<p:commandButton  value="Guardar"
+						actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"></p:commandButton>
+				</p:panelGrid>
+			</p:panel>
+			<p:outputPanel id="indicadorSeries">
+				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" var="indicadorSerie"
+					id="pSeriesTable">
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{indicadorSerie.nombre}" />
+					</p:column>
+
+					<p:column headerText="Accion">
+						<p:commandLink value="Quitar" update=":form:indicadorSeries"
+							process=":form:indicadorSeries">
+							<p:collector value="#{indicadorSerie}"
+								removeFrom="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</p:outputPanel>
+		
+		
+	</ui:define>
+
+</ui:composition>

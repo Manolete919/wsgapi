@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="panelweb">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="panel_ejb.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/panel_ejb/panel_ejb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="panelweb"/>
+        <property name="java-output-path" value="/panelweb/build/classes"/>
+    </wb-module>
+</project-modules>
