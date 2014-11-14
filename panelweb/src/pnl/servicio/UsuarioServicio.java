@@ -1,20 +1,28 @@
 package pnl.servicio;
 
+import java.io.Serializable;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import pnl.interfaz.UsuarioBeanRemote;
 import pnl.modelo.Usuario;
 
 @ManagedBean(name="usuarioServicio", eager = true)
 @SessionScoped
-public class UsuarioServicio {
+public class UsuarioServicio implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private UsuarioBeanRemote usuarioBeanRemote;
 	private Usuario usuario;
 
@@ -24,8 +32,7 @@ public class UsuarioServicio {
 		
 		usuario = new Usuario();
 		
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String idUsuario = auth.getName(); // get logged in username
 		
 		System.out.println("ID USUARIO " + idUsuario);

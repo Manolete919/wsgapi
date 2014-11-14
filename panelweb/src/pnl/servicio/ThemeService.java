@@ -1,5 +1,6 @@
 package pnl.servicio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,13 @@ import pnl.menu.vista.Theme;
  
 @ManagedBean(name="themeService", eager = true)
 @ApplicationScoped
-public class ThemeService {
+public class ThemeService implements Serializable {
      
-    private List<Theme> themes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<Theme> themes;
      
     @PostConstruct
     public void init() {
