@@ -51,6 +51,7 @@ public class Conexion {
 		}
 
 		dataSource = (DataSource) context.lookup(jndi);
+		logger.info("EXITO");
 		
 		return dataSource;
 	}

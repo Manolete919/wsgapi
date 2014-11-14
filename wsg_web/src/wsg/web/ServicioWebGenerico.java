@@ -29,6 +29,7 @@ import wsg.conexion.Conexion;
 import wsg.interfaz.WsgServicioBeanRemote;
 import wsg.interfaz.WsgServiciosLogBeanRemote;
 import wsg.interfaz.WsgUsuarioServicioBeanRemote;
+import wsg.logger.WebServiceLogger;
 import wsg.modelo.WsgServicio;
 import wsg.modelo.WsgServiciosLog;
 import wsg.modelo.WsgUsuario;
@@ -43,6 +44,13 @@ public class ServicioWebGenerico {
 	
 	
 	static final Logger logger = Logger.getLogger(ServicioWebGenerico.class);
+
+
+
+	public ServicioWebGenerico() {
+		WebServiceLogger.getInstance().setup();
+		System.out.println("inicializa logger");
+	}
 
 	Properties propiedades = new Properties();
 	
@@ -133,7 +141,7 @@ public class ServicioWebGenerico {
 			if(wsgUsuarioServicio == null ){
 				
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.servicioUsuarioNoExiste"));
-				
+				logger.error(servicio.getMensajeError());
 				servicio.setCodigoError(-1);
 
 				//registro log bd
@@ -154,6 +162,7 @@ public class ServicioWebGenerico {
 			
 			if(!wsgUsuario.getClave().equals(clave)){
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.claveIncorrecta"));
+				logger.error(servicio.getMensajeError());
 				servicio.setCodigoError(-2);
 
 				//registro log bd
@@ -170,9 +179,13 @@ public class ServicioWebGenerico {
 				}catch (Exception ex) {
 					
 					Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
+					
 					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 					servicio.setCodigoError(sqlException.getErrorCode());
 					servicio.setMensajeError(sqlException.getMessage());
+					logger.error(ex);
+					logger.error(sqlException.getErrorCode());
+					logger.error(sqlException.getMessage());
 					return servicio;
 				}
 				
@@ -203,7 +216,7 @@ public class ServicioWebGenerico {
 						
 						servicio.setCodigoError(777);
 						servicio.setMensajeError(getPropiedades().getProperty("wsgwar.resultadoExitoso"));
-
+						
 						//registro log bd
 						wsgServiciosLog.setXml(xmlString);
 						wsgServiciosLog.setResultado(q.getResultadoTotal());
@@ -221,6 +234,9 @@ public class ServicioWebGenerico {
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
 							servicio.setMensajeError(sqlException.getMessage());
+							logger.error(ex);
+							logger.error(sqlException.getErrorCode());
+							logger.error(sqlException.getMessage());
 							return servicio;
 						}
 										
@@ -239,7 +255,9 @@ public class ServicioWebGenerico {
 						
 						servicio.setCodigoError(sqlError.getErrorCode());
 						servicio.setMensajeError(errorSql);
-						
+				
+						logger.error(sqlError.getErrorCode());
+						logger.error(sqlError.getMessage());
 						
 						//Grabar actividades del WS
 						try{	
@@ -254,11 +272,15 @@ public class ServicioWebGenerico {
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
 							servicio.setMensajeError(sqlException.getMessage());
+							logger.error(ex);
+							logger.error(sqlException.getErrorCode());
+							logger.error(sqlException.getMessage());
 							return servicio;
 						}
 					} catch (Exception e0) {
 						
 						servicio.setMensajeError(e0.getMessage());
+						logger.error(e0);
 						//Grabar actividades del WS
 						try{
 							wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
@@ -272,6 +294,9 @@ public class ServicioWebGenerico {
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
 							servicio.setMensajeError(sqlException.getMessage());
+							logger.error(ex);
+							logger.error(sqlException.getErrorCode());
+							logger.error(sqlException.getMessage());
 							return servicio;
 						}
 					} finally {
@@ -281,6 +306,7 @@ public class ServicioWebGenerico {
 							} catch (SQLException e) {
 								e.printStackTrace();
 								servicio.setMensajeError(e.getMessage());
+								logger.error(e);
 								//Grabar actividades del WS								
 								try{	
 									wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
@@ -288,12 +314,14 @@ public class ServicioWebGenerico {
 									wsgServiciosLog.setFechaFin(new Date());
 									wsgServiciosLogBeanRemote.create(wsgServiciosLog);
 									return servicio;
-								}catch (Exception ex) {
-									
+								}catch (Exception ex) {									
 									Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 									SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 									servicio.setCodigoError(sqlException.getErrorCode());
 									servicio.setMensajeError(sqlException.getMessage());
+									logger.error(ex);
+									logger.error(sqlException.getErrorCode());
+									logger.error(sqlException.getMessage());
 									return servicio;
 								}
 								
@@ -307,6 +335,7 @@ public class ServicioWebGenerico {
 				}else{
 					servicio.setMensajeError(getPropiedades().getProperty("wsgwar.servicioUsuarioInactivo"));
 					servicio.setCodigoError(-3);
+					logger.error(servicio.getMensajeError());
 
 					//registro log bd
 					wsgServiciosLog.setXml(xmlString);
@@ -324,6 +353,9 @@ public class ServicioWebGenerico {
 						SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 						servicio.setCodigoError(sqlException.getErrorCode());
 						servicio.setMensajeError(sqlException.getMessage());
+						logger.error(ex);
+						logger.error(sqlException.getErrorCode());
+						logger.error(sqlException.getMessage());
 						return servicio;
 					}
 					
@@ -333,6 +365,7 @@ public class ServicioWebGenerico {
 			
 			}else{
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.cuentaBloqueada"));
+				logger.error(servicio.getMensajeError());
 				servicio.setCodigoError(-4);
 
 				//registro log bd
@@ -352,6 +385,9 @@ public class ServicioWebGenerico {
 					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 					servicio.setCodigoError(sqlException.getErrorCode());
 					servicio.setMensajeError(sqlException.getMessage());
+					logger.error(ex);
+					logger.error(sqlException.getErrorCode());
+					logger.error(sqlException.getMessage());
 					return servicio;
 				}
 				
@@ -363,6 +399,8 @@ public class ServicioWebGenerico {
 
 			e0.printStackTrace();
 			servicio.setMensajeError(e0.getMessage());
+			logger.error(e0);
+			
 			ds = null;
 			
 			//Grabar actividades del WS								
@@ -378,6 +416,9 @@ public class ServicioWebGenerico {
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
 				servicio.setMensajeError(sqlException.getMessage());
+				logger.error(ex);
+				logger.error(sqlException.getErrorCode());
+				logger.error(sqlException.getMessage());
 				return servicio;
 			}
 			
@@ -386,6 +427,8 @@ public class ServicioWebGenerico {
 			
 			servicio.setCodigoError(e.getErrorCode());
 			servicio.setMensajeError(e.getMessage());
+			logger.equals("Codigo de Error" + e.getErrorCode());
+			logger.error(e);
 			e.printStackTrace();
 			//Grabar actividades del WS	
 			try{		
@@ -400,6 +443,10 @@ public class ServicioWebGenerico {
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
 				servicio.setMensajeError(sqlException.getMessage());
+				
+				logger.error(ex);
+				logger.error(sqlException.getErrorCode());
+				logger.error(sqlException.getMessage());
 				return servicio;
 			}
 
@@ -409,6 +456,7 @@ public class ServicioWebGenerico {
 			e0.printStackTrace();
 			servicio.setMensajeError(e0.getMessage());
 			ds = null;
+			logger.error(e0);
 			//Grabar actividades del WS		
 			try{	
 				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
@@ -422,6 +470,9 @@ public class ServicioWebGenerico {
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
 				servicio.setMensajeError(sqlException.getMessage());
+				logger.error(ex);
+				logger.error(sqlException.getErrorCode());
+				logger.error(sqlException.getMessage());
 				return servicio;
 			}
 			
@@ -431,6 +482,7 @@ public class ServicioWebGenerico {
 	
 	private Throwable getLastThrowable(Exception e) {
 		Throwable t = null;
+		
 		for(t = e.getCause(); t.getCause() != null; t = t.getCause());
 		return t;
 	}

@@ -8,6 +8,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.PropertyConfigurator;
 
+
+
 @Singleton
 @LocalBean
 public class WebServiceLogger {
