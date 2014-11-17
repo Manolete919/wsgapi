@@ -22,7 +22,7 @@
 		<p:panelGrid style="margin-top:17px;">
 			<f:facet name="header">
 				<p:row>			
-					<p:column colspan="3">Actualización de Indicadores</p:column>
+					<p:column colspan="3">Actualización de indicadores</p:column>
 				</p:row>
 			</f:facet>
 			<p:row>			
@@ -31,12 +31,12 @@
 				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}"/></p:column>			
 			</p:row>
 			<p:row>		
-				<p:column>Nombre Indicador:</p:column>
+				<p:column>Nombre del indicador:</p:column>
 				<p:column><p:inputText
 						value="#{indicadorEditar.indicador.nombre}" required="true" requiredMessage="El nombre no debe estar vacio" /></p:column>			
 			</p:row>
 			<p:row>		
-				<p:column>Servicio de Consulta:</p:column>
+				<p:column>Servicio de consulta:</p:column>
 				<p:column>
 					<p:panelGrid columns="2">
 						<p:selectOneMenu id="servicio"  value="#{indicadorEditar.indiceWsgServicio}" required="true" requiredMessage="Seleccione el servicio"  effect="fold"
@@ -70,22 +70,33 @@
 		    
 
 		    <p:row>			
-				<p:column rowspan="3">Gráfico</p:column>
-				<p:column>Modelo Gráfico:</p:column>
+				<p:column rowspan="4">Gráfico</p:column>
+				<p:column>Modelo gráfico:</p:column>
 				<p:column><p:selectOneMenu id="modelo" required="true" requiredMessage="Seleccione el modelo"
 						value="#{indicadorEditar.indiceModeloGrafico}" effect="fold" editable="false">
 						<f:selectItems value="#{indicadorEditar.modeloGraficoSelect}" />
 					</p:selectOneMenu></p:column>			
 			</p:row>
+
 			<p:row>		
-				<p:column>Titulo Eje Horizontal:</p:column>
+				<p:column>[Descripción]Y:</p:column>
+				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjey}" /></p:column>			
+			</p:row>
+			<p:row>
+				<p:column>[Rango de altura]Y:</p:column>
+				<p:column>
+					<h:panelGrid columns="4">
+						valor mín:<p:inputMask  required="true" requiredMessage="Ingrese un valor mínimo" size="5" value="#{indicadorEditar.indicador.valorMiny}" mask="9?9999" maxlength="5" placeHolder=" " />
+						valor máx:<p:inputMask  required="true" requiredMessage="Ingrese un valor máximo" size="5" value="#{indicadorEditar.indicador.valorMaxy}" mask="9?9999" maxlength="5" placeHolder=" " />
+					</h:panelGrid>						
+				</p:column>
+			</p:row>
+			
+			<p:row>		
+				<p:column>[Descripcion]X:</p:column>
 				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjex}" /></p:column>			
 			</p:row>
 
-		    <p:row>		
-				<p:column>Titulo Eje Vertical:</p:column>
-				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjey}" /></p:column>			
-			</p:row>
 			
 			
 			<p:row>
