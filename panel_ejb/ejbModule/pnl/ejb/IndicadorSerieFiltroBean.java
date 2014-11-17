@@ -1,5 +1,6 @@
 package pnl.ejb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +25,8 @@ import pnl.modelo.IndicadorSerieFiltroPK;
  */
 @Stateless(name = "IndicadorSerieFiltroBean")
 public class IndicadorSerieFiltroBean
-        implements IndicadorSerieFiltroBeanRemote
-{
-
+        implements IndicadorSerieFiltroBeanRemote,Serializable {
+        	private static final long serialVersionUID = 1L;
     /**
      * @generated DT_ID=none
      */

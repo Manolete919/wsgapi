@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import pnl.interfaz.GrupoBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
@@ -30,10 +32,14 @@ public class GrupoEliminar implements Serializable {
 	private List<UsuarioGrupo> usuarioGrupos = new ArrayList<UsuarioGrupo>();
 	private List<UsuarioGrupo> selectedGrupos = new ArrayList<UsuarioGrupo>();
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
+	private GrupoBeanRemote grupoBeanRemote;
 	private Usuario usuario;
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+	
+	@ManagedProperty("#{menuVista}")
+	private MenuVista menuVista;
 
 
 	@PostConstruct
@@ -51,13 +57,13 @@ public class GrupoEliminar implements Serializable {
 			InitialContext ic = new InitialContext(pr);
 
 
-			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
 			
+			grupoBeanRemote = (GrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/GrupoBean");
 			
+			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioNoOcupados(usuario.getIdUsuario());
 
-			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
-
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,8 +79,10 @@ public class GrupoEliminar implements Serializable {
 
 
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+
+	
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
 				summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
@@ -85,17 +93,24 @@ public class GrupoEliminar implements Serializable {
 
 			try {
 				
+				
+				
 				usuarioGrupoBeanRemote.removeUsuarioGrupos(selectedGrupos);
 				
-				addMessage("Se eliminaron exitosamente!!");
+				//eliminar todos los grupos
+				grupoBeanRemote.removeGrupos(selectedGrupos);
+				
+				
+			
+				addMessage("Se eliminaron exitosamente!!",FacesMessage.SEVERITY_INFO);
 				usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
-
+				menuVista.actualizarMenu();
 			} catch (Exception e) {
-				addMessage("Ocurrio algun error!");
+				addMessage("Ocurrio algun error!",FacesMessage.SEVERITY_ERROR);
 			}
 
 		} else {
-			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!");
+			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
 		}
 
 	}
@@ -148,6 +163,14 @@ public class GrupoEliminar implements Serializable {
 
 	public void setSelectedGrupos(List<UsuarioGrupo> selectedGrupos) {
 		this.selectedGrupos = selectedGrupos;
+	}
+
+
+
+
+
+	public void setMenuVista(MenuVista menuVista) {
+		this.menuVista = menuVista;
 	}
 	
 	

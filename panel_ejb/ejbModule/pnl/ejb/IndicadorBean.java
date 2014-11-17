@@ -1,5 +1,6 @@
 package pnl.ejb;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,8 +22,9 @@ import pnl.modelo.Indicador;
  */
 @Stateless(name = "IndicadorBean")
 public class IndicadorBean
-        implements IndicadorBeanRemote
-{
+        implements IndicadorBeanRemote ,Serializable {
+        	private static final long serialVersionUID = 1L;
+
 
     /**
      * @generated DT_ID=none

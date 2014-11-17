@@ -6,12 +6,14 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.modelo.Filtro;
 import pnl.servicio.UsuarioServicio;
@@ -97,13 +99,13 @@ public class FiltrosEliminar  implements Serializable{
 	     	
 			filtroBeanRemote.removeFiltros(this.getSelectedFiltros());
 			
-			addMessage("Los datos fueron eliminados");
+			addMessage("Los datos fueron eliminados",FacesMessage.SEVERITY_INFO);
 			
 		
 		
 		
 		} catch (Exception e) {
-			addMessage("Hubo algun error");
+			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -113,10 +115,12 @@ public class FiltrosEliminar  implements Serializable{
 		
 	}
 	
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 	public void setUsuarioServicio(UsuarioServicio usuarioServicio) {
 		this.usuarioServicio = usuarioServicio;

@@ -2,8 +2,10 @@ package pnl.filtro.dinamico;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -11,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.modelo.Filtro;
 import pnl.servicio.UsuarioServicio;
@@ -90,7 +93,7 @@ public class FiltrosIndicadorConfiguracion {
 	     	String idModelo = (String) params.get("idModelo"); 
 	     	
 			filtroBeanRemote.mergeFiltros(filtros);
-			addMessage("Se grabo exitosamente");
+			addMessage("Se grabo exitosamente",FacesMessage.SEVERITY_INFO);
 			
 			ExternalContext context = FacesContext.getCurrentInstance()
 					.getExternalContext();
@@ -111,7 +114,7 @@ public class FiltrosIndicadorConfiguracion {
 		
 		
 		} catch (Exception e) {
-			addMessage("Hubo algun error");
+			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
 			e.printStackTrace();
 		}
 
@@ -120,10 +123,12 @@ public class FiltrosIndicadorConfiguracion {
 		
 	}
 	
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 	public void setUsuarioServicio(UsuarioServicio usuarioServicio) {
 		this.usuarioServicio = usuarioServicio;

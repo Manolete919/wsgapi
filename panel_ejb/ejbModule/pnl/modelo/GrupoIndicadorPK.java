@@ -1,7 +1,9 @@
 package pnl.modelo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * The primary key class for the GRUPO_INDICADORES database table.
@@ -11,10 +13,14 @@ import javax.persistence.*;
 public class GrupoIndicadorPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-
+	
+    @Basic(optional = false)
+    @NotNull
 	@Column(name="ID_GRUPO", insertable=false, updatable=false)
 	private long idGrupo;
 
+    @Basic(optional = false)
+    @NotNull
 	@Column(name="ID_INDICADOR", insertable=false, updatable=false)
 	private long idIndicador;
 

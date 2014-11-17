@@ -1,11 +1,10 @@
 package pnl.interfaz;
 
 import java.util.List;
-
 import javax.ejb.Remote;
-
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.Indicador;
+
 
 
 /**
@@ -52,5 +51,7 @@ public interface GrupoIndicadorBeanRemote
 	public void removeGrupoIndicadores(List<GrupoIndicador> grupoIndicadores) throws Exception;
 
 	public void mergeGrupoIndicadores(List<GrupoIndicador> grupoIndicadores)  throws Exception;
+
+	
 
 }

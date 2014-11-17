@@ -3,9 +3,12 @@ package pnl.filtro.dinamico;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -26,6 +29,7 @@ public class FiltrosConfiguracion implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Filtro> filtros;
+	private List<Filtro> filtrosConfigurados;
 	private FiltroBeanRemote filtroBeanRemote;
 
 	@ManagedProperty("#{usuarioServicio}")
@@ -78,6 +82,8 @@ public class FiltrosConfiguracion implements Serializable{
 		
 	}
 	
+
+	
 	
 
 	public List<Filtro> getFiltros() {
@@ -97,51 +103,46 @@ public class FiltrosConfiguracion implements Serializable{
 			
 			filtroBeanRemote.mergeFiltros(filtros);
 			
-			addMessage("Los datos fueron actualizados");
+			addMessage("Los datos fueron actualizados",FacesMessage.SEVERITY_INFO);
 					
 		
 		} catch (Exception e) {
-			addMessage("Hubo algun error");
+			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
 			e.printStackTrace();
 		}
-		
-		
-      /* 	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();       
-     	String indiceIndicador = (String) params.get("opcion");   
-     	String idIndicador = (String) params.get("idIndicador"); 
-     	String idModelo = (String) params.get("idModelo"); 
-     	
-     	String parametros = "?indicadorId="+idIndicador+"&indiceIndicador="+indiceIndicador;
-     	ExternalContext context = FacesContext.getCurrentInstance()
-				.getExternalContext();
-		try {			
-			if (idModelo.equals("4")) { 
-				context.redirect(context.getRequestContextPath()+"/paginas/general/pastel.xhtml"+parametros);
-			} else if (idModelo.equals("1")) {
-				context.redirect(context.getRequestContextPath()+"/paginas/general/barra.xhtml"+parametros);
-			} else if (idModelo.equals("2")) {
-				context.redirect(context.getRequestContextPath()+"/paginas/general/area.xhtml"+parametros);
-			} else if (idModelo.equals("3")) {
-				context.redirect(context.getRequestContextPath()+"/paginas/general/linea.xhtml"+parametros);
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		
 		
 		
 	}
 	
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+    
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 	public void setUsuarioServicio(UsuarioServicio usuarioServicio) {
 		this.usuarioServicio = usuarioServicio;
+	}
+	
+	public void obtenerConfigurados(){
+       	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();       
+     	String idIndicador = (String) params.get("idIndicador"); 
+     	
+     	System.out.println("INDICADOR --> " + idIndicador);
+     	
+		try {
+			filtrosConfigurados = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(new Long(idIndicador),null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public List<Filtro> getFiltrosConfigurados() {
+		return filtrosConfigurados;
 	}
 
 

@@ -83,7 +83,7 @@
 	</ui:insert>
 
 	<p:layout  fullPage="false" style="margin-top:10px;">
-		<p:layoutUnit position="west"  size="300" header="Usuario: #{menuVista.usuario.idUsuario}"
+		<p:layoutUnit position="west"  size="300" header="Usuario: #{menuVista.usuario.nombre}"
 			resizable="true" closable="true" collapsible="true">
 			<ui:insert name="left">
 				<h:form id="menuForm">
@@ -112,15 +112,41 @@
 									<p:menuitem value="Filtrar Datos"  icon="ui-icon-search"  url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 								</p:menuButton>
 							</f:facet>
+							<f:facet name="right">
+								<p:commandButton id="filtroBtn" actionListener="#{filtrosConfiguracion.obtenerConfigurados}" icon="ui-icon-search" title="Ver" value="Ver">
+									<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
+								</p:commandButton>
+			        		</f:facet>
 						</p:toolbar>
+						
 					</c:if>
 					<p:outputLabel rendered="#{menuVista.indicador.idIndicador == 0}" value="El indicador no existe, o ha sido eliminado" />
 					
+					<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade" dynamic="true"  style="width:600px">
+				        <p:dataTable var="filtro" value="#{filtrosConfiguracion.filtrosConfigurados}" rows="5" paginator="true">
+       				
+        				<p:column headerText="Nombre">
+        					<h:outputText value="#{filtro.nombre}" />
+        				</p:column>
+        				
+        				<p:column headerText="Indice">
+        					<h:outputText value="#{filtro.indiceFiltro}" />
+        				</p:column>
+        				
+						<p:column headerText="Dueno">
+							<p:outputLabel
+								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
+						</p:column>
+				        </p:dataTable>
+				    </p:overlayPanel>
+				    
 				</ui:insert>
 				<ui:insert name="content">
 			        			Center
 			    </ui:insert>
 			</h:form>
+			
+			
 		</p:layoutUnit>
 
 

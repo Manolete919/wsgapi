@@ -1,7 +1,10 @@
 package wsg.logger;
 import java.io.InputStream;
+import java.io.Serializable;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
+
 
 
 
@@ -14,8 +17,12 @@ import org.apache.log4j.PropertyConfigurator;
 
 @Singleton
 @LocalBean
-public class WebServiceJPALogger {
+public class WebServiceJPALogger implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static WebServiceJPALogger instance = null;
 	private static Object mutex = new Object();
 

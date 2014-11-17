@@ -42,6 +42,7 @@ import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
 import pnl.webservice.integracion.WsgServicio;
+import pnl.wsg.Servicio;
 
 @ManagedBean
 @ViewScoped
@@ -93,6 +94,8 @@ public class IndicadorNuevo implements Serializable {
 		System.out.println("tema " + tema.getTema());
 
 		indicador = new Indicador();
+		indicador.setValorMiny(new BigDecimal(0));
+		indicador.setValorMaxy(new BigDecimal(300));
 		indicadorSerie = new IndicadorSerie();
 		usuario = usuarioServicio.getUsuario();
 		ConsultaGenerico cg = new ConsultaGenerico();
@@ -133,10 +136,14 @@ public class IndicadorNuevo implements Serializable {
 			modeloGraficos = modeloGraficoBeanRemote.getModeloGraficoFindAll();
 			filtroValores = new ArrayList<FiltroValorDefault>();
 			filtroValores.add(new FiltroValorDefault(null,usuario.getIdUsuario()));
-			wsgServicios = cg.consultaWsgServiciosDeUsuario(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getIdUsuario(), usuario.getClave());
+			Servicio servicio  = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getIdUsuario(), usuario.getClave());	
+			wsgServicios = new ArrayList<WsgServicio>();
+			if(servicio != null ){
+				if(servicio.get_any() != null ){					
+					wsgServicios = cg.procesaDatosServiciosDeUsuario(servicio.get_any());
+				}
+			}
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),"A");
-		
-		
 		
 		
 		} catch (Exception e) {
@@ -352,8 +359,9 @@ public class IndicadorNuevo implements Serializable {
 		
 		this.indiceWsgServicio = indiceWsgServicio;
 		
-		WsgServicio wsgServicio = this.getWsgServicios().get(
-				indiceWsgServicio);
+		System.out.println("INDICE " + indiceWsgServicio);
+		
+		WsgServicio wsgServicio = this.getWsgServicios().get(indiceWsgServicio);
 		this.getIndicador().setIdServicio(new BigDecimal(wsgServicio.getIdServicio()));
 		
 				
@@ -387,12 +395,19 @@ public class IndicadorNuevo implements Serializable {
 	}
 	
 	public void consultarSentencias(){
+		
 		filtroValores = new ArrayList<FiltroValorDefault>();
 		filtroValores.add(new FiltroValorDefault(null,this.getIndicador().getIdServicio().toString()));
 		ConsultaGenerico cg = new ConsultaGenerico();
 		Utileria u = new Utileria();		
+		
 		try {
-			query = cg.consultaWsgQueryPorIdServicio(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			Servicio servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			if(servicio != null ){
+				if(servicio.get_any() != null ){
+					query = cg.procesaDatosIdServicio(servicio.get_any());
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

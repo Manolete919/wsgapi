@@ -23,6 +23,7 @@ import pnl.modelo.IndicadorSerie;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Generico;
 import pnl.webservice.integracion.Utileria;
+import pnl.wsg.Servicio;
 
 
  
@@ -89,14 +90,20 @@ public class BarView implements Serializable {
 
     					List<Generico> datos = new ArrayList<Generico>();
     					datos.add(new Generico(0,0));
+    					Servicio servicio = null;
     					if(parametrosPropiedadValores != null ){
     						if(!parametrosPropiedadValores.isEmpty()){
     							Utileria u = new Utileria();
     							try {
-    								datos = new ArrayList<Generico>();
+    								
     								System.out.print(Utileria.convertirDocumentToString(u.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
-    								//datos = cg.consultaDatosDelWebserice(u.convertirParametrosPropiedadValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue());
-    								datos = cg.consultaDatosWsg(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),"MGARCIA", "1234");
+    								servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getIdUsuario(), dinamico.getUsuario().getClave());
+    								if(servicio != null ){
+    									if(servicio.get_any() != null ){
+    										datos = new ArrayList<Generico>();
+    										datos = cg.procesaDatosDeGraficos(servicio.get_any());
+    									}
+    								}
 
     							} catch (Exception e) {
     								// TODO Auto-generated catch block
@@ -104,8 +111,7 @@ public class BarView implements Serializable {
     							}
     						}
     						
-    					}
-    					
+    					}    					
     					
     					
     					// setear cada serie

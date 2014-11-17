@@ -36,6 +36,7 @@ import wsg.modelo.WsgUsuario;
 import wsg.modelo.WsgUsuarioServicio;
 import wsg.modelo.WsgUsuarioServicioPK;
 import wsg.query.EjecutaQuery;
+import wsg.response.Servicio;
 
 
 @WebService(serviceName = "GenericoService", name = "GenericoPortType", targetNamespace = "http://axis/EISApiOnlineWS.wsdl/types/")
@@ -103,6 +104,7 @@ public class ServicioWebGenerico {
 		DataSource ds = null;
 		
 		Context ctx = null;
+		String vendor="ninguno";
 		Hashtable<String, String> ht = new Hashtable<String, String>();
 		ht.put(Context.INITIAL_CONTEXT_FACTORY,
 				"weblogic.jndi.WLInitialContextFactory");
@@ -143,7 +145,7 @@ public class ServicioWebGenerico {
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.servicioUsuarioNoExiste"));
 				logger.error(servicio.getMensajeError());
 				servicio.setCodigoError(-1);
-
+				servicio.setProveedorBase(vendor);
 				//registro log bd
 				
 				wsgServiciosLog.setXml(xmlString);
@@ -164,6 +166,7 @@ public class ServicioWebGenerico {
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.claveIncorrecta"));
 				logger.error(servicio.getMensajeError());
 				servicio.setCodigoError(-2);
+				servicio.setProveedorBase(vendor);
 
 				//registro log bd
 	
@@ -182,6 +185,7 @@ public class ServicioWebGenerico {
 					
 					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 					servicio.setCodigoError(sqlException.getErrorCode());
+					servicio.setProveedorBase(vendor);
 					servicio.setMensajeError(sqlException.getMessage());
 					logger.error(ex);
 					logger.error(sqlException.getErrorCode());
@@ -192,7 +196,7 @@ public class ServicioWebGenerico {
 			}
 				
 			Connection conn=null;
-			String vendor="persistence";
+			
 			if(wsgUsuario.getCuentaNoBloqueada().equals("S")){
 				
 				if(wsgUsuarioServicio.getEstado().equals("A")){
@@ -215,8 +219,10 @@ public class ServicioWebGenerico {
 						
 						
 						servicio.setCodigoError(777);
+						servicio.setProveedorBase(vendor);
 						servicio.setMensajeError(getPropiedades().getProperty("wsgwar.resultadoExitoso"));
-						
+						wsgServiciosLog.setProveedor(vendor);
+						wsgServiciosLog.setSentenciaSql(wsgServicio.getWsgQuery().getQuery());
 						//registro log bd
 						wsgServiciosLog.setXml(xmlString);
 						wsgServiciosLog.setResultado(q.getResultadoTotal());
@@ -233,6 +239,7 @@ public class ServicioWebGenerico {
 							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
+							servicio.setProveedorBase(vendor);
 							servicio.setMensajeError(sqlException.getMessage());
 							logger.error(ex);
 							logger.error(sqlException.getErrorCode());
@@ -252,7 +259,7 @@ public class ServicioWebGenerico {
 							errorSql = sqlError.getMessage();
 						}
 						
-						
+						servicio.setProveedorBase(vendor);
 						servicio.setCodigoError(sqlError.getErrorCode());
 						servicio.setMensajeError(errorSql);
 				
@@ -261,9 +268,11 @@ public class ServicioWebGenerico {
 						
 						//Grabar actividades del WS
 						try{	
-							wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-							wsgServiciosLog.setMsgError(servicio.getMensajeError());
+							wsgServiciosLog.setCodError(new BigDecimal(sqlError.getErrorCode()));
+							wsgServiciosLog.setMsgError(sqlError.getMessage());
 							wsgServiciosLog.setFechaFin(new Date());
+							wsgServiciosLog.setProveedor(vendor);
+							wsgServiciosLog.setSentenciaSql(wsgServicio.getWsgQuery().getQuery());
 							wsgServiciosLogBeanRemote.create(wsgServiciosLog);
 							return servicio;
 						}catch (Exception ex) {
@@ -271,6 +280,7 @@ public class ServicioWebGenerico {
 							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
+							servicio.setProveedorBase(vendor);
 							servicio.setMensajeError(sqlException.getMessage());
 							logger.error(ex);
 							logger.error(sqlException.getErrorCode());
@@ -278,8 +288,9 @@ public class ServicioWebGenerico {
 							return servicio;
 						}
 					} catch (Exception e0) {
-						
+						servicio.setCodigoError(-5);
 						servicio.setMensajeError(e0.getMessage());
+						servicio.setProveedorBase(vendor);
 						logger.error(e0);
 						//Grabar actividades del WS
 						try{
@@ -293,6 +304,7 @@ public class ServicioWebGenerico {
 							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 							servicio.setCodigoError(sqlException.getErrorCode());
+							servicio.setProveedorBase(vendor);
 							servicio.setMensajeError(sqlException.getMessage());
 							logger.error(ex);
 							logger.error(sqlException.getErrorCode());
@@ -305,7 +317,9 @@ public class ServicioWebGenerico {
 								conn.close();
 							} catch (SQLException e) {
 								e.printStackTrace();
+								servicio.setCodigoError(-6);
 								servicio.setMensajeError(e.getMessage());
+								servicio.setProveedorBase(vendor);
 								logger.error(e);
 								//Grabar actividades del WS								
 								try{	
@@ -318,6 +332,7 @@ public class ServicioWebGenerico {
 									Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 									SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 									servicio.setCodigoError(sqlException.getErrorCode());
+									servicio.setProveedorBase(vendor);
 									servicio.setMensajeError(sqlException.getMessage());
 									logger.error(ex);
 									logger.error(sqlException.getErrorCode());
@@ -334,7 +349,8 @@ public class ServicioWebGenerico {
 				
 				}else{
 					servicio.setMensajeError(getPropiedades().getProperty("wsgwar.servicioUsuarioInactivo"));
-					servicio.setCodigoError(-3);
+					servicio.setCodigoError(-8);
+					servicio.setProveedorBase(vendor);
 					logger.error(servicio.getMensajeError());
 
 					//registro log bd
@@ -343,6 +359,7 @@ public class ServicioWebGenerico {
 					//Grabar actividades del WS								
 					try{	
 						wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+						servicio.setProveedorBase(vendor);
 						wsgServiciosLog.setMsgError(servicio.getMensajeError());
 						wsgServiciosLog.setFechaFin(new Date());
 						wsgServiciosLogBeanRemote.create(wsgServiciosLog);
@@ -352,6 +369,7 @@ public class ServicioWebGenerico {
 						Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 						SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 						servicio.setCodigoError(sqlException.getErrorCode());
+						servicio.setProveedorBase(vendor);
 						servicio.setMensajeError(sqlException.getMessage());
 						logger.error(ex);
 						logger.error(sqlException.getErrorCode());
@@ -366,7 +384,8 @@ public class ServicioWebGenerico {
 			}else{
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.cuentaBloqueada"));
 				logger.error(servicio.getMensajeError());
-				servicio.setCodigoError(-4);
+				servicio.setCodigoError(-9);
+				servicio.setProveedorBase(vendor);
 
 				//registro log bd
 				wsgServiciosLog.setXml(xmlString);
@@ -384,6 +403,7 @@ public class ServicioWebGenerico {
 					Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 					servicio.setCodigoError(sqlException.getErrorCode());
+					servicio.setProveedorBase(vendor);
 					servicio.setMensajeError(sqlException.getMessage());
 					logger.error(ex);
 					logger.error(sqlException.getErrorCode());
@@ -398,6 +418,8 @@ public class ServicioWebGenerico {
 	    }catch(NameNotFoundException e0 ){
 
 			e0.printStackTrace();
+			servicio.setCodigoError(-10);
+			servicio.setProveedorBase(vendor);
 			servicio.setMensajeError(e0.getMessage());
 			logger.error(e0);
 			
@@ -415,6 +437,7 @@ public class ServicioWebGenerico {
 				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
+				servicio.setProveedorBase(vendor);
 				servicio.setMensajeError(sqlException.getMessage());
 				logger.error(ex);
 				logger.error(sqlException.getErrorCode());
@@ -426,8 +449,9 @@ public class ServicioWebGenerico {
 		}catch(SQLException e){
 			
 			servicio.setCodigoError(e.getErrorCode());
+			servicio.setProveedorBase(vendor);
 			servicio.setMensajeError(e.getMessage());
-			logger.equals("Codigo de Error" + e.getErrorCode());
+			logger.error("Codigo de Error" + e.getErrorCode());
 			logger.error(e);
 			e.printStackTrace();
 			//Grabar actividades del WS	
@@ -442,6 +466,7 @@ public class ServicioWebGenerico {
 				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
+				servicio.setProveedorBase(vendor);
 				servicio.setMensajeError(sqlException.getMessage());
 				
 				logger.error(ex);
@@ -454,7 +479,9 @@ public class ServicioWebGenerico {
 	    catch (Exception e0) {
 			// TODO Auto-generated catch block
 			e0.printStackTrace();
+			servicio.setCodigoError(-11);
 			servicio.setMensajeError(e0.getMessage());
+			servicio.setProveedorBase(vendor);
 			ds = null;
 			logger.error(e0);
 			//Grabar actividades del WS		
@@ -469,6 +496,7 @@ public class ServicioWebGenerico {
 				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
 				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
 				servicio.setCodigoError(sqlException.getErrorCode());
+				servicio.setProveedorBase(vendor);
 				servicio.setMensajeError(sqlException.getMessage());
 				logger.error(ex);
 				logger.error(sqlException.getErrorCode());

@@ -1,5 +1,6 @@
 package wsg.resultset;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 
 import org.codehaus.jettison.json.JSONArray;
@@ -16,28 +17,15 @@ import org.w3c.dom.Element;
 
 @Stateless
 @LocalBean
-public class Transformador {
+public class Transformador implements Serializable {
 	
-	//Properties propiedades = new Properties();
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	
-	
-	/*public Properties getPropiedades() {
-		InputStream iostream =
-		Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/jeis-war-ear.properties");
-		try {
-			propiedades.load(iostream);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return propiedades;
-	}*/
-
-
-
-	
-	
 	public String resultadoConsumidoEnJSONArrayString(ResultSet rs)
 			throws Exception {
 		

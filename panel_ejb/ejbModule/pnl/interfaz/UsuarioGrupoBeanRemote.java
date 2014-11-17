@@ -46,4 +46,6 @@ public interface UsuarioGrupoBeanRemote
 
 	public  List<UsuarioGrupo> obtenerGruposPorIdUSuarioEstado(String idUsuario, String estado) throws Exception;
 
+	public List<UsuarioGrupo> obtenerGruposPorIdUSuarioNoOcupados(String idUsuario) throws Exception;
+
 }

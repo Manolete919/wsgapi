@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
@@ -92,25 +93,29 @@ public class GrupoNuevo implements Serializable{
     		usuarioGrupo.setEstado("A");
     		usuarioGrupoBeanRemote.persistUsuarioGrupo(usuarioGrupo);
     		
-        		 //LISTO PARA EL UPDATE DEL INIT DEL FORMULARIO
-        	//ACTUALIZAR MENU
+    		grupo = new Grupo();
+    		grupo.setEstado("A");
+    		usuarioGrupo.setGrupo(grupo);
         	
         	
-            addMessage("Se guardo exitosamente!!");
+            addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
             
            
     	
     	
     	}else{
-    		addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!");
+    		addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
     	}
 	
     }
      
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+    
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 
     protected boolean hasRole(String role) {

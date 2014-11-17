@@ -3,7 +3,6 @@ package pnl.ejb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -14,9 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.UsuarioGrupoBeanRemote;
-import pnl.modelo.GrupoIndicador;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
 
@@ -110,7 +107,9 @@ public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
 	public void removeUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos)
 			throws Exception {
 		for(UsuarioGrupo usuarioGrupo : usuarioGrupos){
+			
 			this.removeUsuarioGrupo(usuarioGrupo);
+			
 		}
 		
 	}
@@ -142,6 +141,28 @@ public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
 
 			query.setParameter("idUsuario", idUsuario);
 			query.setParameter("estado", estado);
+			
+			List<UsuarioGrupo> usuarioGrupos = query.getResultList();
+			return usuarioGrupos;
+			
+		}catch(NoResultException nr ){
+			return new ArrayList<UsuarioGrupo>();
+		}
+	}
+	
+	@Override
+	public List<UsuarioGrupo> obtenerGruposPorIdUSuarioNoOcupados(String idUsuario)
+			throws Exception {
+		try {
+			String queryStr = "SELECT ug FROM UsuarioGrupo ug " 
+					+ " LEFT JOIN ug.usuario u "
+					+ " LEFT JOIN ug.grupo g "
+					+ " WHERE u.idUsuario =  :idUsuario AND NOT EXISTS(SELECT gi FROM GrupoIndicador gi WHERE gi.grupo = g )";
+
+			TypedQuery<UsuarioGrupo> query = em.createQuery(queryStr,
+					UsuarioGrupo.class);
+
+			query.setParameter("idUsuario", idUsuario);
 			
 			List<UsuarioGrupo> usuarioGrupos = query.getResultList();
 			return usuarioGrupos;

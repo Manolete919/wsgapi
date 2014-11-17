@@ -3,6 +3,8 @@ package wsg.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.Date;
 import java.util.List;
@@ -19,14 +21,13 @@ import java.util.List;
 public class WsgServicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
 	@Column(name="ID_SERVICIO")
 	private long idServicio;
-
-	private String descripcion;
-
-	private String estado;
-
+    
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="FECHA_DESDE")
 	private Date fechaDesde;
@@ -34,6 +35,14 @@ public class WsgServicio implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="FECHA_HASTA")
 	private Date fechaHasta;
+
+    @Size(max = 200)
+	private String descripcion;
+
+    @Size(max = 1)
+	private String estado;
+
+
 
 	//bi-directional many-to-one association to WsgJndi
 	@ManyToOne

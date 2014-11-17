@@ -3,6 +3,8 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
@@ -16,13 +18,20 @@ import java.util.List;
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
 	@SequenceGenerator(name="GRUPO_IDGRUPO_GENERATOR", sequenceName="SQ_GRUPOS",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="GRUPO_IDGRUPO_GENERATOR")
 	@Column(name="ID_GRUPO")
 	private long idGrupo;
-
+    
+    @Size(max = 200)
 	private String descripcion;
+    
+    @Size(max = 1)
+	private String estado;
 
 	//bi-directional many-to-one association to GrupoIndicador
 	@OneToMany(mappedBy="grupo")
@@ -32,16 +41,19 @@ public class Grupo implements Serializable {
 	@OneToMany(mappedBy="grupo")
 	private List<UsuarioGrupo> usuarioGrupos;
 	
-	private String estado;
+	
 	
 	@Transient
 	boolean activoInactivo;
 
+
+
 	public Grupo() {
+		super();
 	}
 
 	public long getIdGrupo() {
-		return this.idGrupo;
+		return idGrupo;
 	}
 
 	public void setIdGrupo(long idGrupo) {
@@ -49,19 +61,35 @@ public class Grupo implements Serializable {
 	}
 
 	public String getDescripcion() {
-		return this.descripcion;
+		return descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	public List<GrupoIndicador> getGrupoIndicadores() {
-		return this.grupoIndicadores;
+		return grupoIndicadores;
 	}
 
 	public void setGrupoIndicadores(List<GrupoIndicador> grupoIndicadores) {
 		this.grupoIndicadores = grupoIndicadores;
+	}
+
+	public List<UsuarioGrupo> getUsuarioGrupos() {
+		return usuarioGrupos;
+	}
+
+	public void setUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos) {
+		this.usuarioGrupos = usuarioGrupos;
 	}
 
 	public GrupoIndicador addGrupoIndicadore(GrupoIndicador grupoIndicadore) {
@@ -78,14 +106,7 @@ public class Grupo implements Serializable {
 		return grupoIndicadore;
 	}
 
-	public List<UsuarioGrupo> getUsuarioGrupos() {
-		return this.usuarioGrupos;
-	}
-
-	public void setUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos) {
-		this.usuarioGrupos = usuarioGrupos;
-	}
-
+	
 	public UsuarioGrupo addUsuarioGrupo(UsuarioGrupo usuarioGrupo) {
 		getUsuarioGrupos().add(usuarioGrupo);
 		usuarioGrupo.setGrupo(this);
@@ -100,13 +121,7 @@ public class Grupo implements Serializable {
 		return usuarioGrupo;
 	}
 
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
+	
 
 	public boolean isActivoInactivo() {
 		

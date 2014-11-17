@@ -1,7 +1,11 @@
 package wsg.modelo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.util.List;
 
 
@@ -16,13 +20,22 @@ import java.util.List;
 public class WsgJndi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
 	@Column(name="ID_JNDI")
 	private long idJndi;
-
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    private String jndi;
+    
+    @Size(max = 2000)
 	private String descripcion;
 
-	private String jndi;
+	
 
 	//bi-directional many-to-one association to WsgServicio
 	@OneToMany(mappedBy="wsgJndi")

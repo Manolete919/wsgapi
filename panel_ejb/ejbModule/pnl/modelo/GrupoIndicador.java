@@ -3,6 +3,7 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -17,40 +18,37 @@ public class GrupoIndicador implements Serializable {
 
 	@EmbeddedId
 	private GrupoIndicadorPK id;
-
-	private String estado;
+	
+	
 
 	//bi-directional many-to-one association to Grupo
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="ID_GRUPO")
 	private Grupo grupo;
+	
 
 	//bi-directional many-to-one association to Indicador
 	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="ID_INDICADOR")
 	private Indicador indicador;
+	
+	
+	@Size(max = 1)
+	private String estado;
 
 	public GrupoIndicador() {
 	}
 
 	public GrupoIndicadorPK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(GrupoIndicadorPK id) {
 		this.id = id;
 	}
 
-	public String getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 	public Grupo getGrupo() {
-		return this.grupo;
+		return grupo;
 	}
 
 	public void setGrupo(Grupo grupo) {
@@ -58,11 +56,22 @@ public class GrupoIndicador implements Serializable {
 	}
 
 	public Indicador getIndicador() {
-		return this.indicador;
+		return indicador;
 	}
 
 	public void setIndicador(Indicador indicador) {
 		this.indicador = indicador;
 	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	
+	
 
 }

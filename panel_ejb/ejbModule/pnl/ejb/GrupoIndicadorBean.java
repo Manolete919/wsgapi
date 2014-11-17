@@ -1,5 +1,6 @@
 package pnl.ejb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.GrupoIndicadorPK;
 import pnl.modelo.Indicador;
+import pnl.modelo.UsuarioGrupo;
 
 
 /**
@@ -25,8 +27,8 @@ import pnl.modelo.Indicador;
  */
 @Stateless(name = "GrupoIndicadorBean")
 public class GrupoIndicadorBean
-        implements  GrupoIndicadorBeanRemote
-{
+        implements  GrupoIndicadorBeanRemote, Serializable {
+        	private static final long serialVersionUID = 1L;
 
     /**
      * @generated DT_ID=none
@@ -215,5 +217,9 @@ public class GrupoIndicadorBean
 		}
 		
 	}
+
+
+
+
 
 }

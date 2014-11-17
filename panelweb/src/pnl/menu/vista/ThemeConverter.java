@@ -1,5 +1,7 @@
 package pnl.menu.vista;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -11,7 +13,8 @@ import pnl.servicio.ThemeService;
 
  
 @FacesConverter("themeConverter")
-public class ThemeConverter implements Converter {
+public class ThemeConverter implements Converter,Serializable {
+	private static final long serialVersionUID = 1L;
  
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if(value != null && value.trim().length() > 0) {

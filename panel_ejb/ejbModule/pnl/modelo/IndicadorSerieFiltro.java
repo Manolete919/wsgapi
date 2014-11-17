@@ -3,6 +3,7 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -18,7 +19,13 @@ public class IndicadorSerieFiltro implements Serializable {
 
 	@EmbeddedId
 	private IndicadorSerieFiltroPK id;
+	
+	//bi-directional many-to-one association to Filtro
+	@ManyToOne
+	@JoinColumn(name="ID_FILTRO")
+	private Filtro filtro;
 
+	@Size(max = 2000)
 	private String valor;
 	
 	@Transient
@@ -26,10 +33,7 @@ public class IndicadorSerieFiltro implements Serializable {
 	
 
 
-	//bi-directional many-to-one association to Filtro
-	@ManyToOne
-	@JoinColumn(name="ID_FILTRO")
-	private Filtro filtro;
+
 
 	//bi-directional many-to-one association to Indicador
 	@ManyToOne
@@ -45,43 +49,27 @@ public class IndicadorSerieFiltro implements Serializable {
 	}
 
 	public IndicadorSerieFiltroPK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(IndicadorSerieFiltroPK id) {
 		this.id = id;
 	}
 
-	public String getValor() {
-		return this.valor;
-	}
-
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
-
 	public Filtro getFiltro() {
-		return this.filtro;
+		return filtro;
 	}
 
 	public void setFiltro(Filtro filtro) {
 		this.filtro = filtro;
 	}
 
-	public Indicador getIndicador() {
-		return this.indicador;
+	public String getValor() {
+		return valor;
 	}
 
-	public void setIndicador(Indicador indicador) {
-		this.indicador = indicador;
-	}
-
-	public IndicadorSerie getIndicadorSery() {
-		return this.indicadorSery;
-	}
-
-	public void setIndicadorSery(IndicadorSerie indicadorSery) {
-		this.indicadorSery = indicadorSery;
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 
 	public boolean isActualizar() {
@@ -91,6 +79,23 @@ public class IndicadorSerieFiltro implements Serializable {
 	public void setActualizar(boolean actualizar) {
 		this.actualizar = actualizar;
 	}
+
+	public Indicador getIndicador() {
+		return indicador;
+	}
+
+	public void setIndicador(Indicador indicador) {
+		this.indicador = indicador;
+	}
+
+	public IndicadorSerie getIndicadorSery() {
+		return indicadorSery;
+	}
+
+	public void setIndicadorSery(IndicadorSerie indicadorSery) {
+		this.indicadorSery = indicadorSery;
+	}
+
 
 
 	

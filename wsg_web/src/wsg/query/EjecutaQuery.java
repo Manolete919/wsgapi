@@ -1,29 +1,41 @@
 package wsg.query;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
+import wsg.logger.WebServiceLogger;
 import wsg.modelo.WsgServicio;
 import wsg.resultset.Transformador;
 
 import javax.ejb.Stateless;
 
 @Stateless
-public class EjecutaQuery {
+public class EjecutaQuery implements Serializable {
 	
-	//Properties propiedades = new Properties();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	Properties propiedades = new Properties();
 
 	public EjecutaQuery() {
-		//EisLogger.getInstance().setup();		
+		WebServiceLogger.getInstance().setup();
 	}
 
-	/*public Properties getPropiedades() {
+	public Properties getPropiedades() {
 		InputStream iostream =
-		Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/jeis-war-ear.properties");
+		Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/wsg-war-ear.properties");
 		try {
 			propiedades.load(iostream);
 		} catch (IOException e) {
@@ -31,7 +43,7 @@ public class EjecutaQuery {
 			e.printStackTrace();
 		}
 		return propiedades;
-	} */
+	} 
 
 
 
@@ -45,7 +57,7 @@ public class EjecutaQuery {
 
 	Transformador converter = null;
 	String message = "";
-	//static final Logger logger = Logger.getLogger(QueryEjecutor.class);
+	static final Logger logger = Logger.getLogger(EjecutaQuery.class);
 	
 	
 	String resultadoTotal = null;
@@ -88,7 +100,7 @@ public class EjecutaQuery {
 		pmtadta = pstmt.getParameterMetaData();
 		mtadtacnt = pmtadta.getParameterCount();
 
-		System.out.println(" cantidad " + mtadtacnt);
+		
 
 		// SETEA LOS BINDINGS
 		int cont = 1;

@@ -3,6 +3,8 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
@@ -18,10 +20,14 @@ import java.util.List;
 public class ModeloGrafico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
 	@Column(name="ID_MODELO")
 	private long idModelo;
-
+    
+    @Size(max = 200)
 	private String nombre;
 
 	//bi-directional many-to-one association to Indicador
@@ -31,29 +37,36 @@ public class ModeloGrafico implements Serializable {
 	public ModeloGrafico() {
 	}
 
+
 	public long getIdModelo() {
-		return this.idModelo;
+		return idModelo;
 	}
+
 
 	public void setIdModelo(long idModelo) {
 		this.idModelo = idModelo;
 	}
 
+
 	public String getNombre() {
-		return this.nombre;
+		return nombre;
 	}
+
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+
 	public List<Indicador> getIndicadors() {
-		return this.indicadors;
+		return indicadors;
 	}
+
 
 	public void setIndicadors(List<Indicador> indicadors) {
 		this.indicadors = indicadors;
 	}
+
 
 	public Indicador addIndicador(Indicador indicador) {
 		getIndicadors().add(indicador);

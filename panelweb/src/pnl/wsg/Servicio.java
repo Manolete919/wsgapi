@@ -8,6 +8,8 @@
 package pnl.wsg;
 
 public class Servicio  implements java.io.Serializable, org.apache.axis.encoding.AnyContentType {
+    private java.lang.String proveedorBase;
+
     private int codigoError;
 
     private org.apache.axis.message.MessageElement [] _any;
@@ -18,12 +20,34 @@ public class Servicio  implements java.io.Serializable, org.apache.axis.encoding
     }
 
     public Servicio(
+           java.lang.String proveedorBase,
            int codigoError,
            org.apache.axis.message.MessageElement [] _any,
            java.lang.String mensajeError) {
+           this.proveedorBase = proveedorBase;
            this.codigoError = codigoError;
            this._any = _any;
            this.mensajeError = mensajeError;
+    }
+
+
+    /**
+     * Gets the proveedorBase value for this Servicio.
+     * 
+     * @return proveedorBase
+     */
+    public java.lang.String getProveedorBase() {
+        return proveedorBase;
+    }
+
+
+    /**
+     * Sets the proveedorBase value for this Servicio.
+     * 
+     * @param proveedorBase
+     */
+    public void setProveedorBase(java.lang.String proveedorBase) {
+        this.proveedorBase = proveedorBase;
     }
 
 
@@ -98,6 +122,9 @@ public class Servicio  implements java.io.Serializable, org.apache.axis.encoding
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            ((this.proveedorBase==null && other.getProveedorBase()==null) || 
+             (this.proveedorBase!=null &&
+              this.proveedorBase.equals(other.getProveedorBase()))) &&
             this.codigoError == other.getCodigoError() &&
             ((this._any==null && other.get_any()==null) || 
              (this._any!=null &&
@@ -116,6 +143,9 @@ public class Servicio  implements java.io.Serializable, org.apache.axis.encoding
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getProveedorBase() != null) {
+            _hashCode += getProveedorBase().hashCode();
+        }
         _hashCode += getCodigoError();
         if (get_any() != null) {
             for (int i=0;
@@ -142,14 +172,21 @@ public class Servicio  implements java.io.Serializable, org.apache.axis.encoding
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "Servicio"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("proveedorBase");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "proveedorBase"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("codigoError");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "codigoError"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "codigoError"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("mensajeError");
-        elemField.setXmlName(new javax.xml.namespace.QName("", "mensajeError"));
+        elemField.setXmlName(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "mensajeError"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

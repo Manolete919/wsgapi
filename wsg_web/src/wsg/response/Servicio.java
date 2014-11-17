@@ -1,9 +1,9 @@
-package wsg.web;
+package wsg.response;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "Servicio", propOrder={"codigoError","xml","mensajeError"}, namespace = "http://axis/EISApiOnlineWS.wsdl/types/") 
+@XmlType(name = "Servicio", propOrder={"proveedorBase","codigoError","xml","mensajeError"}, namespace = "http://axis/EISApiOnlineWS.wsdl/types/") 
 public class Servicio implements java.io.Serializable {
 
 	/**
@@ -11,10 +11,18 @@ public class Servicio implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String proveedorBase;
 	private int codigoError;
 	private Object xml;
 	private String mensajeError;
 	
+	
+	public String getProveedorBase() {
+		return proveedorBase;
+	}
+	public void setProveedorBase(String proveedorBase) {
+		this.proveedorBase = proveedorBase;
+	}
 	public int getCodigoError() {
 		return codigoError;
 	}

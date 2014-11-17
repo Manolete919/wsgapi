@@ -1,5 +1,6 @@
 package pnl.ejb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ import pnl.modelo.Usuario;
  */
 @Stateless(name = "RolBean")
 public class RolBean
-        implements  RolBeanRemote
-{
+        implements  RolBeanRemote,Serializable {
+        	private static final long serialVersionUID = 1L;
 
     /**
      * @generated DT_ID=none

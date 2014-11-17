@@ -1,5 +1,6 @@
 package pnl.ejb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,8 @@ import pnl.modelo.ModeloGrafico;
  */
 @Stateless(name = "ModeloGraficoBean")
 public class ModeloGraficoBean
-        implements  ModeloGraficoBeanRemote
-{
+        implements  ModeloGraficoBeanRemote,Serializable {
+        	private static final long serialVersionUID = 1L;
 
     /**
      * @generated DT_ID=none

@@ -18,48 +18,50 @@
 		<p:growl id="msgs" showDetail="true" />
 		<p:panel header="Crear Filtros de Indicador"
 			style="margin-bottom:20px">
-<center>
-			<h:panelGrid  columns="4" cellpadding="5">
-				<h:outputLabel value="Usuario"></h:outputLabel>
-				<h:outputLabel value="#{menuVista.usuario.nombre}"></h:outputLabel>
-				<h:outputLabel value="Indicador:"></h:outputLabel>
-				<h:outputLabel value="#{menuVista.indicador.nombre}"></h:outputLabel>
-				<h:outputLabel value="Nombre : *" for="txt_nombre"></h:outputLabel>
-				<p:inputText id="txt_nombre"
-					value="#{collectorFiltrosIndicador.filtro.nombre}" required="true" requiredMessage="Ingrese el nombre" />
-				<h:outputLabel value="Configurados:" for="txt_configurado" />
-				<p:commandButton id="txt_configurado"
-					actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
-					oncomplete="PF('filtroDialog').show()" update="detalleQuery" immediate="true"
-					icon="ui-icon-info" />
-
-				<h:outputLabel value="Valor Defecto:" for="txt_valor"></h:outputLabel>
-				<p:inputText id="txt_valor"
-					value="#{collectorFiltrosIndicador.filtro.valorInicial}"
-					required="false" />
-
-				<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
-				<h:panelGrid columns="2">
-					<p:inputText id="txt_bind" size="3"
-						value="#{collectorFiltrosIndicador.filtro.indiceFiltro}"
-						required="true" requiredMessage="ingrese un valor numerico para el indice" />
-
-					<p:commandButton id="sqlQuery"
+			<center>
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel value="Usuario"></h:outputLabel>
+					<h:outputLabel value="#{menuVista.usuario.nombre}"></h:outputLabel>
+					<h:outputLabel value="Indicador:"></h:outputLabel>
+					<h:outputLabel value="#{menuVista.indicador.nombre}"></h:outputLabel>
+					<h:outputLabel value="Nombre : *" for="txt_nombre"></h:outputLabel>
+					<p:inputText id="txt_nombre"
+						value="#{collectorFiltrosIndicador.filtro.nombre}" required="true"
+						requiredMessage="Ingrese el nombre" />
+					<h:outputLabel value="Configurados:" for="txt_configurado" />
+					<p:commandButton id="txt_configurado"
 						actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
-						oncomplete="PF('sqlQuery').show()" update="detalleQuery" immediate="true"
-						icon="ui-icon-info" />
+						oncomplete="PF('filtroDialog').show()" update="detalleQuery"
+						immediate="true" icon="ui-icon-info" />
 
+					<h:outputLabel value="Valor Defecto:" for="txt_valor"></h:outputLabel>
+					<p:inputText id="txt_valor"
+						value="#{collectorFiltrosIndicador.filtro.valorInicial}"
+						required="false" />
+
+					<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
+					<h:panelGrid columns="2">
+						<p:inputText id="txt_bind" size="3"
+							value="#{collectorFiltrosIndicador.filtro.indiceFiltro}"
+							required="true"
+							requiredMessage="ingrese un valor numerico para el indice" />
+
+						<p:commandButton id="sqlQuery"
+							actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
+							oncomplete="PF('sqlQuery').show()" update="detalleQuery"
+							immediate="true" icon="ui-icon-info" />
+
+					</h:panelGrid>
+
+					<p:commandButton id="btn_add" value="Agregar"
+						update="filtros msgs @parent"
+						action="#{collectorFiltrosIndicador.reinit}">
+						<p:collector value="#{collectorFiltrosIndicador.filtro}"
+							addTo="#{collectorFiltrosIndicador.filtros}" unique="true" />
+					</p:commandButton>
+					<p:commandButton id="btn_reset" value="Resetear" type="reset" />
 				</h:panelGrid>
-
-				<p:commandButton id="btn_add" value="Agregar"
-					update="filtros msgs @parent"
-					action="#{collectorFiltrosIndicador.reinit}">
-					<p:collector value="#{collectorFiltrosIndicador.filtro}"
-						addTo="#{collectorFiltrosIndicador.filtros}" unique="true" />
-				</p:commandButton>
-				<p:commandButton id="btn_reset" value="Resetear" type="reset" />
-			</h:panelGrid>
-</center>
+			</center>
 		</p:panel>
 
 		<p:outputPanel id="filtros">
@@ -90,7 +92,7 @@
 				<f:facet name="footer">
 					<p:commandButton
 						disabled="#{collectorFiltrosIndicador.filtros.size()==0}"
-						value="Guardar"
+						value="Guardar" process="@this"
 						actionListener="#{collectorFiltrosIndicador.guardarfiltros}"
 						update=":form:msgs :form:filtrosConfigurados" />
 				</f:facet>

@@ -3,6 +3,8 @@ package wsg.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -19,6 +21,9 @@ public class WsgUsuarioServicio implements Serializable {
 	@EmbeddedId
 	private WsgUsuarioServicioPK id;
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(max = 1)
 	private String estado;
 
 	//bi-directional many-to-one association to WsgServicio

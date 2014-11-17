@@ -1,7 +1,11 @@
 package wsg.modelo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,39 +21,67 @@ import java.util.Date;
 public class WsgServiciosLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
 	@SequenceGenerator(name="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR", sequenceName="SQ_SERVICIOS_LOG",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR")
 	@Column(name="ID_SERVICIOS_LOG")
 	private long idServiciosLog;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name="ID_SERVICIO")
+	private BigDecimal idServicio;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    private String usuario;
 
+    @Size(max = 2000)
 	private String clave;
 
-	@Column(name="COD_ERROR")
-	private BigDecimal codError;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="FECHA_FIN")
-	private Date fechaFin;
-
+	
+	
+    @Basic(optional = false)
+    @NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="FECHA_INICIO")
 	private Date fechaInicio;
 
-	@Column(name="ID_SERVICIO")
-	private BigDecimal idServicio;
+    @Basic(optional = false)
+    @NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="FECHA_FIN")
+	private Date fechaFin;
+
+    @Lob
+	private String xml;
+	
+    @Size(max = 100)
+	private String proveedor;
+	
+	@Lob
+	@Column(name="SENTENCIA_SQL")
+	private String sentenciaSql;
+	
+	@Lob
+	private String resultado;
+	
+	@Column(name="COD_ERROR")
+	private BigDecimal codError;
 
 	@Lob
 	@Column(name="MSG_ERROR")
 	private String msgError;
 
-	@Lob
-	private String resultado;
+	
 
-	private String usuario;
+	
 
-	@Lob
-	private String xml;
+	
 
 	public WsgServiciosLog() {
 	}
@@ -133,5 +165,24 @@ public class WsgServiciosLog implements Serializable {
 	public void setXml(String xml) {
 		this.xml = xml;
 	}
+
+	public String getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public String getSentenciaSql() {
+		return sentenciaSql;
+	}
+
+	public void setSentenciaSql(String sentenciaSql) {
+		this.sentenciaSql = sentenciaSql;
+	}
+	
+	
+	
 
 }

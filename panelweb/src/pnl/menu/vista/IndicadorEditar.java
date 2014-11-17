@@ -41,6 +41,7 @@ import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
 import pnl.webservice.integracion.WsgServicio;
+import pnl.wsg.Servicio;
 
 
 @ManagedBean
@@ -115,7 +116,15 @@ public class IndicadorEditar implements Serializable{
 			
 			filtroValores.add(new FiltroValorDefault(null,usuario.getIdUsuario()));
 			
-			wsgServicios = cg.consultaWsgServiciosDeUsuario(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getIdUsuario(), usuario.getClave());
+			Servicio servicio  = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getIdUsuario(), usuario.getClave());	
+			wsgServicios = new ArrayList<WsgServicio>();
+			if(servicio != null ){
+				if(servicio.get_any() != null ){					
+					wsgServicios = cg.procesaDatosServiciosDeUsuario(servicio.get_any());
+				}
+			}
+			
+			
 
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),"A");
 
@@ -457,7 +466,12 @@ public class IndicadorEditar implements Serializable{
 		ConsultaGenerico cg = new ConsultaGenerico();
 		Utileria u = new Utileria();		
 		try {
-			query = cg.consultaWsgQueryPorIdServicio(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			Servicio servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			if(servicio != null ){
+				if(servicio.get_any() != null ){
+					query = cg.procesaDatosIdServicio(servicio.get_any());
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

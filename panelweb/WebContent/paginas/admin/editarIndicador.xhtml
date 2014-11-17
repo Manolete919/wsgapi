@@ -44,7 +44,7 @@
 							<f:selectItems  value="#{indicadorEditar.wsgServicioSelect}" />
 						</p:selectOneMenu>
 												
-						<p:commandButton id="sqlQuery" actionListener="#{indicadorEditar.consultarSentencias}"  immediate="true" oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+						<p:commandButton id="sqlQuery" actionListener="#{indicadorEditar.consultarSentencias}" process="servicio @this" oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
 					
 					</p:panelGrid>
 				</p:column>
@@ -54,7 +54,7 @@
 				<p:column rowspan="1">Grupos</p:column>
 
 				<p:column colspan="2">					
-					<p:pickList id="pickList" value="#{indicadorEditar.grupos}"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
+					<p:pickList id="pickList" value="#{indicadorEditar.grupos}" required="true" requiredMessage="Debe asignar un grupo"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
 						<f:facet name="sourceCaption">Disponibles</f:facet>
 			        	<f:facet name="targetCaption">Agregados</f:facet>
 			        </p:pickList>

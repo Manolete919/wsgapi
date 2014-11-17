@@ -3,6 +3,8 @@ package wsg.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
@@ -19,19 +21,36 @@ public class WsgUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
 	@Column(name="ID_USUARIO")
 	private String idUsuario;
 
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2000)
 	private String clave;
+	
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1)
+	@Column(name="CUENTA_NO_EXPIRADA")
+	private String cuentaNoExpirada;
 
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1)
 	@Column(name="CREDENCIALES_NO_EXPIRADAS")
 	private String credencialesNoExpiradas;
 
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1)
 	@Column(name="CUENTA_NO_BLOQUEADA")
 	private String cuentaNoBloqueada;
 
-	@Column(name="CUENTA_NO_EXPIRADA")
-	private String cuentaNoExpirada;
+	
 
 	//bi-directional many-to-one association to WsgUsuarioServicio
 	@OneToMany(mappedBy="wsgUsuario")

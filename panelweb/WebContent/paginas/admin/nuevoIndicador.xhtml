@@ -15,7 +15,7 @@
 			<p:panelGrid style="margin-top:17px;">
 				<f:facet name="header">
 					<p:row>
-						<p:column colspan="3">Creación de Indicadores</p:column>
+						<p:column colspan="3">Creación de indicadores</p:column>
 					</p:row>
 				</f:facet>
 				<p:row>
@@ -26,21 +26,21 @@
 					</p:column>
 				</p:row>
 				<p:row>
-					<p:column>Nombre Indicador:</p:column>
+					<p:column>Nombre de indicador:</p:column>
 					<p:column>
 						<p:inputText value="#{indicadorNuevo.indicador.nombre}" required="true" requiredMessage="Ingrese nombre de indicador" />
 					</p:column>
 				</p:row>
 				<p:row>
-					<p:column>Servicio de Consulta:</p:column>
+					<p:column>Servicio de consulta:</p:column>
 					<p:column>
 						<p:panelGrid columns="2">
-							<p:selectOneMenu id="servicio"  required="true" requiredMessage="Seleccione un servicio" value="#{indicadorNuevo.indiceWsgServicio}"  effect="fold"
+							<p:selectOneMenu id="servicio"  required="true" requiredMessage="Seleccione un servicio" value="#{indicadorNuevo.indiceWsgServicio}"   effect="fold"
 								editable="false" >
 								<f:selectItems  value="#{indicadorNuevo.wsgServicioSelect}" />
 							</p:selectOneMenu>
 													
-							<p:commandButton id="sqlQuery" actionListener="#{indicadorNuevo.consultarSentencias}"  immediate="true" oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
+							<p:commandButton id="sqlQuery"  process="servicio @this" actionListener="#{indicadorNuevo.consultarSentencias}"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
 						
 						</p:panelGrid>
 					</p:column>
@@ -67,8 +67,8 @@
 
 
 				<p:row>
-					<p:column rowspan="3">Gráfico</p:column>
-					<p:column>Modelo Gráfico:</p:column>
+					<p:column rowspan="4">Gráfico</p:column>
+					<p:column>Modelo gráfico:</p:column>
 					<p:column>
 						<p:selectOneMenu id="modelo"
 							value="#{indicadorNuevo.indiceModeloGrafico}" effect="fold"
@@ -77,19 +77,31 @@
 						</p:selectOneMenu>
 					</p:column>
 				</p:row>
+				
 				<p:row>
-					<p:column>Titulo Eje Horizontal:</p:column>
+					<p:column>[Descripción]Y:</p:column>
+					<p:column>
+						<p:inputText value="#{indicadorNuevo.indicador.etiquetaEjey}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>[Rango de altura]Y:</p:column>
+					<p:column>
+						<h:panelGrid columns="4">
+							valor mín:<p:inputMask  required="true" requiredMessage="Ingrese un valor minimo" size="5" value="#{indicadorNuevo.indicador.valorMiny}" mask="9?9999" maxlength="5" placeHolder=" " />
+							valor máx:<p:inputMask  size="5" requiredMessage="Ingrese un valor maximo" value="#{indicadorNuevo.indicador.valorMaxy}" mask="9?9999" maxlength="5" placeHolder=" " />
+						</h:panelGrid>
+						
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>[Descripcion]X:</p:column>
 					<p:column>
 						<p:inputText value="#{indicadorNuevo.indicador.etiquetaEjex}" />
 					</p:column>
 				</p:row>
 
-				<p:row>
-					<p:column>Titulo Eje Vertical:</p:column>
-					<p:column>
-						<p:inputText value="#{indicadorNuevo.indicador.etiquetaEjey}" />
-					</p:column>
-				</p:row>
+
 
 
 				<p:row>
@@ -99,8 +111,8 @@
 				</p:row>
 
 				<p:row>
-					<p:column rowspan="1">Serie (Consulta):</p:column>
-					<p:column>Descripcion Breve:</p:column>
+					<p:column rowspan="1">Serie [Medición]:</p:column>
+					<p:column>Descripción breve:</p:column>
 					<p:column>
 						<p:inputText value="#{indicadorNuevo.indicadorSerie.nombre}"
 							required="true" requiredMessage="Ingrese nombre de serie" />
@@ -112,7 +124,7 @@
 					<p:row>
 						<p:column colspan="3">
 							<center>
-								<p:commandButton value="Guardar" ajax="false"
+								<p:commandButton id="save" value="Guardar" ajax="false"
 									update=":menuForm:lbxIndicadores msgs"
 									actionListener="#{indicadorNuevo.guardarIndicadorSerieUsuario}" />
 							</center>
@@ -124,7 +136,7 @@
 		
 	
 
-	    <p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+	    <p:dialog header="Sentencia de consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
 	        <p:outputPanel id="detalleQuery" style="text-align:center;">
 	     
 	        	<h:outputText value="#{indicadorNuevo.query}" style="display:block"/>

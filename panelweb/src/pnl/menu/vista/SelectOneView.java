@@ -1,5 +1,6 @@
 package pnl.menu.vista;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +13,8 @@ import pnl.servicio.ThemeService;
 
  
 @ManagedBean
-public class SelectOneView {
+public class SelectOneView implements Serializable {
+	private static final long serialVersionUID = 1L;
      
     private String option;  
     private Theme theme;

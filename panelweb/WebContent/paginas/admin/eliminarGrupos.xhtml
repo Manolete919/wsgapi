@@ -22,7 +22,7 @@
 						style="margin:10px;" var="usuarioGrupo">
 						
 						<f:facet name="header">          				
-            				<h:outputText value="Grupos configurados para: #{menuVista.usuario.idUsuario}" />
+            				<h:outputText value="Grupos configurados para: #{menuVista.usuario.nombre}" />
         				</f:facet>
         				
         				
@@ -39,7 +39,7 @@
         				</p:column>
         				
         				<f:facet name="footer">
-        					<p:commandButton id="eliminarSeleccionados" value="Eliminar" disabled="#{grupoEliminar.usuarioGrupos.size() == 0}" update=":form:msgs :form:gruposAEliminar"
+        					<p:commandButton id="eliminarSeleccionados" value="Eliminar" disabled="#{grupoEliminar.usuarioGrupos.size() == 0}" update=":form:msgs :form:gruposAEliminar :menuForm:lbxIndicadores"
 								actionListener="#{grupoEliminar.eliminarGruposSeleccionados}">						
 							</p:commandButton>
 				        </f:facet>

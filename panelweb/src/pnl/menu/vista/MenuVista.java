@@ -146,14 +146,15 @@ public class MenuVista implements Serializable{
 		
 	
 		try {			
-			if (indicador.getModeloGrafico().getIdModelo() == 4) { 
-				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
-			} else if (indicador.getModeloGrafico().getIdModelo() == 1) {
+			
+			if (indicador.getModeloGrafico().getIdModelo() == 1) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/barra.xhtml"+parametros);
 			} else if (indicador.getModeloGrafico().getIdModelo() == 2) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/area.xhtml"+parametros);
 			} else if (indicador.getModeloGrafico().getIdModelo() == 3) {
-				context.redirect(context.getRequestContextPath()+"/paginas/graficos/linea.xhtml"+parametros);
+				context.redirect(context.getRequestContextPath()+"/paginas/graficos/linea.xhtml"+parametros);			
+			}else if (indicador.getModeloGrafico().getIdModelo() == 4) { 
+				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
 			}
 
 		} catch (IOException e) {

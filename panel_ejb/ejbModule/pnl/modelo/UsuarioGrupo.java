@@ -1,7 +1,10 @@
 package pnl.modelo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -17,13 +20,16 @@ public class UsuarioGrupo implements Serializable {
 	@EmbeddedId
 	private UsuarioGrupoPK id;
 
+    @Basic(optional = false)
+    @NotNull
+	@Size(max = 1)
 	private String estado;
-
+	
 	//bi-directional many-to-one association to Grupo
 	@ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="ID_GRUPO")
 	private Grupo grupo;
-
+	
 	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="ID_USUARIO")
@@ -33,7 +39,7 @@ public class UsuarioGrupo implements Serializable {
 	}
 
 	public UsuarioGrupoPK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(UsuarioGrupoPK id) {
@@ -41,7 +47,7 @@ public class UsuarioGrupo implements Serializable {
 	}
 
 	public String getEstado() {
-		return this.estado;
+		return estado;
 	}
 
 	public void setEstado(String estado) {
@@ -49,7 +55,7 @@ public class UsuarioGrupo implements Serializable {
 	}
 
 	public Grupo getGrupo() {
-		return this.grupo;
+		return grupo;
 	}
 
 	public void setGrupo(Grupo grupo) {
@@ -57,13 +63,14 @@ public class UsuarioGrupo implements Serializable {
 	}
 
 	public Usuario getUsuario() {
-		return this.usuario;
+		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
+
 	
 
 }
