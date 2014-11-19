@@ -34,10 +34,13 @@
 					<p:commandButton id="txt_configurado" actionListener="#{collectorFiltrosSerie.consultarSentencias}" immediate="true"  oncomplete="PF('filtroDialog').show()" update="detalleQuery"  icon="ui-icon-info" />
 						
 
-					<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
+					<h:outputLabel value="Orden de filtro:*" for="txt_bind"></h:outputLabel>
 					<h:panelGrid columns="2">
-						<p:inputText id="txt_bind" requiredMessage="Ingrese un valor numerico para el indice"  size="3" value="#{collectorFiltrosSerie.filtro.indiceFiltro}"
-						required="true" />
+						<p:inputMask id="txt_bind" size="3"  mask="9?99" placeHolder=" "
+							value="#{collectorFiltrosSerie.filtro.indiceFiltro}"
+							required="true"
+							requiredMessage="ingrese un valor numerico para el orden" />
+
 						
 						<p:commandButton id="sqlQuery" actionListener="#{collectorFiltrosSerie.consultarSentencias}" immediate="true"  oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
 					
@@ -58,13 +61,13 @@
 		<p:outputPanel id="filtros">
 			<p:dataTable value="#{collectorFiltrosSerie.filtros}" var="filtro" emptyMessage="No hay filtros configurados"
 			resizableColumns="true"
-				id="filtrosTable">
+				id="filtrosTable" rows="5" paginator="true">
 
 				<p:column headerText="nombre">
 					<h:outputText value="#{filtro.nombre}" />
 				</p:column>
 				
-				<p:column headerText="Indice">
+				<p:column headerText="Orden">
 					<h:outputText value="#{filtro.indiceFiltro}" />
 				</p:column>
 
@@ -85,19 +88,21 @@
 		</p:outputPanel>
 		
 		<p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
-	        <p:outputPanel id="detalleQuery" style="text-align:center;">	     
+	        <p:outputPanel id="detalleQuery" style="text-align:center;">
+	        	Info:El orden de los filtros, debe corresponder con el orden de parametros de la sentencia configurada	     
 	        	<h:outputText value="#{collectorFiltrosSerie.query}" style="display:block"/>	     
 	        </p:outputPanel>
 	    </p:dialog>
 	    
 		  <p:dialog header="Filtro Info" widgetVar="filtroDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
 	        <p:outputPanel id="filtroDetail" style="text-align:center;">
+	        	
 				<p:dataTable id="filtrosConfigurados" value="#{collectorFiltrosSerie.filtrosConfigurados}" emptyMessage="No hay configurados" var="filtro">
 					<p:column headerText="Nombre">
 						<h:outputText value="#{filtro.nombre}" />
 					</p:column>
 					
-					<p:column headerText="Indice">
+					<p:column headerText="Orden">
 						<h:outputText value="#{filtro.indiceFiltro}" />
 					</p:column>
 				</p:dataTable>

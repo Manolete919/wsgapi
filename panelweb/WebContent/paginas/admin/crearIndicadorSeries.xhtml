@@ -44,7 +44,8 @@
 			</center>
 			</p:panel>
 			<p:outputPanel id="indicadorSeries">
-				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie" id="pSeriesTable">
+				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie" id="pSeriesTable" rows="5"
+							paginator="true">
 
 					<p:column headerText="Nombre">
 						<h:outputText value="#{indicadorSerie.nombre}" />

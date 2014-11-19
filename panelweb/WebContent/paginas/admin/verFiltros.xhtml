@@ -20,7 +20,7 @@
 		<p:panelGrid style="margin-top:20px">
 			<f:facet name="header">
 				<p:row>
-					<p:column>Actualizacion de  filtros</p:column>
+					<p:column>Filtros de indicador</p:column>
 				</p:row>
 			</f:facet>
 
@@ -33,25 +33,19 @@
 							paginator="true">
 
 						<p:column headerText="Filtro">
-							<h:inputText required="true" requiredMessage="El Nombre de Filtro no debe estar vacio"
+							<p:outputLabel required="true" requiredMessage="El Nombre de Filtro no debe estar vacio"
 								value="#{filtro.nombre}" />
 						</p:column>
 						<p:column headerText="Indice">
-							<p:inputText required="true" requiredMessage="El Indice no debe estar vacio"
+							<p:outputLabel required="true" requiredMessage="El Indice no debe estar vacio"
 								value="#{filtro.indiceFiltro}" />
 						</p:column>
 
-						<p:column headerText="Dueno">
+						<p:column headerText="Nivel">
 							<p:outputLabel
 								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
 						</p:column>
 						
-						<f:facet name="footer">
-							<p:column>
-								<p:commandButton disabled="#{filtrosConfiguracion.filtros.size()==0}" value="Actualizar" update=":form:msgs,tabla"
-								actionListener="#{filtrosConfiguracion.actualizarFiltros}" />
-							</p:column>
-						</f:facet>
 
 					</p:dataTable>
 

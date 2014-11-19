@@ -19,7 +19,7 @@
 		
 			<f:facet name="header">
 				<p:row>
-					<p:column>Actualizacion de Serie</p:column>
+					<p:column>Series configuradas</p:column>
 				</p:row>
 			</f:facet>
 
@@ -33,24 +33,12 @@
 							paginator="true">
 						
 						<p:column headerText="Nombre">
-							<p:inputText value="#{indicadorSerie.nombre}" required="true" requiredMessage="El nombre no debe estar vacio"  />
+							<p:outputLabel value="#{indicadorSerie.nombre}"  />
 						</p:column>
 
 						<p:column headerText="Estado">
 							<p:outputLabel value="#{indicadorSerie.estado}" />
 						</p:column>
-						
-						<p:column headerText="Visible">
-							<p:selectBooleanCheckbox value="#{indicadorSerie.estadoBoolean}" />
-						</p:column>
-						
-						<f:facet name="footer">
-							<p:commandButton value="Actualizar" disabled="#{indicadorSerieEditar.indicadorSeries.size() == 0 }"  update=":form:msgs,tabla"
-								actionListener="#{indicadorSerieEditar.actualizar}"> 
-									<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
-									<f:param name="idModelo" value="#{menuVista.indicador.modeloGrafico.idModelo}" />																
-							</p:commandButton>
-						</f:facet>
 						
 	
 					</p:dataTable>

@@ -19,7 +19,8 @@
 			<p:row>
 				<p:column>
 					<p:dataTable id="gruposAEliminar" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id}"
-						style="margin:10px;" var="usuarioGrupo">
+						style="margin:10px;" var="usuarioGrupo" rows="5"
+							paginator="true">
 						
 						<f:facet name="header">          				
             				<h:outputText value="Grupos configurados para: #{menuVista.usuario.nombre}" />
@@ -29,11 +30,7 @@
         				
         				<p:column selectionMode="multiple"  style="text-align:center"/>
         				
-        				
-        				<p:column headerText="ID">
-        					<h:outputText value="#{usuarioGrupo.grupo.idGrupo}" />
-        				</p:column>
-        				
+        				        				
         				<p:column headerText="Nombre">
         					<h:outputText value="#{usuarioGrupo.grupo.descripcion}" />
         				</p:column>

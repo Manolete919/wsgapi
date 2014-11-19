@@ -6,129 +6,158 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/template/template.xhtml">
-	
+
 	<ui:define name="head">
 		<f:event
-			listener="#{indicadorEditar.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView">
+			listener="#{indicadorEditar.inicializar(menuVista.indicador.idIndicador)}"
+			type="preRenderView">
 		</f:event>
 	</ui:define>
-	
+
 	<ui:define name="overlay"></ui:define>
 
 	<ui:define name="content">
-		
+
 		<p:growl id="msgs" />
 		<center>
-		<p:panelGrid style="margin-top:17px;">
-			<f:facet name="header">
-				<p:row>			
-					<p:column colspan="3">Actualización de indicadores</p:column>
+			<p:panelGrid style="margin-top:17px;">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="3">Actualización de indicadores</p:column>
+					</p:row>
+				</f:facet>
+				<p:row>
+					<p:column rowspan="3">Indicador</p:column>
+					<p:column>Asignado a:</p:column>
+					<p:column>
+						<p:outputLabel value="#{menuVista.usuario.nombre}" />
+					</p:column>
 				</p:row>
-			</f:facet>
-			<p:row>			
-				<p:column rowspan="3">Indicador</p:column>
-				<p:column>Asignado a:</p:column>
-				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}"/></p:column>			
-			</p:row>
-			<p:row>		
-				<p:column>Nombre del indicador:</p:column>
-				<p:column><p:inputText
-						value="#{indicadorEditar.indicador.nombre}" required="true" requiredMessage="El nombre no debe estar vacio" /></p:column>			
-			</p:row>
-			<p:row>		
-				<p:column>Servicio de consulta:</p:column>
-				<p:column>
-					<p:panelGrid columns="2">
-						<p:selectOneMenu id="servicio"  value="#{indicadorEditar.indiceWsgServicio}" required="true" requiredMessage="Seleccione el servicio"  effect="fold"
-							editable="false" >
-							<f:selectItems  value="#{indicadorEditar.wsgServicioSelect}" />
+				<p:row>
+					<p:column>Nombre de indicador:</p:column>
+					<p:column>
+						<p:inputText value="#{indicadorEditar.indicador.nombre}"
+							required="true" requiredMessage="El nombre no debe estar vacio" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>Servicio de consulta:</p:column>
+					<p:column>
+						<h:panelGrid columns="2">
+							<p:selectOneMenu id="servicio"
+								value="#{indicadorEditar.indiceWsgServicio}" required="true"
+								requiredMessage="Seleccione el servicio" effect="fold"
+								editable="false">
+								<f:selectItems value="#{indicadorEditar.wsgServicioSelect}" />
+							</p:selectOneMenu>
+
+							<p:commandButton id="sqlQuery"
+								actionListener="#{indicadorEditar.consultarSentencias}"
+								process="servicio @this" oncomplete="PF('sqlQuery').show()"
+								update="detalleQuery" icon="ui-icon-info" />
+
+						</h:panelGrid>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column rowspan="1">Grupos</p:column>
+
+					<p:column colspan="2">
+						<p:pickList id="pickList" value="#{indicadorEditar.grupos}"
+							required="true" requiredMessage="Debe asignar un grupo"
+							var="grupo" itemLabel="#{grupo.descripcion}"
+							converter="entityConverter" itemValue="#{grupo}">
+							<f:facet name="sourceCaption">Disponibles</f:facet>
+							<f:facet name="targetCaption">Agregados</f:facet>
+						</p:pickList>
+					</p:column>
+				</p:row>
+
+
+				<p:row>
+					<p:column colspan="3" styleClass="ui-widget-header">
+						<p:spacer height="15" />
+					</p:column>
+				</p:row>
+
+
+				<p:row>
+					<p:column rowspan="4">Gráfico</p:column>
+					<p:column>Modelo Gráfico:</p:column>
+					<p:column>
+						<p:selectOneMenu id="modelo" required="true"
+							requiredMessage="Seleccione el modelo"
+							value="#{indicadorEditar.indiceModeloGrafico}" effect="fold"
+							editable="false">
+							<f:selectItems value="#{indicadorEditar.modeloGraficoSelect}" />
 						</p:selectOneMenu>
-												
-						<p:commandButton id="sqlQuery" actionListener="#{indicadorEditar.consultarSentencias}" process="servicio @this" oncomplete="PF('sqlQuery').show()" update="detalleQuery"  icon="ui-icon-info" />
-					
-					</p:panelGrid>
-				</p:column>
-			</p:row>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>[Descripción]Y:</p:column>
+					<p:column>
+						<p:inputText value="#{indicadorEditar.indicador.etiquetaEjey}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>[Rango de altura]Y:</p:column>
+					<p:column>
+						<h:panelGrid columns="4">
+							valor mín:<p:inputMask required="true"
+								requiredMessage="Ingrese un valor minimo" size="5"
+								value="#{indicadorEditar.indicador.valorMiny}" mask="9?9999"
+								maxlength="5" placeHolder=" " />
+							valor máx:<p:inputMask size="5"
+								requiredMessage="Ingrese un valor maximo"
+								value="#{indicadorEditar.indicador.valorMaxy}" mask="9?9999"
+								maxlength="5" placeHolder=" " />
+						</h:panelGrid>
+
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>[Descripcion]X:</p:column>
+					<p:column>
+						<p:inputText value="#{indicadorEditar.indicador.etiquetaEjex}" />
+					</p:column>
+				</p:row>
+
+
+
+
+				<p:row>
+					<p:column colspan="3" styleClass="ui-widget-header">
+						<p:spacer height="15" />
+					</p:column>
+				</p:row>
+
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="3">
+							<center>
+								<p:commandButton value="Actualizar"
+									update=":menuForm:lbxIndicadores msgs pickList"
+									actionListener="#{indicadorEditar.actualizarGrupoIndicador}" />
+							</center>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+
+		</center>
+
+		<p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery"
+			appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 	
-			<p:row>
-				<p:column rowspan="1">Grupos</p:column>
-
-				<p:column colspan="2">					
-					<p:pickList id="pickList" value="#{indicadorEditar.grupos}" required="true" requiredMessage="Debe asignar un grupo"  var="grupo" itemLabel="#{grupo.descripcion}" converter="entityConverter" itemValue="#{grupo}" >
-						<f:facet name="sourceCaption">Disponibles</f:facet>
-			        	<f:facet name="targetCaption">Agregados</f:facet>
-			        </p:pickList>
-				</p:column>
-			</p:row>
-			
-			
-			<p:row>
-		        <p:column colspan="3" styleClass="ui-widget-header">
-		            <p:spacer height="15"/>
-		        </p:column>
-		    </p:row>
-		    
-
-		    <p:row>			
-				<p:column rowspan="4">Gráfico</p:column>
-				<p:column>Modelo gráfico:</p:column>
-				<p:column><p:selectOneMenu id="modelo" required="true" requiredMessage="Seleccione el modelo"
-						value="#{indicadorEditar.indiceModeloGrafico}" effect="fold" editable="false">
-						<f:selectItems value="#{indicadorEditar.modeloGraficoSelect}" />
-					</p:selectOneMenu></p:column>			
-			</p:row>
-
-			<p:row>		
-				<p:column>[Descripción]Y:</p:column>
-				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjey}" /></p:column>			
-			</p:row>
-			<p:row>
-				<p:column>[Rango de altura]Y:</p:column>
-				<p:column>
-					<h:panelGrid columns="4">
-						valor mín:<p:inputMask  required="true" requiredMessage="Ingrese un valor mínimo" size="5" value="#{indicadorEditar.indicador.valorMiny}" mask="9?9999" maxlength="5" placeHolder=" " />
-						valor máx:<p:inputMask  required="true" requiredMessage="Ingrese un valor máximo" size="5" value="#{indicadorEditar.indicador.valorMaxy}" mask="9?9999" maxlength="5" placeHolder=" " />
-					</h:panelGrid>						
-				</p:column>
-			</p:row>
-			
-			<p:row>		
-				<p:column>[Descripcion]X:</p:column>
-				<p:column><p:inputText value="#{indicadorEditar.indicador.etiquetaEjex}" /></p:column>			
-			</p:row>
-
-			
-			
-			<p:row>
-		        <p:column colspan="3" styleClass="ui-widget-header">
-		            <p:spacer height="15"/>
-		        </p:column>
-		    </p:row>
-		    
-
-		    
-		    
-		    <f:facet name="footer">
-		    	<p:row>	    	
-		    		<p:column colspan="3">
-		    			<center>
-		           			<p:commandButton value="Actualizar"  update=":menuForm:lbxIndicadores msgs pickList"
-								actionListener="#{indicadorEditar.actualizarGrupoIndicador}" />
-						</center>
-		        	</p:column>	        	
-		        </p:row>	    
-		    </f:facet>		    
-		</p:panelGrid>
-
-	</center>
-
-    <p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
-        <p:outputPanel id="detalleQuery" style="text-align:center;">     
-        	<h:outputText value="#{indicadorEditar.query}" style="display:block"/>     
-        </p:outputPanel>
-    </p:dialog>
-
+			<p:outputPanel  id="detalleQuery" style="text-align:center;">
+				<h:outputLabel value="#{indicadorEditar.query}" style="display:block" />
+			</p:outputPanel>
 		
+		</p:dialog>
+
+
 	</ui:define>
 
 </ui:composition>

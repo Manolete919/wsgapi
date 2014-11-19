@@ -23,24 +23,20 @@
 			<p:row>
 				<p:column>
 					<p:dataTable id="filtroTabla" emptyMessage="No hay filtros configurados" value="#{filtrosEliminar.filtros}" selection="#{filtrosEliminar.selectedFiltros}" rowKey="#{filtro.idFiltro}"
-						style="margin:10px;" var="filtro">
+						style="margin:10px;" var="filtro" rows="5"
+							paginator="true" >
 		
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-        			
-        				
-        				<p:column headerText="ID">
-        					<h:outputText value="#{filtro.idFiltro}" />
-        				</p:column>
         				
         				<p:column headerText="Nombre">
         					<h:outputText value="#{filtro.nombre}" />
         				</p:column>
         				
-        				<p:column headerText="Indice">
+        				<p:column headerText="Orden">
         					<h:outputText value="#{filtro.indiceFiltro}" />
         				</p:column>
         				
-						<p:column headerText="Dueno">
+						<p:column headerText="Nivel">
 							<p:outputLabel
 								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
 						</p:column>

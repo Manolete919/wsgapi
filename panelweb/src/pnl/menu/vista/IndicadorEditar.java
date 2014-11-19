@@ -151,7 +151,10 @@ public class IndicadorEditar implements Serializable{
 			
 			indicadorGrupos = grupoIndicadorBeanRemote.obtieneIndicadorGruposPorIdYUsuario(idIndicador,usuario.getIdUsuario());
 		
-			indicador = indicadorGrupos.get(0).getIndicador();
+			if(!indicadorGrupos.isEmpty()){
+				indicador = indicadorGrupos.get(0).getIndicador();
+			}
+			
 		
 	    	modeloGraficoSelect = new HashMap<String, Integer>();
 	    	

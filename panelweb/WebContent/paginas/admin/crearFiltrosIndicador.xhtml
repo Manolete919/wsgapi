@@ -16,7 +16,7 @@
 	<ui:define name="overlay"></ui:define>
 	<ui:define name="content">
 		<p:growl id="msgs" showDetail="true" />
-		<p:panel header="Crear Filtros de Indicador"
+		<p:panel header="Crear filtros de indicador"
 			style="margin-bottom:20px">
 			<center>
 				<h:panelGrid columns="4" cellpadding="5">
@@ -34,20 +34,20 @@
 						oncomplete="PF('filtroDialog').show()" update="detalleQuery"
 						immediate="true" icon="ui-icon-info" />
 
-					<h:outputLabel value="Valor Defecto:" for="txt_valor"></h:outputLabel>
+					<h:outputLabel value="Valor inicial:" for="txt_valor"></h:outputLabel>
 					<p:inputText id="txt_valor"
 						value="#{collectorFiltrosIndicador.filtro.valorInicial}"
 						required="false" />
 
-					<h:outputLabel value="Indice Bind : *" for="txt_bind"></h:outputLabel>
+					<h:outputLabel value="Orden de filtro:*" for="txt_bind"></h:outputLabel>
 					<h:panelGrid columns="2">
-						<p:inputText id="txt_bind" size="3"
+
+						<p:inputMask id="txt_bind" size="3"  mask="9?99" placeHolder=" "
 							value="#{collectorFiltrosIndicador.filtro.indiceFiltro}"
 							required="true"
-							requiredMessage="ingrese un valor numerico para el indice" />
+							requiredMessage="ingrese un valor numerico para el orden" />
 
-						<p:commandButton id="sqlQuery"
-							actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
+						<p:commandButton id="sqlQuery" actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
 							oncomplete="PF('sqlQuery').show()" update="detalleQuery"
 							immediate="true" icon="ui-icon-info" />
 
@@ -66,7 +66,8 @@
 
 		<p:outputPanel id="filtros">
 			<p:dataTable value="#{collectorFiltrosIndicador.filtros}"
-				emptyMessage="No hay datos" var="filtro" id="filtrosTable">
+				emptyMessage="No hay datos" var="filtro" id="filtrosTable" rows="5"
+							paginator="true">
 
 				<p:column headerText="Nombre">
 					<h:outputText value="#{filtro.nombre}" />
@@ -76,7 +77,7 @@
 					<h:outputText value="#{filtro.valorInicial}" />
 				</p:column>
 
-				<p:column headerText="Indice">
+				<p:column headerText="Orden">
 					<h:outputText value="#{filtro.indiceFiltro}" />
 				</p:column>
 
@@ -99,9 +100,10 @@
 
 			</p:dataTable>
 		</p:outputPanel>
-		<p:dialog header="Sentencia de Consulta" widgetVar="sqlQuery"
+		<p:dialog header="Sentencia de consulta" widgetVar="sqlQuery"
 			modal="false" showEffect="fade" hideEffect="fade" resizable="false">
 			<p:outputPanel id="detalleQuery" style="text-align:center;">
+				Info:El orden de los filtros, debe corresponder con el orden de parametros de la sentencia configurada	     
 				<h:outputText value="#{collectorFiltrosIndicador.query}"
 					style="display:block" />
 			</p:outputPanel>
@@ -113,14 +115,15 @@
 				<p:dataTable id="filtrosConfigurados"
 					emptyMessage="No hay configurados"
 					value="#{collectorFiltrosIndicador.filtrosConfigurados}"
-					var="filtro">
+					var="filtro" rows="5"
+							paginator="true">
 					<p:column headerText="Nombre">
 						<h:outputText value="#{filtro.nombre}" />
 					</p:column>
 					<p:column headerText="Valor">
 						<h:outputText value="#{filtro.valorInicial}" />
 					</p:column>
-					<p:column headerText="Indice">
+					<p:column headerText="Orden">
 						<h:outputText value="#{filtro.indiceFiltro}" />
 					</p:column>
 				</p:dataTable>

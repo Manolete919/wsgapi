@@ -20,7 +20,7 @@
 		<p:panelGrid style="margin-top:20px">
 			<f:facet name="header">
 				<p:row>
-					<p:column>Configuración de Filtros de Series</p:column>
+					<p:column>Configuración de filtros de series</p:column>
 				</p:row>
 			</f:facet>
 
@@ -31,7 +31,8 @@
 
 					<p:dataTable emptyMessage="No existen filtros de Series para configurar" value="#{filtrosSeriesConfiguracion.indicadorSerieFiltros}"
 						style="margin:10px;" var="indicadorSerieFiltro">
-						<p:column headerText="Serie">
+						<p:column headerText="Serie" rows="5"
+							paginator="true">
 							<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}" />
 						</p:column>
 						<p:column headerText="Filtro">

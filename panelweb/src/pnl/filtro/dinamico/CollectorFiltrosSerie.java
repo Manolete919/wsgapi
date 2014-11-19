@@ -154,6 +154,7 @@ public class CollectorFiltrosSerie implements Serializable{
     			filtroBeanRemote.persistFiltros(this.getFiltros(),indicador);
 
     			addMessage("Datos Guardados exitosamente");
+    			filtros = new ArrayList<Filtro>();
     			
     		} catch (Exception e) {
     			// TODO Auto-generated catch block

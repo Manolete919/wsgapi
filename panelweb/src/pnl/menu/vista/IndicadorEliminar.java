@@ -20,9 +20,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorBeanRemote;
+import pnl.interfaz.IndicadorSerieBeanRemote;
+import pnl.modelo.Filtro;
 import pnl.modelo.Indicador;
+import pnl.modelo.IndicadorSerie;
 import pnl.modelo.Usuario;
 import pnl.servicio.UsuarioServicio;
 
@@ -37,7 +41,10 @@ public class IndicadorEliminar implements Serializable {
 	private List<Indicador> selectedIndicadores = new ArrayList<Indicador>();
 	private GrupoIndicadorBeanRemote grupoIndicadorBeanRemote;
 	private IndicadorBeanRemote indicadorBeanRemote;
+	private Indicador selectedIndicador;
 	private Usuario usuario;
+	private FiltroBeanRemote filtroBeanRemote;
+	private IndicadorSerieBeanRemote indicadorSerieBeanRemote;
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
@@ -67,6 +74,13 @@ public class IndicadorEliminar implements Serializable {
 
 			indicadores = grupoIndicadorBeanRemote
 					.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
+			
+			filtroBeanRemote = (FiltroBeanRemote) ic
+					.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
+			
+			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic
+					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,4 +172,26 @@ public class IndicadorEliminar implements Serializable {
 		return false;
 	}
 
+	public Indicador getSelectedIndicador() {
+		return selectedIndicador;
+	}
+
+	public void setSelectedIndicador(Indicador selectedIndicador) {
+		
+		try {
+			List<Filtro> filtros = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(selectedIndicador.getIdIndicador(), null);
+			selectedIndicador.setFiltros(filtros);
+			List<IndicadorSerie> indicadorSeries = indicadorSerieBeanRemote.obtenerIndicadorSeriePorIdIndicadorEstado(selectedIndicador.getIdIndicador(), null);
+			selectedIndicador.setIndicadorSeries(indicadorSeries);
+			this.selectedIndicador = selectedIndicador;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	
+	
 }

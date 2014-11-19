@@ -19,7 +19,7 @@
 		
 			<f:facet name="header">
 				<p:row>
-					<p:column>Actualizacion de Grupos</p:column>
+					<p:column>Grupos configurados</p:column>
 				</p:row>
 			</f:facet>
 
@@ -32,21 +32,14 @@
 						style="margin:10px;" var="usuarioGrupo" rows="5"
 							paginator="true">
 						
-						<p:column headerText="Descripicon" >
-							<p:inputText required="true" requiredMessage="La descripcion no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
+						<p:column headerText="Descripcion" >
+							<p:outputLabel required="true" requiredMessage="La descripcion no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
 						</p:column>
 
-						<p:column headerText="Activo/Inactivo">
+						<p:column headerText="Estado">
 							<p:outputLabel value="#{usuarioGrupo.grupo.estado}" />
 						</p:column>
 						
-						<p:column headerText="Activo/Inactivo">
-							<p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" />
-						</p:column>
-						<f:facet name="footer">
-							<p:commandButton value="Actualizar"  update=":form:msgs,tabla" disabled="#{grupoEditar.usuarioGrupos.size() == 0 }" actionListener="#{grupoEditar.actualizarUsuarioGrupos}" /> 													
-						</f:facet>
-											
 	
 					</p:dataTable>
 

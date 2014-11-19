@@ -95,20 +95,19 @@ public class FiltrosIndicadorConfiguracion {
 			filtroBeanRemote.mergeFiltros(filtros);
 			addMessage("Se grabo exitosamente",FacesMessage.SEVERITY_INFO);
 			
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			
 			String parametros = "?ind="+idIndicador;
 			
-			if (idModelo.equals("4")) { 
-				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
-			} else if (idModelo.equals("1")) {
+			if (idModelo.equals("1")) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/barra.xhtml"+parametros);
 			} else if (idModelo.equals("2")) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/area.xhtml"+parametros);
 			} else if (idModelo.equals("3")) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/linea.xhtml"+parametros);
-			}
+			} else if (idModelo.equals("4")) { 
+				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
+			} 
 		
 		
 		

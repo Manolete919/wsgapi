@@ -29,14 +29,12 @@
 
 
 					<p:dataTable id="seriesAElminar" value="#{indicadorSerieEliminar.indicadorSeries}" selection="#{indicadorSerieEliminar.selectedIndicadorSeries}" rowKey="#{indicadorSerie.idSerie}"
-						style="margin:10px;" var="indicadorSerie">
+						style="margin:10px;" var="indicadorSerie" rows="5"
+							paginator="true">
 				
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
         			
         				
-        				<p:column headerText="ID">
-        					<h:outputText value="#{indicadorSerie.idSerie}" />
-        				</p:column>
         				
         				<p:column headerText="Nombre">
         					<h:outputText value="#{indicadorSerie.nombre}" />

@@ -13,21 +13,19 @@
 		<p:panelGrid style="margin-top:20px">
 			<f:facet name="header">
 				<p:row>
-					<p:column>Borrado de indicadores</p:column>
+					<p:column>Consulta de indicadores</p:column>
 				</p:row>
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable id="indicadoresAElminar" resizableColumns="true" value="#{indicadorEliminar.indicadores}" selection="#{indicadorEliminar.selectedIndicadores}" rowKey="#{indicador.idIndicador}"
+					<p:dataTable id="indicadoresAElminar" resizableColumns="true" value="#{indicadorEliminar.indicadores}" 
 						style="margin:10px;" var="indicador" rows="5"
 							paginator="true">
 						<f:facet name="header">
 							<h:outputText value="Indicadores configurados para: #{menuVista.usuario.nombre}" />           				
         				</f:facet>
-        				<p:column selectionMode="multiple" style="text-align:center" />
-        			
         				
-        				
+       				
         				<p:column headerText="Nombre">
         					<h:outputText value="#{indicador.nombre}" />
         				</p:column>
@@ -44,13 +42,6 @@
 				        </p:column>
 
         				
-
-        				
-	        			<f:facet name="footer">
-							<p:commandButton value="Eliminar" disabled="#{indicadorEliminar.indicadores.size() == 0}" update=":menuForm:lbxIndicadores :form:indicadoresAElminar :form:msgs"
-								actionListener="#{indicadorEliminar.eliminarIndicadoreSeleccionados}">						
-							</p:commandButton>
-				        </f:facet>
 						
 					</p:dataTable>
 					
@@ -66,7 +57,7 @@
             <p:panelGrid  columns="2" rendered="#{not empty indicadorEliminar.selectedIndicador}" columnClasses="label,value">
 
  
-                 <h:outputText value="Nombre" />
+                <h:outputText value="Nombre" />
                 <h:outputText value="#{indicadorEliminar.selectedIndicador.nombre}" />
                 
                 <h:outputText value="Modelo" />  				
@@ -92,8 +83,7 @@
   				
     			<h:outputText value="Numero de series" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.indicadorSeries.size()}" />
-
-
+  				
             </p:panelGrid>
         </p:outputPanel>
     </p:dialog>

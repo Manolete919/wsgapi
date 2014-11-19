@@ -166,18 +166,19 @@ public class IndicadorNuevo implements Serializable {
 		wsgServicioSelect = new HashMap<String, Integer>();
 			
 		int l = 0;
+		
+		
 
 		for (WsgServicio wsgServicio : wsgServicios) {
-
 			wsgServicioSelect.put(wsgServicio.getDescripcion(), l);
 			l++;
 
 		}
 		
 		//inicializar
-		this.getIndicador().setIdServicio(new BigDecimal(this.getWsgServicios().get(this.getIndiceWsgServicio()).getIdServicio()));
-		
-		
+		if(!wsgServicios.isEmpty()){
+			this.getIndicador().setIdServicio(new BigDecimal(this.getWsgServicios().get(this.getIndiceWsgServicio()).getIdServicio()));
+		}
 		
 		
 
@@ -191,7 +192,6 @@ public class IndicadorNuevo implements Serializable {
 		}
 		
 		grupos = new DualListModel<Grupo>(gruposSource, gruposTarget);
-
 				
 
 	}

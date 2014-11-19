@@ -88,9 +88,10 @@
 					<p:column>[Rango de altura]Y:</p:column>
 					<p:column>
 						<h:panelGrid columns="4">
-							valor mín:<p:inputMask  required="true" requiredMessage="Ingrese un valor mínimo" size="5" value="#{indicadorNuevo.indicador.valorMiny}" mask="9?9999" maxlength="5" placeHolder=" " />
-							valor máx:<p:inputMask required="true"  requiredMessage="Ingrese un valor máximo" size="5" value="#{indicadorNuevo.indicador.valorMaxy}" mask="9?9999" maxlength="5" placeHolder=" " />
-						</h:panelGrid>						
+							valor mín:<p:inputMask  required="true" requiredMessage="Ingrese un valor minimo" size="5" value="#{indicadorNuevo.indicador.valorMiny}" mask="9?9999" maxlength="5" placeHolder=" " />
+							valor máx:<p:inputMask  size="5" requiredMessage="Ingrese un valor maximo" value="#{indicadorNuevo.indicador.valorMaxy}" mask="9?9999" maxlength="5" placeHolder=" " />
+						</h:panelGrid>
+						
 					</p:column>
 				</p:row>
 				<p:row>
@@ -135,7 +136,7 @@
 		
 	
 
-	    <p:dialog header="Sentencia de consulta" widgetVar="sqlQuery" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+	    <p:dialog header="Sentencia de consulta" widgetVar="sqlQuery" appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 	        <p:outputPanel id="detalleQuery" style="text-align:center;">
 	     
 	        	<h:outputText value="#{indicadorNuevo.query}" style="display:block"/>
