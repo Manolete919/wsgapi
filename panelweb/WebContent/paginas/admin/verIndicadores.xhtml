@@ -19,19 +19,19 @@
 			<p:row>
 				<p:column>
 					<p:dataTable id="indicadoresAElminar" resizableColumns="true" value="#{indicadorEliminar.indicadores}" 
-						style="margin:10px;" var="indicador" rows="5"
+						style="margin:10px;" var="indicador" rows="5" emptyMessage="No hay datos"
 							paginator="true">
 						<f:facet name="header">
 							<h:outputText value="Indicadores configurados para: #{menuVista.usuario.nombre}" />           				
         				</f:facet>
         				
        				
-        				<p:column headerText="Nombre">
+        				<p:column headerText="Nombre"  footerText="contiene" filterBy="#{indicador.nombre}" filterMatchMode="contains" >
         					<h:outputText value="#{indicador.nombre}" />
         				</p:column>
         				
        				
-        				<p:column headerText="Modelo grafico">
+        				<p:column headerText="Modelo grafico" footerText="contiene" filterBy="#{indicador.modeloGrafico.nombre}" filterMatchMode="contains" >
         					<h:outputText value="#{indicador.modeloGrafico.nombre}" />
         				</p:column>
         				
@@ -81,8 +81,19 @@
   				<h:outputText value="Numero de filtros" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.filtros.size()}" />
   				
-    			<h:outputText value="Numero de series" />  				
-  				<h:outputText value="#{indicadorEliminar.selectedIndicador.indicadorSeries.size()}" />
+    			<h:outputText value="Series" />
+    			<p:outputPanel id="serieDetalle" style="text-align:center;">
+		            <ui:repeat value="#{indicadorEliminar.selectedIndicador.indicadorSeries}" var="indicadorSerie">
+		                <h:outputText value="#{indicadorSerie.nombre}" style="display:block"/>
+		            </ui:repeat>
+		        </p:outputPanel>  				
+  				
+  				<h:outputText value="Grupos" />  				
+  				<p:outputPanel id="grupoDetalle" style="text-align:center;">
+		            <ui:repeat value="#{indicadorEliminar.selectedIndicador.grupoIndicadores}" var="grupoIndicador">
+		                <h:outputText value="#{grupoIndicador.grupo.descripcion}" style="display:block"/>
+		            </ui:repeat>
+		        </p:outputPanel>
   				
             </p:panelGrid>
         </p:outputPanel>

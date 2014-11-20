@@ -30,9 +30,9 @@
 
 
 					<p:dataTable emptyMessage="No existen filtros de Series para configurar" value="#{filtrosSeriesConfiguracion.indicadorSerieFiltros}"
-						style="margin:10px;" var="indicadorSerieFiltro">
-						<p:column headerText="Serie" rows="5"
-							paginator="true">
+						style="margin:10px;" var="indicadorSerieFiltro" rows="5"
+							paginator="true" >
+						<p:column headerText="Serie" >
 							<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}" />
 						</p:column>
 						<p:column headerText="Filtro">

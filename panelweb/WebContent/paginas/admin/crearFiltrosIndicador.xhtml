@@ -19,7 +19,7 @@
 		<p:panel header="Crear filtros de indicador"
 			style="margin-bottom:20px">
 			<center>
-				<h:panelGrid columns="4" cellpadding="5">
+				<h:panelGrid id="panelFiltro" columns="4" cellpadding="5">
 					<h:outputLabel value="Usuario"></h:outputLabel>
 					<h:outputLabel value="#{menuVista.usuario.nombre}"></h:outputLabel>
 					<h:outputLabel value="Indicador:"></h:outputLabel>
@@ -30,10 +30,9 @@
 						requiredMessage="Ingrese el nombre" />
 					<h:outputLabel value="Configurados:" for="txt_configurado" />
 					<p:commandButton id="txt_configurado"
-						actionListener="#{collectorFiltrosIndicador.consultarSentencias}"
-						oncomplete="PF('filtroDialog').show()" update="detalleQuery"
+						oncomplete="PF('filtroDialog').show()" update="filtroDetail"
 						immediate="true" icon="ui-icon-info" />
-
+						
 					<h:outputLabel value="Valor inicial:" for="txt_valor"></h:outputLabel>
 					<p:inputText id="txt_valor"
 						value="#{collectorFiltrosIndicador.filtro.valorInicial}"
@@ -65,7 +64,7 @@
 		</p:panel>
 
 		<p:outputPanel id="filtros">
-			<p:dataTable value="#{collectorFiltrosIndicador.filtros}"
+			<p:dataTable  value="#{collectorFiltrosIndicador.filtros}"
 				emptyMessage="No hay datos" var="filtro" id="filtrosTable" rows="5"
 							paginator="true">
 
@@ -93,9 +92,10 @@
 				<f:facet name="footer">
 					<p:commandButton
 						disabled="#{collectorFiltrosIndicador.filtros.size()==0}"
-						value="Guardar" process="@this"
+						value="Guardar" 
+						process=":form:filtrosTable"					
 						actionListener="#{collectorFiltrosIndicador.guardarfiltros}"
-						update=":form:msgs :form:filtrosConfigurados" />
+						update=":form:msgs,filtrosTable" />
 				</f:facet>
 
 			</p:dataTable>

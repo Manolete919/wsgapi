@@ -62,7 +62,8 @@ public class GrupoEliminar implements Serializable {
 			grupoBeanRemote = (GrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/GrupoBean");
 			
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioNoOcupados(usuario.getIdUsuario());
-
+			
+			
 		
 		} catch (Exception e) {
 			e.printStackTrace();

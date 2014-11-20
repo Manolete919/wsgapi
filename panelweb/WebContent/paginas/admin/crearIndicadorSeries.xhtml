@@ -18,7 +18,7 @@
 			<p:panel header="Crear Series para un indicador" style="margin-bottom:20px">
 				
 				<center>
-					<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid id="panelSerie" columns="4" cellpadding="5">
 
 						<h:outputLabel value="Usuario"></h:outputLabel>
 						<h:outputLabel
@@ -44,7 +44,7 @@
 			</center>
 			</p:panel>
 			<p:outputPanel id="indicadorSeries">
-				<p:dataTable value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie" id="pSeriesTable" rows="5"
+				<p:dataTable id="seriesTable" value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie"  rows="5"
 							paginator="true">
 
 					<p:column headerText="Nombre">
@@ -60,7 +60,7 @@
 					</p:column>
 					
 					<f:facet name="footer">
-						<p:commandButton  disabled="#{collectorIndicadorSerie.indicadorSeries.size()==0}" value="Guardar" actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"/>
+						<p:commandButton  disabled="#{collectorIndicadorSerie.indicadorSeries.size()==0}" value="Guardar" process=":form:seriesTable"   update=":form:msgs,seriesTable" actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"/>
 					</f:facet>
 
 				</p:dataTable>

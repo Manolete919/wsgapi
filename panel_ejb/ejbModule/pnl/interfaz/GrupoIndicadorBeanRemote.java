@@ -41,8 +41,7 @@ public interface GrupoIndicadorBeanRemote
 
     public Indicador obtieneIndicadorPorIdYUsuario(long idIndicador, String idUsuario) throws Exception;
 
-	public List<GrupoIndicador> obtieneIndicadorGruposPorIdYUsuario(long idIndicador,
-			String idUsuario) throws Exception;
+	public List<GrupoIndicador> obtieneIndicadorGruposPorIdIndicador(long idIndicador) throws Exception;
 
 	public List<Indicador> obtieneIndicadoresPorIdUsuario(String idUsuario) throws Exception;
 
@@ -51,6 +50,8 @@ public interface GrupoIndicadorBeanRemote
 	public void removeGrupoIndicadores(List<GrupoIndicador> grupoIndicadores) throws Exception;
 
 	public void mergeGrupoIndicadores(List<GrupoIndicador> grupoIndicadores)  throws Exception;
+
+	
 
 	
 

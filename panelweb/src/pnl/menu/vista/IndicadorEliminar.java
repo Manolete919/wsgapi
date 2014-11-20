@@ -20,15 +20,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import pnl.filtro.dinamico.FiltroValorDefault;
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
 import pnl.modelo.Filtro;
+import pnl.modelo.GrupoIndicador;
 import pnl.modelo.Indicador;
 import pnl.modelo.IndicadorSerie;
 import pnl.modelo.Usuario;
 import pnl.servicio.UsuarioServicio;
+import pnl.webservice.integracion.ConsultaGenerico;
+import pnl.webservice.integracion.Utileria;
+import pnl.wsg.Servicio;
 
 @ManagedBean
 public class IndicadorEliminar implements Serializable {
@@ -45,6 +50,8 @@ public class IndicadorEliminar implements Serializable {
 	private Usuario usuario;
 	private FiltroBeanRemote filtroBeanRemote;
 	private IndicadorSerieBeanRemote indicadorSerieBeanRemote;
+	String query;
+
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
@@ -72,14 +79,15 @@ public class IndicadorEliminar implements Serializable {
 			indicadorBeanRemote = (IndicadorBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/IndicadorBean");
 
-			indicadores = grupoIndicadorBeanRemote
-					.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
+			indicadores = grupoIndicadorBeanRemote.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
 			
 			filtroBeanRemote = (FiltroBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
 			
 			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+			
+			
 
 
 		} catch (Exception e) {
@@ -88,6 +96,7 @@ public class IndicadorEliminar implements Serializable {
 	}
 
 	public List<Indicador> getIndicadores() {
+			
 		return indicadores;
 	}
 
@@ -183,6 +192,23 @@ public class IndicadorEliminar implements Serializable {
 			selectedIndicador.setFiltros(filtros);
 			List<IndicadorSerie> indicadorSeries = indicadorSerieBeanRemote.obtenerIndicadorSeriePorIdIndicadorEstado(selectedIndicador.getIdIndicador(), null);
 			selectedIndicador.setIndicadorSeries(indicadorSeries);
+			List<GrupoIndicador> grupoIndicadores = new ArrayList<GrupoIndicador>();
+			grupoIndicadores = grupoIndicadorBeanRemote.obtieneIndicadorGruposPorIdIndicador(selectedIndicador.getIdIndicador());
+			selectedIndicador.setGrupoIndicadores(grupoIndicadores);
+			
+			List<FiltroValorDefault> filtroValores = new ArrayList<FiltroValorDefault>();
+			filtroValores.add(new FiltroValorDefault(null,selectedIndicador.getIdServicio().toString()));
+			ConsultaGenerico cg = new ConsultaGenerico();
+			Utileria u = new Utileria();		
+			
+		
+			Servicio servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			if(servicio != null ){
+				if(servicio.get_any() != null ){
+					query = cg.procesaDatosIdServicio(servicio.get_any());
+				}
+			}
+			
 			this.selectedIndicador = selectedIndicador;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -191,6 +217,11 @@ public class IndicadorEliminar implements Serializable {
 		
 		
 	}
+
+	public String getQuery() {
+		return query;
+	}
+
 
 	
 	

@@ -149,7 +149,7 @@ public class IndicadorEditar implements Serializable{
 	        List<Grupo> gruposSource = new ArrayList<Grupo>();
 	        List<Grupo> gruposTarget = new ArrayList<Grupo>();
 			
-			indicadorGrupos = grupoIndicadorBeanRemote.obtieneIndicadorGruposPorIdYUsuario(idIndicador,usuario.getIdUsuario());
+			indicadorGrupos = grupoIndicadorBeanRemote.obtieneIndicadorGruposPorIdIndicador(idIndicador);
 		
 			if(!indicadorGrupos.isEmpty()){
 				indicador = indicadorGrupos.get(0).getIndicador();

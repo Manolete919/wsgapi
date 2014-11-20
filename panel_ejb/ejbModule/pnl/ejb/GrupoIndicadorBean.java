@@ -160,22 +160,21 @@ public class GrupoIndicadorBean
 
 
 	@Override
-	public List<GrupoIndicador> obtieneIndicadorGruposPorIdYUsuario( long idIndicador, String idUsuario) throws Exception {
+	public List<GrupoIndicador> obtieneIndicadorGruposPorIdIndicador( long idIndicador ) throws Exception {
 		try {
 			String queryStr = "SELECT gi FROM GrupoIndicador gi " 
 					+ " LEFT JOIN gi.grupo g "
 					+ " LEFT JOIN gi.indicador i "
 					+ " LEFT JOIN g.usuarioGrupos ug "
 					+ " LEFT JOIN ug.usuario u "
-					+ " WHERE u.idUsuario =  :idUsuario "
-					+ " AND i.idIndicador = :idIndicador" ;
+					+ " WHERE i.idIndicador =  :idIndicador ";
+					
 			
 
 			TypedQuery<GrupoIndicador> query = em.createQuery(queryStr,
 					GrupoIndicador.class);
 
 			query.setParameter("idIndicador", idIndicador);
-			query.setParameter("idUsuario", idUsuario);
 			
 			List<GrupoIndicador> indicadorGrupos = query.getResultList();
 			return indicadorGrupos;

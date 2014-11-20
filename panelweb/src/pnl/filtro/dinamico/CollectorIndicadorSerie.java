@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -123,22 +124,31 @@ public class CollectorIndicadorSerie implements Serializable{
 	public void guardarIndicadorSeries(){
 		
   		try {
-    			List<IndicadorSerie> indicadorSeries = this.getIndicadorSeries();
-    			indicadorSerieBeanRemote.persistIndicadorSeries(indicadorSeries,indicador);
-    			addMessage("Datos Guardados exitosamente");
+    			List<IndicadorSerie> indicadorSeries2 = this.getIndicadorSeries();
+    			indicadorSerieBeanRemote.persistIndicadorSeries(indicadorSeries2,indicador);
+    			
+    			indicadorSeries = new ArrayList<IndicadorSerie>();
+
+    			
+    			indicador = new Indicador();
+
+    			addMessage("Datos Guardados exitosamente",FacesMessage.SEVERITY_INFO);
  			
     		} catch (Exception e) {
     			// TODO Auto-generated catch block
-    			addMessage("Hubieron errores");
+    			addMessage("Hubieron errores",FacesMessage.SEVERITY_ERROR);
     			e.printStackTrace();
     		}	
 
     }
 	
-   public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+   
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 
 

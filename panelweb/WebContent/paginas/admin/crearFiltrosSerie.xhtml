@@ -19,7 +19,7 @@
 		<center>
 		
 	
-				<h:panelGrid columns="4" cellpadding="5">
+				<h:panelGrid id="panelFiltrosSerie" columns="4" cellpadding="5">
 					<h:outputLabel value="Usuario"></h:outputLabel>
 					<h:outputLabel value="#{menuVista.usuario.idUsuario}"></h:outputLabel>
 					<h:outputLabel value="Indicador:"></h:outputLabel>
@@ -31,7 +31,7 @@
 						value="#{collectorFiltrosSerie.filtro.nombre}" required="true" requiredMessage="Ingrese el nombre" />
 						
 					<h:outputLabel value="Configurados:" for="txt_configurado"/>	
-					<p:commandButton id="txt_configurado" actionListener="#{collectorFiltrosSerie.consultarSentencias}" immediate="true"  oncomplete="PF('filtroDialog').show()" update="detalleQuery"  icon="ui-icon-info" />
+					<p:commandButton id="txt_configurado"  immediate="true"  oncomplete="PF('filtroDialog').show()" update="filtroDetail"  icon="ui-icon-info" />
 						
 
 					<h:outputLabel value="Orden de filtro:*" for="txt_bind"></h:outputLabel>
@@ -59,9 +59,9 @@
 		</p:panel>
 
 		<p:outputPanel id="filtros">
-			<p:dataTable value="#{collectorFiltrosSerie.filtros}" var="filtro" emptyMessage="No hay filtros configurados"
+			<p:dataTable id="filtrosTableSerie" value="#{collectorFiltrosSerie.filtros}" var="filtro" emptyMessage="No hay filtros configurados"
 			resizableColumns="true"
-				id="filtrosTable" rows="5" paginator="true">
+				 rows="5" paginator="true">
 
 				<p:column headerText="nombre">
 					<h:outputText value="#{filtro.nombre}" />
@@ -80,7 +80,7 @@
 				</p:column>
 				
 				<f:facet name="footer">
-				<p:commandButton ajax="false" disabled="#{collectorFiltrosSerie.filtros.size()==0}" value="Guardar" update=":form:msg :form:filtrosConfigurados"
+				<p:commandButton  disabled="#{collectorFiltrosSerie.filtros.size()==0}" value="Guardar"  process=":form:filtrosTableSerie" update=":form:msgs,filtrosTableSerie"
 					actionListener="#{collectorFiltrosSerie.guardarFiltros}" />
 				</f:facet>
 

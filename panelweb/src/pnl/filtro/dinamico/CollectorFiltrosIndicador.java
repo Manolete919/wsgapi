@@ -152,6 +152,7 @@ public class CollectorFiltrosIndicador implements Serializable{
 	
 			filtroBeanRemote.persistFiltros(this.getFiltros(),indicador);
 			filtros = new ArrayList<Filtro>();
+			filtro = new Filtro();
 			addMessage("Datos Guardados exitosamente");
 		
 		} catch (Exception e) {

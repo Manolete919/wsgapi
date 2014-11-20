@@ -19,31 +19,31 @@
 			<p:growl id="messages" />
 			<p:menubar id="menuBar">
 				<p:submenu label="Grupos" icon="ui-icon-grip-diagonal-se">
-					<p:menuitem icon="ui-icon-document" value="Nuevo"
+					<p:menuitem icon="ui-icon-document" value="Nuevo grupo"
 						url="/paginas/admin/nuevoGrupo.xhtml" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-search" value="Ver"
+					<p:menuitem icon="ui-icon-search" value="Ver grupos"
 						url="/paginas/admin/verGrupos.xhtml" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-pencil" value="Actualizar"
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar grupos"
 						url="/paginas/admin/editarGrupos.xhtml" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-trash" value="Eliminar"
+					<p:menuitem icon="ui-icon-trash" value="Eliminar grupos"
 						url="/paginas/admin/eliminarGrupos.xhtml" />
 				</p:submenu>
 
 				<p:submenu label="Indicador" icon="ui-icon-image">
-					<p:menuitem icon="ui-icon-document" value="Nuevo"
+					<p:menuitem icon="ui-icon-document" value="Nuevo indicador"
 						url="/paginas/admin/nuevoIndicador.xhtml" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-search" value="Ver"
+					<p:menuitem icon="ui-icon-search" value="Ver indicadores"
 						url="/paginas/admin/verIndicadores.xhtml" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-pencil" value="Actualizar"
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar indicador"
 						disabled="#{menuVista.indicador.idIndicador == 0}"
 						url="/paginas/admin/editarIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-trash" value="Eliminar"
+					<p:menuitem icon="ui-icon-trash" value="Eliminar indicadores"
 						url="/paginas/admin/eliminarIndicadores.xhtml" />
 				</p:submenu>
 				<p:submenu rendered="#{menuVista.indicador.idIndicador != 0}"
@@ -55,35 +55,35 @@
 						<p:separator />
 						<p:menuitem value="Filtros de indicador"
 							url="/paginas/admin/crearFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
-						
-					
+
+
 					</p:submenu>
 					<p:separator />
-					<p:menuitem icon="ui-icon-search" value="Ver"
+					<p:menuitem icon="ui-icon-search" value="Ver filtros"
 						url="/paginas/admin/verFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
-					
+
 					<p:separator />
-					<p:menuitem icon="ui-icon-pencil" value="Actualizar"
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar filtros"
 						url="/paginas/admin/configurarFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
-					<p:menuitem icon="ui-icon-trash" value="Eliminar"
+					<p:menuitem icon="ui-icon-trash" value="Eliminar filtros"
 						url="/paginas/admin/eliminarFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 				</p:submenu>
 
-				<p:submenu label="Serie"
+				<p:submenu label="Series"
 					rendered="#{menuVista.indicador.idIndicador != 0}"
 					icon="ui-icon-grip-dotted-horizontal">
-					
 
-					<p:menuitem icon="ui-icon-document" value="Nuevo"
+
+					<p:menuitem icon="ui-icon-document" value="Nueva serie"
 						url="/paginas/admin/crearIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 					<p:separator />
-					<p:menuitem icon="ui-icon-search" value="Ver"
+					<p:menuitem icon="ui-icon-search" value="Ver series"
 						url="/paginas/admin/verIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
-					<p:menuitem icon="ui-icon-pencil" value="Actualizar"
+					<p:menuitem icon="ui-icon-pencil" value="Actualizar series"
 						url="/paginas/admin/editarIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
@@ -91,7 +91,7 @@
 						url="/paginas/admin/configurarFiltrosSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
-					<p:menuitem icon="ui-icon-trash" value="Eliminar"
+					<p:menuitem icon="ui-icon-trash" value="Eliminar series"
 						url="/paginas/admin/eliminarIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 				</p:submenu>
@@ -144,28 +144,45 @@
 					<c:if test="#{menuVista.indicador.idIndicador != 0}">
 						<p:toolbar>
 							<f:facet name="left">
-								<p:commandButton icon="ui-icon-info" value="Indicador" />
+
+								<p:menuButton value="Info">
 								
-								<span class="ui-separator">
-					                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-					            </span>
+										<p:menuitem value="Consultar datos"
+											icon="ui-icon-search"
+											url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 								
+									
+									<p:menuitem value="Ver info" update=":form:indicadorDetail"
+										oncomplete="PF('indicadorDialog').show()"
+										icon="ui-icon-search">
+
+										<f:setPropertyActionListener value="#{menuVista.indicador}"
+											target="#{indicadorEliminar.selectedIndicador}" />
+
+									</p:menuitem>
+									<p:menuitem value="Ver SQL" update=":form:detalleQueryInfo"
+										oncomplete="PF('sqlQueryInfo').show()"
+										icon="ui-icon-search">
+
+										<f:setPropertyActionListener value="#{menuVista.indicador}"
+											target="#{indicadorEliminar.selectedIndicador}" />
+
+									</p:menuitem>
+								</p:menuButton>
+
+							</f:facet>
+
+							<f:facet name="right">
 								<p:commandButton id="filtroBtn"
 									actionListener="#{filtrosConfiguracion.obtenerConfigurados}"
-									icon="ui-icon-info" value="Filtros" title="Ver filtros configurados">
+									icon="ui-icon-info" value="Filtros"
+									title="Ver filtros configurados">
 									<f:param name="idIndicador"
 										value="#{menuVista.indicador.idIndicador}" />
 								</p:commandButton>
+
 							</f:facet>
-							
-							<f:facet name="right">
-								
-								<p:menuButton  value="Consultar">
-									<p:menuitem value="Consultar nuevos datos" icon="ui-icon-search"
-										url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
-								</p:menuButton>
-							</f:facet>
-							
+
 
 						</p:toolbar>
 
@@ -198,6 +215,80 @@
 				<ui:insert name="content">
 			        			Center
 			    </ui:insert>
+
+				<p:dialog header=" Info: indicador" widgetVar="indicadorDialog"
+					appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade"
+					resizable="false">
+					<p:outputPanel id="indicadorDetail" style="text-align:center;">
+						<p:panelGrid columns="2"
+							rendered="#{not empty indicadorEliminar.selectedIndicador}"
+							columnClasses="label,value">
+
+
+							<h:outputText value="Nombre" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.nombre}" />
+
+							<h:outputText value="Modelo" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.modeloGrafico.nombre}" />
+
+							<h:outputText value="Valor minimo y" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.valorMiny}" />
+
+							<h:outputText value="Valor maximo y" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.valorMaxy}" />
+
+							<h:outputText value="Descripcion y" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.etiquetaEjey}" />
+
+							<h:outputText value="Descripcion x" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.etiquetaEjex}" />
+
+							<h:outputText value="Numero de servicio" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.idServicio}" />
+
+							<h:outputText value="Numero de filtros" />
+							<h:outputText
+								value="#{indicadorEliminar.selectedIndicador.filtros.size()}" />
+
+							<h:outputText value="Series" />
+							<p:outputPanel id="serieDetalle" style="text-align:center;">
+								<ui:repeat
+									value="#{indicadorEliminar.selectedIndicador.indicadorSeries}"
+									var="indicadorSerie">
+									<h:outputText value="#{indicadorSerie.nombre}"
+										style="display:block" />
+								</ui:repeat>
+							</p:outputPanel>
+
+							<h:outputText value="Grupos" />
+							<p:outputPanel id="grupoDetalle" style="text-align:center;">
+								<ui:repeat
+									value="#{indicadorEliminar.selectedIndicador.grupoIndicadores}"
+									var="grupoIndicador">
+									<h:outputText value="#{grupoIndicador.grupo.descripcion}"
+										style="display:block" />
+								</ui:repeat>
+							</p:outputPanel>
+
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+				
+				<p:dialog header="Sentencia de consulta" widgetVar="sqlQueryInfo" appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			        <p:outputPanel id="detalleQueryInfo" style="text-align:center;">
+			     
+			        	<h:outputText value="#{indicadorEliminar.query}" style="display:block"/>
+			     
+			        </p:outputPanel>
+			    </p:dialog>
+
 			</h:form>
 
 
