@@ -10,9 +10,10 @@
 
 	<ui:define name="overlay"></ui:define>
 
-	<ui:define name="content">		
+	<ui:define name="content">	
+	<p:growl id="msgs" showDetail="true" />
 	<center>
-		<p:panelGrid style="margin-top:17px;">
+		<p:panelGrid id="creacionGrupo" style="margin-top:17px;">
 			<f:facet name="header">
 				<p:row>			
 					<p:column colspan="3">Creación de Grupo</p:column>
@@ -43,7 +44,7 @@
 		    	<p:row>	    	
 		    		<p:column colspan="3">
 		    			<center>
-		           			<p:commandButton value="Guardar" ajax="false" update="msgs"
+		           			<p:commandButton value="Guardar" ajax="false"  update="msgs creacionGrupo"
 								actionListener="#{grupoNuevo.guardarUsuarioGrupo}" />
 						</center>
 		        	</p:column>	        	

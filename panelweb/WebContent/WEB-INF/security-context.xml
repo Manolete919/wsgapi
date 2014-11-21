@@ -29,7 +29,7 @@
             <sec:intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
       
             <!-- Define login page for Spring Security -->      
-            <sec:form-login login-page="/paginas/general/login.xhtml" always-use-default-target="false" default-target-url="/paginas/graficos/index.xhtml"  authentication-failure-url="/paginas/general/loginFallido.xhtml"  />
+            <sec:form-login login-page="/paginas/general/login.xhtml" always-use-default-target="true" default-target-url="/paginas/graficos/index.xhtml"  authentication-failure-url="/paginas/general/loginFallido.xhtml"  />
 
             <!-- Define logout properties for Spring Security -->
             <sec:logout invalidate-session="true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"     logout-success-url="/paginas/general/login.xhtml"></sec:logout>

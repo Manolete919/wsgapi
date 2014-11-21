@@ -15,7 +15,7 @@ import javax.servlet.ServletResponse;
 /*import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;*/
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 ///Users/manuelgarcia/Oracle/Middleware/Oracle_Home/oracle_common/common/lib
 
 @ManagedBean(name="loginMgmtBean")
@@ -92,10 +92,27 @@ public class LoginBean {
     public void logout(){
     	
     	
-        SecurityContextHolder.clearContext();
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
+        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("/j_spring_security_logout");
+
+        try {
+			dispatcher.forward((ServletRequest) context.getRequest(),
+			 (ServletResponse) context.getResponse());
+			FacesContext.getCurrentInstance().responseComplete();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+        //SecurityContextHolder.clearContext();
+        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         
-		ExternalContext context = FacesContext.getCurrentInstance()
+		/*ExternalContext context = FacesContext.getCurrentInstance()
 				.getExternalContext();
 
 		try {
@@ -105,7 +122,7 @@ public class LoginBean {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		} */
     }
  
    /* public AuthenticationManager getAuthenticationManager() {

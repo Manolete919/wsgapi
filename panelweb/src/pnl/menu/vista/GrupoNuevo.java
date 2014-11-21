@@ -11,12 +11,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Grupo;
 import pnl.modelo.Usuario;
@@ -33,14 +31,16 @@ public class GrupoNuevo implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
     private Usuario usuario;
     private UsuarioGrupo usuarioGrupo;
     private Grupo grupo;
 
-	
-
-	
+    public GrupoNuevo(){
+    }
+    
+    
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
 	
@@ -97,6 +97,11 @@ public class GrupoNuevo implements Serializable{
     		grupo.setEstado("A");
     		usuarioGrupo.setGrupo(grupo);
         	
+    		
+    		/*if(logger.isDebugEnabled()){
+    			logger.debug("This is debug : " + "NUEVO GRUPO CREADO");
+    		} */
+    		
         	
             addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
             

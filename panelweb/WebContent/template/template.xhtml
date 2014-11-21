@@ -107,7 +107,7 @@
 								itemLabel="#{theme.displayName}" itemValue="#{theme.name}" />
 							<p:ajax event="change" listener="#{selectOneView.guardarCambios}" />
 						</p:themeSwitcher>
-						<p:commandButton action="#{loginMgmtBean.logout}" ajax="false"
+						<p:commandButton action="#{loginMgmtBean.logout}"   ajax="false"
 							value="Salir" icon="ui-icon-extlink" />
 					</h:panelGrid>
 
@@ -152,8 +152,8 @@
 											url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 								
 									
-									<p:menuitem value="Ver info" update=":form:indicadorDetail"
-										oncomplete="PF('indicadorDialog').show()"
+									<p:menuitem value="Ver info" update=":form:indicadorDetalle"
+										oncomplete="PF('indicadorDialogo').show()"
 										icon="ui-icon-search">
 
 										<f:setPropertyActionListener value="#{menuVista.indicador}"
@@ -216,10 +216,10 @@
 			        			Center
 			    </ui:insert>
 
-				<p:dialog header=" Info: indicador" widgetVar="indicadorDialog"
+				<p:dialog header=" Info: indicador" widgetVar="indicadorDialogo"
 					appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade"
 					resizable="false">
-					<p:outputPanel id="indicadorDetail" style="text-align:center;">
+					<p:outputPanel id="indicadorDetalle" style="text-align:center;">
 						<p:panelGrid columns="2"
 							rendered="#{not empty indicadorEliminar.selectedIndicador}"
 							columnClasses="label,value">
@@ -258,7 +258,7 @@
 								value="#{indicadorEliminar.selectedIndicador.filtros.size()}" />
 
 							<h:outputText value="Series" />
-							<p:outputPanel id="serieDetalle" style="text-align:center;">
+							<p:outputPanel id="seriesDetalle" style="text-align:center;">
 								<ui:repeat
 									value="#{indicadorEliminar.selectedIndicador.indicadorSeries}"
 									var="indicadorSerie">
@@ -268,7 +268,7 @@
 							</p:outputPanel>
 
 							<h:outputText value="Grupos" />
-							<p:outputPanel id="grupoDetalle" style="text-align:center;">
+							<p:outputPanel id="gruposDetalle" style="text-align:center;">
 								<ui:repeat
 									value="#{indicadorEliminar.selectedIndicador.grupoIndicadores}"
 									var="grupoIndicador">
