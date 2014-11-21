@@ -11,9 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -109,15 +109,14 @@ public class GrupoNuevo implements Serializable{
         		usuarioGrupo.setGrupo(grupo);
             	
         		
-        		/*if(logger.isDebugEnabled()){
-        			logger.debug("This is debug : " + "NUEVO GRUPO CREADO");
-        		} */
+        		
+
         		logger.info("GRABO EXITOSAMENTE");
             	
                 addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
                 
                
-        	
+              
         	
         	}else{
         		addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
