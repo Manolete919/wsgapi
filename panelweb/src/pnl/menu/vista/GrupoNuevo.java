@@ -11,10 +11,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Grupo;
 import pnl.modelo.Usuario;
@@ -82,35 +85,43 @@ public class GrupoNuevo implements Serializable{
 	
 	
     public void guardarUsuarioGrupo(ActionEvent actionEvent) {
+    	
+    	
+    	
+    	//HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+    	//if (request.getRequestedSessionId() != null && !request.isRequestedSessionIdValid()) {
+    	    // Session has been invalidated during the previous request.
+        	UsuarioGrupoPK id = new UsuarioGrupoPK();
+        	
+        	if(this.hasRole("ROLE_ADMIN")){
+        		
+        		usuarioGrupo.setId(id);
+        		usuarioGrupo.setUsuario(usuario);
+        		usuarioGrupo.setEstado("A");
+        		usuarioGrupoBeanRemote.persistUsuarioGrupo(usuarioGrupo);
+        		
+        		grupo = new Grupo();
+        		grupo.setEstado("A");
+        		usuarioGrupo.setGrupo(grupo);
+            	
+        		
+        		/*if(logger.isDebugEnabled()){
+        			logger.debug("This is debug : " + "NUEVO GRUPO CREADO");
+        		} */
+        		
+            	
+                addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
+                
+               
+        	
+        	
+        	}else{
+        		addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
+        	}
+    	
   	
-    	 
-    	UsuarioGrupoPK id = new UsuarioGrupoPK();
-    	
-    	if(this.hasRole("ROLE_ADMIN")){
-    		
-    		usuarioGrupo.setId(id);
-    		usuarioGrupo.setUsuario(usuario);
-    		usuarioGrupo.setEstado("A");
-    		usuarioGrupoBeanRemote.persistUsuarioGrupo(usuarioGrupo);
-    		
-    		grupo = new Grupo();
-    		grupo.setEstado("A");
-    		usuarioGrupo.setGrupo(grupo);
-        	
-    		
-    		/*if(logger.isDebugEnabled()){
-    			logger.debug("This is debug : " + "NUEVO GRUPO CREADO");
-    		} */
-    		
-        	
-            addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
-            
-           
-    	
-    	
-    	}else{
-    		addMessage("NO TIENE PERMISO DE ADMINISTRADOR PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
-    	}
+
 	
     }
      

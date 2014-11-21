@@ -107,8 +107,7 @@
 								itemLabel="#{theme.displayName}" itemValue="#{theme.name}" />
 							<p:ajax event="change" listener="#{selectOneView.guardarCambios}" />
 						</p:themeSwitcher>
-						<p:commandButton action="#{loginMgmtBean.logout}"   ajax="false"
-							value="Salir" icon="ui-icon-extlink" />
+						<h:outputLink style="color:black;font-style:bold;font-family:Times New Roman"  value="#{request.contextPath}/j_spring_security_logout">Salir</h:outputLink>
 					</h:panelGrid>
 
 				</f:facet>
