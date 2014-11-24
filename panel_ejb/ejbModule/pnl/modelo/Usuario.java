@@ -53,6 +53,15 @@ public class Usuario implements Serializable {
     @Size(max = 1)
 	@Column(name="CUENTA_NO_BLOQUEADA")
 	private String cuentaNoBloqueada;
+	
+	//bi-directional many-to-one association to LogUsuario
+	@OneToMany(mappedBy="usuario")
+	private List<LogUsuario> logUsuarios;
+
+	//bi-directional many-to-one association to UsuariosWsg
+	@ManyToOne
+	@JoinColumn(name="ID_USUARIO_WSG")
+	private UsuariosWsg usuariosWsg;
 
     
 	
@@ -189,6 +198,37 @@ public class Usuario implements Serializable {
 
 		return usuarioGrupo;
 	}
+	
+	public List<LogUsuario> getLogUsuarios() {
+		return this.logUsuarios;
+	}
+
+	public void setLogUsuarios(List<LogUsuario> logUsuarios) {
+		this.logUsuarios = logUsuarios;
+	}
+
+	public LogUsuario addLogUsuario(LogUsuario logUsuario) {
+		getLogUsuarios().add(logUsuario);
+		logUsuario.setUsuario(this);
+
+		return logUsuario;
+	}
+
+	public LogUsuario removeLogUsuario(LogUsuario logUsuario) {
+		getLogUsuarios().remove(logUsuario);
+		logUsuario.setUsuario(null);
+
+		return logUsuario;
+	}
+
+	public UsuariosWsg getUsuariosWsg() {
+		return this.usuariosWsg;
+	}
+
+	public void setUsuariosWsg(UsuariosWsg usuariosWsg) {
+		this.usuariosWsg = usuariosWsg;
+	}
+
 
 
 }

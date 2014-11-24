@@ -20,7 +20,7 @@
 		<p:panelGrid style="margin-top:20px">
 			<f:facet name="header">
 				<p:row>
-					<p:column>Actualizacion de  filtros</p:column>
+					<p:column>Actualización de  filtros</p:column>
 				</p:row>
 			</f:facet>
 
@@ -32,18 +32,18 @@
 						style="margin:10px;" var="filtro" rows="5"
 							paginator="true">
 
-						<p:column headerText="Filtro">
+						<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 							<h:inputText required="true" requiredMessage="El Nombre de Filtro no debe estar vacio"
 								value="#{filtro.nombre}" />
 						</p:column>
-						<p:column headerText="Indice">
-							<p:inputText required="true" requiredMessage="El Indice no debe estar vacio"
+						<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
+							<p:inputMask  size="3"  mask="9?99" placeHolder=" " required="true" requiredMessage="El Orden no debe estar vacio"
 								value="#{filtro.indiceFiltro}" />
 						</p:column>
 
-						<p:column headerText="Dueno">
+						<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
 							<p:outputLabel
-								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
+								value="#{filtro.anivelVisual}" />
 						</p:column>
 						
 						<f:facet name="footer">

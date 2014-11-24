@@ -18,9 +18,9 @@
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable id="gruposAEliminar" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id}"
-						style="margin:10px;" var="usuarioGrupo" rows="5"
-							paginator="true">
+								
+					<p:dataTable id="gruposAEliminar" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" 
+					selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id.idGrupo}" style="margin:10px;" var="usuarioGrupo" rows="5" paginator="true">
 						
 						<f:facet name="header">          				
             				<h:outputText value="Grupos configurados para: #{menuVista.usuario.nombre}" />
@@ -31,8 +31,12 @@
         				<p:column selectionMode="multiple"  style="text-align:center"/>
         				
         				        				
-        				<p:column headerText="Nombre">
-        					<h:outputText value="#{usuarioGrupo.grupo.descripcion}" />
+						<p:column headerText="Descripción"  footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}"  filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel required="true" requiredMessage="La descripción no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
+						</p:column>
+        				
+        				<p:column headerText="Estado" footerText="contiene" filterBy="#{usuarioGrupo.grupo.estadoVisual}"  filterFunction="#{filterView.filterByName}"  >
+        					<h:outputText value="#{usuarioGrupo.grupo.estadoVisual}" />
         				</p:column>
         				
         				<f:facet name="footer">
@@ -42,6 +46,8 @@
 				        </f:facet>
 						
 					</p:dataTable>
+					
+					
 				</p:column>
 			</p:row>
 			

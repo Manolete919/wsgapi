@@ -6,67 +6,103 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/template/template.xhtml">
-	
+
 	<ui:define name="head">
-		<f:event listener="#{collectorIndicadorSerie.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+		<f:event
+			listener="#{collectorIndicadorSerie.inicializar(menuVista.indicador.idIndicador)}"
+			type="preRenderView"></f:event>
 	</ui:define>
 
 	<ui:define name="overlay"></ui:define>
 	<ui:define name="content">
-	<p:growl id="msgs" showDetail="true" />
-		
-			<p:panel header="Crear Series para un indicador" style="margin-bottom:20px">
-				
-				<center>
-					<h:panelGrid id="panelSerie" columns="4" cellpadding="5">
+		<p:growl id="msgs" showDetail="true" />
 
-						<h:outputLabel value="Usuario"></h:outputLabel>
-						<h:outputLabel
-							value="#{menuVista.usuario.nombre}"></h:outputLabel>
-						<h:outputLabel value="Indicador:"></h:outputLabel>
-						<h:outputLabel
-							value="#{menuVista.indicador.nombre}"></h:outputLabel>
+		<p:panel header="Crear series para un indicador"
+			style="margin-bottom:20px">
 
-						<h:outputLabel value="Nombre : *" for="txt_eti_serie"></h:outputLabel>
-						<p:inputText id="txt_eti_serie"
-							value="#{collectorIndicadorSerie.indicadorSerie.nombre}" requiredMessage="Se requiere un nombre " required="true" />
+			<center>
+				<h:panelGrid id="panelSerie" columns="4" cellpadding="5">
 
+					<h:outputLabel value="Usuario"></h:outputLabel>
+					<h:outputLabel value="#{menuVista.usuario.nombre}" />
+					<h:outputLabel value="Indicador:" />
+					<h:outputLabel value="#{menuVista.indicador.nombre}" />
 
-						<p:commandButton id="btn_resetSerie" value="Resetear"
-							type="reset" />
-						<p:commandButton id="btn_addSerie" value="Agregar"
-							update="indicadorSeries msgs @parent"
-							action="#{collectorIndicadorSerie.reinit}">
-							<p:collector value="#{collectorIndicadorSerie.indicadorSerie}"
-								addTo="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
-						</p:commandButton>
-					</h:panelGrid>
+					<h:outputLabel value="Nombre : *" for="txt_eti_serie"></h:outputLabel>
+
+					<p:inputText id="txt_eti_serie"
+						value="#{collectorIndicadorSerie.indicadorSerie.nombre}"
+						requiredMessage="Se requiere un nombre " required="true" />
+
+					<p:commandButton update=":form:seriesConf" value="Series" immediate="true"
+						oncomplete="PF('seriesDialog').show()" icon="ui-icon-info"
+						title="Ver series">
+						<f:setPropertyActionListener value="#{menuVista.indicador}"
+							target="#{collectorIndicadorSerie.selectedIndicador}" />
+					</p:commandButton>
+					<br />
+
+					<p:commandButton id="btn_resetSerie" value="Resetear" type="reset" />
+					<p:commandButton id="btn_addSerie" value="Agregar"
+						update="indicadorSeries msgs @parent"
+						action="#{collectorIndicadorSerie.reinit}">
+						<p:collector value="#{collectorIndicadorSerie.indicadorSerie}"
+							addTo="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
+					</p:commandButton>
+
+				</h:panelGrid>
 			</center>
-			</p:panel>
-			<p:outputPanel id="indicadorSeries">
-				<p:dataTable id="seriesTable" value="#{collectorIndicadorSerie.indicadorSeries}" emptyMessage="No hay datos agregados" var="indicadorSerie"  rows="5"
-							paginator="true">
+		</p:panel>
+		<p:outputPanel id="indicadorSeries">
+			<p:dataTable id="seriesTable" value="#{collectorIndicadorSerie.indicadorSeries}"
+				emptyMessage="No hay datos agregados" var="indicadorSerie" rows="5"
+				paginator="true">
 
-					<p:column headerText="Nombre">
-						<h:outputText value="#{indicadorSerie.nombre}" />
-					</p:column>
+				<p:column headerText="Nombre">
+					<h:outputText value="#{indicadorSerie.nombre}" />
+				</p:column>
 
-					<p:column headerText="Accion">
-						<p:commandLink value="Quitar" update=":form:indicadorSeries"
-							process=":form:indicadorSeries">
-							<p:collector value="#{indicadorSerie}"
-								removeFrom="#{collectorIndicadorSerie.indicadorSeries}" unique="true" />
-						</p:commandLink>
-					</p:column>
-					
-					<f:facet name="footer">
-						<p:commandButton  disabled="#{collectorIndicadorSerie.indicadorSeries.size()==0}" value="Guardar" process=":form:seriesTable"   update=":form:msgs,seriesTable" actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}"/>
-					</f:facet>
+				<p:column headerText="Acción">
+					<p:commandLink value="Quitar de la lista"
+						update=":form:indicadorSeries" process=":form:indicadorSeries">
+						<p:collector value="#{indicadorSerie}"
+							removeFrom="#{collectorIndicadorSerie.indicadorSeries}"
+							unique="true" />
+					</p:commandLink>
+				</p:column>
 
-				</p:dataTable>
-			</p:outputPanel>
+				<f:facet name="footer">
+					<p:commandButton
+						disabled="#{collectorIndicadorSerie.indicadorSeries.size()==0}"
+						value="Guardar" process=":form:seriesTable"
+						update=":form:msgs,seriesTable"
+						actionListener="#{collectorIndicadorSerie.guardarIndicadorSeries}" />
+				</f:facet>
+
+			</p:dataTable>
+
+			<p:dialog header=" Info: series" widgetVar="seriesDialog"
+				 modal="false" showEffect="fade" hideEffect="fade"
+				resizable="false">
+				
+				<p:outputPanel id="seriesConf" style="text-align:center; width:600px;">
 		
-		
+					<p:dataTable id="tabla" value="#{collectorIndicadorSerie.selectedIndicador.indicadorSeries}" resizableColumns="true" emptyMessage="No hay series"
+						style="margin:10px;" var="indicadorSerie" rows="5" paginator="true">
+						
+						<p:column headerText="Serie"  footerText="contiene" filterBy="#{indicadorSerie.nombre}" filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel  value="#{indicadorSerie.nombre}" />
+						</p:column>
+				
+					</p:dataTable>
+				</p:outputPanel>
+	
+			</p:dialog>
+
+
+		</p:outputPanel>
+
+
 	</ui:define>
 
 </ui:composition>

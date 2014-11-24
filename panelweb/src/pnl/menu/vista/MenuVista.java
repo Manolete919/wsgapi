@@ -37,12 +37,14 @@ public class MenuVista implements Serializable{
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
 	
+	String ind = null;
+	
 
 	@PostConstruct
 	public void init() {
 		
 		
-	     String ind = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ind");
+	     ind = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ind");
 	     
 	     
 	    
@@ -153,8 +155,6 @@ public class MenuVista implements Serializable{
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/area.xhtml"+parametros);
 			} else if (indicador.getModeloGrafico().getIdModelo() == 3) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/linea.xhtml"+parametros);			
-			}else if (indicador.getModeloGrafico().getIdModelo() == 4) { 
-				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
 			}
 
 		} catch (IOException e) {
@@ -231,7 +231,14 @@ public class MenuVista implements Serializable{
 		try {
 			
 			indicadores = grupoIndicadorBeanRemote.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
+			long idIndicador = -1;
+			if(ind != null){
+				idIndicador = new Long(ind);
+			}
 			
+			if(idIndicador != -1) {
+				this.opcion = obtenerOpcionSeleccionada(idIndicador);
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

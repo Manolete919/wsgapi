@@ -28,17 +28,17 @@
 		
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
         				
-        				<p:column headerText="Nombre">
+        				<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
         					<h:outputText value="#{filtro.nombre}" />
         				</p:column>
         				
-        				<p:column headerText="Orden">
+        				<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
         					<h:outputText value="#{filtro.indiceFiltro}" />
         				</p:column>
         				
-						<p:column headerText="Nivel">
+						<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
 							<p:outputLabel
-								value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
+								value="#{filtro.anivelVisual}" />
 						</p:column>
 						
 						<f:facet name="footer">

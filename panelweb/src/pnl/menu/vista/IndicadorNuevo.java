@@ -75,6 +75,9 @@ public class IndicadorNuevo implements Serializable {
 	private IndicadorSerie indicadorSerie;
 	private Usuario usuario;
 	private List<FiltroValorDefault> filtroValores;
+	List<Grupo> gruposSource;
+	List<Grupo> gruposTarget;
+	
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
@@ -102,8 +105,8 @@ public class IndicadorNuevo implements Serializable {
 		Utileria u = new Utileria();
 		
 		
-        List<Grupo> gruposSource = new ArrayList<Grupo>();
-        List<Grupo> gruposTarget = new ArrayList<Grupo>();
+		gruposSource = new ArrayList<Grupo>();
+        gruposTarget = new ArrayList<Grupo>();
 		
 
 		try {
@@ -237,7 +240,11 @@ public class IndicadorNuevo implements Serializable {
 
 					menuVista.actualizarMenu();
 					indicador = new Indicador();
+					indicador.setValorMiny(new BigDecimal(0));
+					indicador.setValorMaxy(new BigDecimal(300));
 					indicadorSerie = new IndicadorSerie();
+					gruposTarget = new ArrayList<Grupo>();
+					grupos = new DualListModel<Grupo>(gruposSource, gruposTarget);
 
 					
 

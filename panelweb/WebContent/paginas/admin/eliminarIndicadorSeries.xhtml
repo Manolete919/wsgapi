@@ -19,7 +19,7 @@
 		
 			<f:facet name="header">
 				<p:row>
-					<p:column>Borrado de Serie</p:column>
+					<p:column>Borrado de Series</p:column>
 				</p:row>
 			</f:facet>
 
@@ -36,9 +36,13 @@
         			
         				
         				
-        				<p:column headerText="Nombre">
-        					<h:outputText value="#{indicadorSerie.nombre}" />
-        				</p:column>
+        				<p:column headerText="Nombre" footerText="contiene" filterBy="#{indicadorSerie.nombre}" filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel value="#{indicadorSerie.nombre}"  />
+						</p:column>
+
+						<p:column headerText="Estado" footerText="contiene" filterBy="#{indicadorSerie.estadoVisual}" filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel value="#{indicadorSerie.estadoVisual}" />
+						</p:column>
         				
         				<f:facet name="footer">
         					<p:commandButton value="Eliminar"  disabled="#{indicadorSerieEliminar.indicadorSeries.size()==0}" update=":form:msgs,seriesAElminar" actionListener="#{indicadorSerieEliminar.eliminar}" /> 											

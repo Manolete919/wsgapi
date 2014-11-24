@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
 import pnl.modelo.Indicador;
@@ -33,6 +34,7 @@ public class CollectorIndicadorSerie implements Serializable{
 	private IndicadorSerie indicadorSerie;    
     private List<IndicadorSerie> indicadorSeries;
     private Indicador indicador;
+    private Indicador selectedIndicador;
 	private Usuario usuario;
 	private GrupoIndicadorBeanRemote grupoIndicadorBeanRemote;
 	private IndicadorSerieBeanRemote indicadorSerieBeanRemote;
@@ -65,8 +67,9 @@ public class CollectorIndicadorSerie implements Serializable{
 					.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 
 			
-			indicadorSerieBeanRemote  = (IndicadorSerieBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+			indicadorSerieBeanRemote  = (IndicadorSerieBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+			
+			
 			
 
 		
@@ -174,6 +177,30 @@ public class CollectorIndicadorSerie implements Serializable{
 
 	public void setIndicadorSerie(IndicadorSerie indicadorSerie) {
 		this.indicadorSerie = indicadorSerie;
+	}
+
+
+	public void setSelectedIndicador(Indicador selectedIndicador) {
+		
+		List<IndicadorSerie> indicadorSeries;
+		try {
+			indicadorSeries = indicadorSerieBeanRemote.obtenerIndicadorSeriePorIdIndicadorEstado(selectedIndicador.getIdIndicador(), null);
+			selectedIndicador.setIndicadorSeries(indicadorSeries);
+			this.selectedIndicador = selectedIndicador;
+			
+			System.out.println("TAMANO LISTA " + this.getSelectedIndicador().getIndicadorSeries().size());
+		
+		} catch (Exception e) {
+			addMessage("Hubieron errores",FacesMessage.SEVERITY_ERROR);
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+
+	public Indicador getSelectedIndicador() {
+		return selectedIndicador;
 	}
 	
 	

@@ -18,6 +18,12 @@
 		<class>pnl.modelo.Usuario</class>
 		<class>pnl.modelo.UsuarioGrupo</class>
 		<class>pnl.modelo.UsuarioGrupoPK</class>
+		<class>pnl.modelo.UsuarioRol</class>
+		<class>pnl.modelo.UsuarioRolPK</class>
+		<class>pnl.modelo.AccionUsuario</class>
+		<class>pnl.modelo.LogUsuario</class>
+		<class>pnl.modelo.RecursosApp</class>
+		<class>pnl.modelo.UsuariosWsg</class>
 		<properties>
 			<property name="eclipselink.target-server" value="WebLogic" />
 			<!--Global logging level -->

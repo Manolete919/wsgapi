@@ -55,8 +55,8 @@ public class LineView implements Serializable {
 									.getEtiquetaEjey()));
 			Axis yAxis = lineModel2.getAxis(AxisType.Y);
 			yAxis.setLabel(dinamico.getIndicador().getEtiquetaEjex());
-			yAxis.setMin(0);
-			yAxis.setMax(300);
+			yAxis.setMin(dinamico.getIndicador().getValorMiny());
+			yAxis.setMax(dinamico.getIndicador().getValorMaxy());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

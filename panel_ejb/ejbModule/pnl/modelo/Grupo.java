@@ -32,6 +32,8 @@ public class Grupo implements Serializable {
     
     @Size(max = 1)
 	private String estado;
+    
+    
 
 	//bi-directional many-to-one association to GrupoIndicador
 	@OneToMany(mappedBy="grupo")
@@ -46,8 +48,9 @@ public class Grupo implements Serializable {
 	@Transient
 	boolean activoInactivo;
 
-
-
+	@Transient
+	private String estadoVisual;
+	
 	public Grupo() {
 		super();
 	}
@@ -151,6 +154,21 @@ public class Grupo implements Serializable {
 		
 		this.activoInactivo = activoInactivo;
 	}
+
+	public String getEstadoVisual() {
+		if(this.getEstado()==null){
+			estadoVisual = "Inactivo";
+		}else{
+			if(this.getEstado().equals("A")){
+				estadoVisual = "Activo";
+			}else{
+				estadoVisual = "Inactivo";
+			}
+		}
+		return estadoVisual;
+	}
+
+
 
 	
 	

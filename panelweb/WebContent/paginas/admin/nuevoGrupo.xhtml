@@ -17,7 +17,7 @@
 		<p:panelGrid id="creacionGrupo" style="margin-top:17px;">
 			<f:facet name="header">
 				<p:row>			
-					<p:column colspan="3">Creación de Grupo</p:column>
+					<p:column colspan="3">Creación de grupos de usuario</p:column>
 				</p:row>
 			</f:facet>
 			<p:row>			
@@ -26,9 +26,18 @@
 				<p:column><p:outputLabel value="#{menuVista.usuario.nombre}" /></p:column>			
 			</p:row>
 			<p:row>		
-				<p:column>Nombre Grupo:</p:column>
-				<p:column><p:inputText
-						value="#{grupoNuevo.usuarioGrupo.grupo.descripcion}" required="true" requiredMessage="Ingrese el nombre del Grupo" /></p:column>			
+				<p:column>Nombre de grupo:</p:column>
+				<p:column>
+					<h:panelGrid columns="2">
+						<p:inputText value="#{grupoNuevo.usuarioGrupo.grupo.descripcion}" required="true" requiredMessage="Ingrese el nombre del grupo" />
+						<p:commandButton id="gruposBtn" immediate="true" oncomplete="PF('grupoDialogo').show()" update="grupoDetalle"
+							icon="ui-icon-info" value="Grupos"
+							title="Ver grupos configurados">
+						</p:commandButton>
+					</h:panelGrid>
+					
+				
+				</p:column>			
 			</p:row>
 			
 			
@@ -45,7 +54,7 @@
 		    	<p:row>	    	
 		    		<p:column colspan="3">
 		    			<center>
-		           			<p:commandButton value="Guardar" ajax="false"  update="msgs creacionGrupo"
+		           			<p:commandButton value="Guardar" ajax="false"  update="msgs creacionGrupo grupoDetalle"
 								actionListener="#{grupoNuevo.guardarUsuarioGrupo}" />
 						</center>
 		        	</p:column>	        	
@@ -53,6 +62,25 @@
 		    </f:facet>		    
 		</p:panelGrid>
 		</center>
+		
+		<p:dialog header="Info de grupos de usuario" widgetVar="grupoDialogo" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+	        <p:outputPanel id="grupoDetalle" style="text-align:center; width:600px;">
+
+			<p:dataTable id="tabla" value="#{grupoNuevo.usuarioGrupos}" resizableColumns="true" emptyMessage="No hay grupos"
+				style="margin:10px;" var="usuarioGrupo" rows="5" paginator="true">
+				
+				<p:column headerText="Descripción"  footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}" filterFunction="#{filterView.filterByName}"  >
+					<p:outputLabel value="#{usuarioGrupo.grupo.descripcion}" />
+				</p:column>
+		
+				<p:column headerText="Estado" footerText="contiene" filterBy="#{usuarioGrupo.grupo.estadoVisual}"  filterFunction="#{filterView.filterByName}"  >
+					<p:outputLabel value="#{usuarioGrupo.grupo.estadoVisual}" />
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</p:dialog>
+		
+		
 	</ui:define>
 
 </ui:composition>

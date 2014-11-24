@@ -1,7 +1,8 @@
 package pnl.menu.vista;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -11,14 +12,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.MDC;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Grupo;
 import pnl.modelo.Usuario;
@@ -39,6 +37,7 @@ public class GrupoNuevo implements Serializable{
 	
 	
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
+	private List<UsuarioGrupo> usuarioGrupos = new ArrayList<UsuarioGrupo>();
     private Usuario usuario;
     private UsuarioGrupo usuarioGrupo;
     private Grupo grupo;
@@ -76,6 +75,8 @@ public class GrupoNuevo implements Serializable{
 
 			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			
+			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
 			
 			
 
@@ -180,6 +181,11 @@ public class GrupoNuevo implements Serializable{
 
 	public void setUsuarioGrupo(UsuarioGrupo usuarioGrupo) {
 		this.usuarioGrupo = usuarioGrupo;
+	}
+
+
+	public List<UsuarioGrupo> getUsuarioGrupos() {
+		return usuarioGrupos;
 	}
 
 	

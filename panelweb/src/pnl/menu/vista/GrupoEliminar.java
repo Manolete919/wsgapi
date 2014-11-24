@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -12,10 +13,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import pnl.interfaz.GrupoBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Usuario;
@@ -104,7 +107,7 @@ public class GrupoEliminar implements Serializable {
 				
 			
 				addMessage("Se eliminaron exitosamente!!",FacesMessage.SEVERITY_INFO);
-				usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
+				usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioNoOcupados(usuario.getIdUsuario());
 				menuVista.actualizarMenu();
 			} catch (Exception e) {
 				addMessage("Ocurrio algun error!",FacesMessage.SEVERITY_ERROR);
@@ -174,9 +177,6 @@ public class GrupoEliminar implements Serializable {
 		this.menuVista = menuVista;
 	}
 	
-	
-	
-	
-	
+
 
 }

@@ -28,12 +28,12 @@
         			
         				
         				
-        				<p:column headerText="Nombre"  footerText="contiene" filterBy="#{indicador.nombre}" filterMatchMode="contains" >
+        				<p:column headerText="Nombre"  footerText="contiene" filterBy="#{indicador.nombre}" filterFunction="#{filterView.filterByName}" >
         					<h:outputText value="#{indicador.nombre}" />
         				</p:column>
         				
        				
-        				<p:column headerText="Modelo grafico" footerText="contiene" filterBy="#{indicador.modeloGrafico.nombre}" filterMatchMode="contains" >
+        				<p:column headerText="Modelo gráfico" footerText="contiene" filterBy="#{indicador.modeloGrafico.nombre}" filterFunction="#{filterView.filterByName}" >
         					<h:outputText value="#{indicador.modeloGrafico.nombre}" />
         				</p:column>
         				

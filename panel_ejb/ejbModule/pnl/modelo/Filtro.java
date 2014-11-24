@@ -45,10 +45,18 @@ public class Filtro implements Serializable {
     @Size(min = 1, max = 1)
 	@Column(name = "ANIVEL_INDICADOR")
 	private String anivelIndicador;
+    
+    @Transient
+    private String anivelVisual;
 
     @Size(max = 1)
     @Column(name = "ESTADO")
 	private String estado;
+    
+    
+    @Transient
+    private String estadoVisual;
+    
 
     @Size(max = 2000)
 	@Column(name = "VALOR_INICIAL")
@@ -231,4 +239,46 @@ public class Filtro implements Serializable {
 
 		return indicadorSerieFiltro;
 	}
+
+
+
+
+
+
+	public String getAnivelVisual() {
+		
+		if(this.getAnivelIndicador()==null){
+			anivelVisual = "Serie";
+		}else{
+			if(this.getAnivelIndicador().equals("S")){
+				anivelVisual = "Indicador";
+			}else{
+				anivelVisual = "Serie";
+			}
+		}
+		
+		return anivelVisual;
+	}
+
+
+
+
+
+
+	public String getEstadoVisual() {
+		if(this.getEstado()==null){
+			estadoVisual = "Inactivo";
+		}else{
+			if(this.getEstado().equals("A")){
+				estadoVisual = "Activo";
+			}else{
+				estadoVisual = "Inactivo";
+			}
+		}
+		
+		return estadoVisual;
+	}
+	
+	
+	
 }

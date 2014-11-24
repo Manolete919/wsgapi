@@ -75,8 +75,8 @@ public class AreaView implements Serializable {
 			areaModel.getAxes().put(AxisType.X, xAxis);
 			Axis yAxis = areaModel.getAxis(AxisType.Y);
 			yAxis.setLabel(dinamico.getIndicador().getEtiquetaEjey());
-			yAxis.setMin(0);
-			yAxis.setMax(300);
+			yAxis.setMin(dinamico.getIndicador().getValorMiny());
+			yAxis.setMax(dinamico.getIndicador().getValorMaxy());
 	
 
 			

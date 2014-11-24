@@ -32,12 +32,12 @@
 						style="margin:10px;" var="usuarioGrupo" rows="5"
 							paginator="true">
 						
-						<p:column headerText="Descripcion" >
-							<p:outputLabel required="true" requiredMessage="La descripcion no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
+						<p:column headerText="Descripción"  footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}"  filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel required="true" requiredMessage="La descripción no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
 						</p:column>
 
-						<p:column headerText="Estado">
-							<p:outputLabel value="#{usuarioGrupo.grupo.estado}" />
+						<p:column headerText="Estado" footerText="contiene" filterBy="#{usuarioGrupo.grupo.estadoVisual}"  filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel value="#{usuarioGrupo.grupo.estadoVisual}" />
 						</p:column>
 						
 	

@@ -17,7 +17,7 @@ import javax.persistence.TypedQuery;
 
 import pnl.interfaz.RolBeanRemote;
 import pnl.modelo.Rol;
-import pnl.modelo.Usuario;
+
 
 
 /**
@@ -101,7 +101,7 @@ public class RolBean
 	@Override
 	public List<Rol> obtieneRolesPorUsuarioPorId(String idUsuario) throws Exception {
 		try {
-			String queryStr = "SELECT u.rols FROM Usuario u  WHERE u.idUsuario = :idUsuario";
+			String queryStr = "SELECT ur.rol FROM UsuarioRol ur LEFT JOIN ur.usuario u  WHERE u.idUsuario = :idUsuario AND ur.estado = 'A' ";
 					
 
 			TypedQuery<Rol> query = em.createQuery(queryStr, Rol.class);

@@ -3,7 +3,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -13,12 +12,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
@@ -62,6 +59,7 @@ public class GrupoEditar implements Serializable{
 			
 
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,6 +126,6 @@ public class GrupoEditar implements Serializable{
 		this.usuarioGrupos = usuarioGrupos;
 	}
 
-	
+
 	
 }

@@ -26,17 +26,17 @@
         				</f:facet>
         				
        				
-        				<p:column headerText="Nombre"  footerText="contiene" filterBy="#{indicador.nombre}" filterMatchMode="contains" >
+        				<p:column headerText="Nombre"  footerText="contiene" filterBy="#{indicador.nombre}" filterFunction="#{filterView.filterByName}" >
         					<h:outputText value="#{indicador.nombre}" />
         				</p:column>
         				
        				
-        				<p:column headerText="Modelo grafico" footerText="contiene" filterBy="#{indicador.modeloGrafico.nombre}" filterMatchMode="contains" >
+        				<p:column headerText="Modelo gráfico" footerText="contiene" filterBy="#{indicador.modeloGrafico.nombre}" filterFunction="#{filterView.filterByName}" >
         					<h:outputText value="#{indicador.modeloGrafico.nombre}" />
         				</p:column>
         				
 				        <p:column style="text-align: center">
-				             <p:commandButton update=":form:indicadorDetail" oncomplete="PF('indicadorDialog').show()" icon="ui-icon-search" title="View">
+				             <p:commandButton update=":form:indicadorDetail" oncomplete="PF('indicadorDialog').show()" icon="ui-icon-search" title="Ver detalle">
 				                <f:setPropertyActionListener value="#{indicador}" target="#{indicadorEliminar.selectedIndicador}" />
 				            </p:commandButton>
 				        </p:column>
@@ -63,22 +63,22 @@
                 <h:outputText value="Modelo" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.modeloGrafico.nombre}" />
   		        
-  		        <h:outputText value="Valor minimo y" />  				
+  		        <h:outputText value="Valor mínimo y" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.valorMiny}" />
  	        	
- 	        	<h:outputText value="Valor maximo y" />  				
+ 	        	<h:outputText value="Valor máximo y" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.valorMaxy}" />
  
- 	        	<h:outputText value="Descripcion y" />  				
+ 	        	<h:outputText value="Descripción y" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.etiquetaEjey}" />
   				
-  	        	<h:outputText value="Descripcion x" />  				
+  	        	<h:outputText value="Descripción x" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.etiquetaEjex}" />
   				
-  	      		<h:outputText value="Numero de servicio" />  				
+  	      		<h:outputText value="Número de servicio" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.idServicio}" />
   				
-  				<h:outputText value="Numero de filtros" />  				
+  				<h:outputText value="Número de filtros" />  				
   				<h:outputText value="#{indicadorEliminar.selectedIndicador.filtros.size()}" />
   				
     			<h:outputText value="Series" />

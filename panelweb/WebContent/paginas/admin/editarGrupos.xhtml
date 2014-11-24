@@ -19,7 +19,7 @@
 		
 			<f:facet name="header">
 				<p:row>
-					<p:column>Actualizacion de Grupos</p:column>
+					<p:column>Actualización de grupos de usuario</p:column>
 				</p:row>
 			</f:facet>
 
@@ -37,10 +37,10 @@
 						</p:column>
 
 						<p:column headerText="Activo/Inactivo">
-							<p:outputLabel value="#{usuarioGrupo.grupo.estado}" />
+							<p:outputLabel value="#{(usuarioGrupo.grupo.estado=='A')?'Activo':'Inactivo'}" />
 						</p:column>
 						
-						<p:column headerText="Activo/Inactivo">
+						<p:column headerText="Acción">
 							<p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" />
 						</p:column>
 						<f:facet name="footer">

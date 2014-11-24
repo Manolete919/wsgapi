@@ -64,7 +64,7 @@
 
       <!-- Welcome page -->
       <welcome-file-list>
-          <welcome-file>paginas/graficos/index.xhtml</welcome-file>
+          <welcome-file>paginas/indicador/index.xhtml</welcome-file>
       </welcome-file-list>
   
 

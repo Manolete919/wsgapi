@@ -23,7 +23,7 @@
 						url="/paginas/admin/nuevoGrupo.xhtml" />
 					<p:separator />
 					<p:menuitem icon="ui-icon-search" value="Ver grupos"
-						url="/paginas/admin/verGrupos.xhtml" />
+						url="/paginas/indicador/verGrupos.xhtml" />
 					<p:separator />
 					<p:menuitem icon="ui-icon-pencil" value="Actualizar grupos"
 						url="/paginas/admin/editarGrupos.xhtml" />
@@ -32,12 +32,12 @@
 						url="/paginas/admin/eliminarGrupos.xhtml" />
 				</p:submenu>
 
-				<p:submenu label="Indicador" icon="ui-icon-image">
+				<p:submenu label="Indicadores" icon="ui-icon-image">
 					<p:menuitem icon="ui-icon-document" value="Nuevo indicador"
 						url="/paginas/admin/nuevoIndicador.xhtml" />
 					<p:separator />
 					<p:menuitem icon="ui-icon-search" value="Ver indicadores"
-						url="/paginas/admin/verIndicadores.xhtml" />
+						url="/paginas/indicador/verIndicadores.xhtml" />
 					<p:separator />
 					<p:menuitem icon="ui-icon-pencil" value="Actualizar indicador"
 						disabled="#{menuVista.indicador.idIndicador == 0}"
@@ -60,7 +60,7 @@
 					</p:submenu>
 					<p:separator />
 					<p:menuitem icon="ui-icon-search" value="Ver filtros"
-						url="/paginas/admin/verFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+						url="/paginas/indicador/verFiltros.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
 					<p:menuitem icon="ui-icon-pencil" value="Actualizar filtros"
@@ -80,7 +80,7 @@
 						url="/paginas/admin/crearIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 					<p:separator />
 					<p:menuitem icon="ui-icon-search" value="Ver series"
-						url="/paginas/admin/verIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+						url="/paginas/indicador/verIndicadorSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
 					<p:menuitem icon="ui-icon-pencil" value="Actualizar series"
@@ -88,7 +88,7 @@
 
 					<p:separator />
 					<p:menuitem icon="ui-icon-wrench" value="Conf. filtros de series"
-						url="/paginas/admin/configurarFiltrosSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+						url="/paginas/indicador/configurarFiltrosSeries.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 
 					<p:separator />
 					<p:menuitem icon="ui-icon-trash" value="Eliminar series"
@@ -97,27 +97,30 @@
 				</p:submenu>
 
 
-
 				<f:facet name="options">
-					<h:panelGrid columns="3">
-			Tema: 
-	        <p:themeSwitcher value="#{selectOneView.option}" id="basic"
+					<h:panelGrid columns="4">
+					<h:outputLabel value="Bienvenido: #{menuVista.usuario.nombre}" /><h:outputLink style="color:black;font-style:bold;font-family:Times New Roman"  value="#{request.contextPath}/">Inicio</h:outputLink> <h:outputLink style="color:black;font-style:bold;font-family:Times New Roman"  value="#{request.contextPath}/j_spring_security_logout">Salir</h:outputLink>
+	        		<p:themeSwitcher value="#{selectOneView.option}" id="basic"
 							style="width:165px">
 							<f:selectItems value="#{selectOneView.themes}" var="theme"
 								itemLabel="#{theme.displayName}" itemValue="#{theme.name}" />
 							<p:ajax event="change" listener="#{selectOneView.guardarCambios}" />
 						</p:themeSwitcher>
-						<h:outputLink style="color:black;font-style:bold;font-family:Times New Roman"  value="#{request.contextPath}/j_spring_security_logout">Salir</h:outputLink>
+						
+				
+						
 					</h:panelGrid>
 
+
 				</f:facet>
+
 			</p:menubar>
 		</h:form>
 	</ui:insert>
 
-	<p:layout fullPage="false" style="margin-top:10px;">
+	<p:layout fullPage="false"  style="margin-top:10px;">
 		<p:layoutUnit position="west" size="300"
-			header="Usuario: #{menuVista.usuario.nombre}" resizable="true"
+			header="Indicadores" resizable="true"
 			closable="true" collapsible="true">
 			<ui:insert name="left">
 				<h:form id="menuForm">
@@ -148,7 +151,7 @@
 								
 										<p:menuitem value="Consultar datos"
 											icon="ui-icon-search"
-											url="/paginas/admin/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
+											url="/paginas/indicador/configurarFiltrosIndicador.xhtml?ind=#{menuVista.indicador.idIndicador}" />
 								
 									
 									<p:menuitem value="Ver info" update=":form:indicadorDetalle"
@@ -189,30 +192,28 @@
 					<p:outputLabel rendered="#{menuVista.indicador.idIndicador == 0}"
 						value="El indicador no existe, o ha sido eliminado" />
 
-					<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade"
-						dynamic="true" style="width:600px">
-						<p:dataTable var="filtro"
+					<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade" dynamic="true" style="width:600px">
+						<p:dataTable var="filtro" emptyMessage="No hay filtros configurados"
 							value="#{filtrosConfiguracion.filtrosConfigurados}" rows="5"
 							paginator="true">
 
-							<p:column headerText="Nombre">
+							<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 								<h:outputText value="#{filtro.nombre}" />
 							</p:column>
 
-							<p:column headerText="Orden">
+							<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
 								<h:outputText value="#{filtro.indiceFiltro}" />
 							</p:column>
 
-							<p:column headerText="Nivel">
-								<p:outputLabel
-									value="#{(filtro.anivelIndicador=='S')?'INDICADOR':'SERIE'}" />
+							<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
+								<p:outputLabel value="#{filtro.anivelVisual}" />
 							</p:column>
 						</p:dataTable>
 					</p:overlayPanel>
 
 				</ui:insert>
 				<ui:insert name="content">
-			        			Center
+			        			
 			    </ui:insert>
 
 				<p:dialog header=" Info: indicador" widgetVar="indicadorDialogo"
@@ -232,27 +233,27 @@
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.modeloGrafico.nombre}" />
 
-							<h:outputText value="Valor minimo y" />
+							<h:outputText value="Valor mínimo y" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.valorMiny}" />
 
-							<h:outputText value="Valor maximo y" />
+							<h:outputText value="Valor máximo y" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.valorMaxy}" />
 
-							<h:outputText value="Descripcion y" />
+							<h:outputText value="Descripción y" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.etiquetaEjey}" />
 
-							<h:outputText value="Descripcion x" />
+							<h:outputText value="Descripción x" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.etiquetaEjex}" />
 
-							<h:outputText value="Numero de servicio" />
+							<h:outputText value="Número de servicio" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.idServicio}" />
 
-							<h:outputText value="Numero de filtros" />
+							<h:outputText value="Número de filtros" />
 							<h:outputText
 								value="#{indicadorEliminar.selectedIndicador.filtros.size()}" />
 

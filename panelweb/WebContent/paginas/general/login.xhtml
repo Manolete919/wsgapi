@@ -26,9 +26,9 @@ body {
 	<h:form id="loginForm" prependId="false">
 		<center>
 			<p:panel id="panelLogin"
-				style=" font-size: 15px; width:400px; border:0 ">
+				style=" font-size: 15px; width:400px; border:2 ">
 				<h:outputText
-					style="text-align:center; color:#848484; font-size: 25px; font: bold 150% sans-serif;"
+					style="text-align:center; color:blue; font-size: 25px; font: bold 150% sans-serif;"
 					value="Inicio de sesión" />
 				<br />
 				<p:separator></p:separator>
@@ -61,7 +61,7 @@ body {
 
 
 				<p:commandButton value="Entrar" icon="ui-icon-person" ajax="false"
-					style="border:2 solid #ccc;background:transparent;" 
+					style="border:2 solid #ccc;" 
 					action="#{loginMgmtBean.login}" update="panelLogin"></p:commandButton>
 			</p:panel>
 		</center>

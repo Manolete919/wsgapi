@@ -45,8 +45,7 @@ public class IndicadorSerieEditar {
 
 			InitialContext ic = new InitialContext(pr);
 
-			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
 			
 		
 

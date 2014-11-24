@@ -1,16 +1,16 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui">
+	template="/template/template.xhtml">
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		<center><h1 style="color:red">ACCESO DENEGADO</h1><br />
+			<h6>El usuario con el que ha iniciado sesión no cuenta con suficientes privilegios para realizar esta acción</h6>
+		</center>
+	</ui:define>
 
-<h:head><title>Error de Transaccion</title></h:head>
-<body>
-<f:view>
-    <h:form>
-        <h:outputText value="No tiene permisos para realizar esta accion"></h:outputText>				
-    </h:form>
-</f:view>
-</body>
-</html>
+</ui:composition>

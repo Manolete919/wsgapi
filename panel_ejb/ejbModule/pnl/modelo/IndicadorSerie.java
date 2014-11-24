@@ -36,6 +36,9 @@ public class IndicadorSerie implements Serializable {
 	@Size(max = 1)
 	private String estado;
 	
+	@Transient
+	private String estadoVisual;
+	
 	
 	
 	@Transient
@@ -141,6 +144,22 @@ public class IndicadorSerie implements Serializable {
 		
 		
 	}
+
+
+	public String getEstadoVisual() {
+		if(this.getEstado()==null){
+			estadoVisual = "Inactivo";
+		}else{
+			if(this.getEstado().equals("A")){
+				estadoVisual = "Activo";
+			}else{
+				estadoVisual = "Inactivo";
+			}
+		}
+		return estadoVisual;
+	}
+	
+	
 	
 	
 	
