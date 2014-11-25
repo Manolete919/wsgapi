@@ -126,8 +126,14 @@
 					<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 						<h:outputText value="#{filtro.nombre}" />
 					</p:column>
-					<p:column headerText="Valor">
-						<h:outputText value="#{filtro.valorInicial}" />
+					<p:column headerText="Valor">					
+							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
+							<p:commandButton rendered="#{filtro.anivelIndicador=='N'}" value="Ver" icon="ui-icon-search" />
+					</p:column>
+					
+					<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
+						<p:outputLabel
+							value="#{filtro.anivelVisual}" />
 					</p:column>
 					
 				</p:dataTable>

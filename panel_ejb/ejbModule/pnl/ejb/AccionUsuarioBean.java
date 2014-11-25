@@ -86,7 +86,9 @@ public class AccionUsuarioBean
     /**
      * @generated DT_ID=none
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+
+	@SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<AccionUsuario> getAccionUsuarioFindAll() {
         return em.createNamedQuery("AccionUsuario.findAll").getResultList();
     }

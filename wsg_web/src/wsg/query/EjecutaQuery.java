@@ -8,14 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
-
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
-
-import wsg.logger.WebServiceLogger;
 import wsg.modelo.WsgServicio;
 import wsg.resultset.Transformador;
-
 import javax.ejb.Stateless;
 
 @Stateless
@@ -30,7 +26,6 @@ public class EjecutaQuery implements Serializable {
 	Properties propiedades = new Properties();
 
 	public EjecutaQuery() {
-		WebServiceLogger.getInstance().setup();
 	}
 
 	public Properties getPropiedades() {

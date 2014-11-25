@@ -13,10 +13,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.GrupoBeanRemote;
 import pnl.modelo.Grupo;
-import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
 
 
@@ -28,6 +26,11 @@ public class GrupoBean implements GrupoBeanRemote, Serializable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * @generated DT_ID=none
      */
 	@Resource
@@ -90,6 +93,7 @@ public class GrupoBean implements GrupoBeanRemote, Serializable
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Grupo> getGrupoFindAll() {
         return em.createNamedQuery("Grupo.findAll").getResultList();

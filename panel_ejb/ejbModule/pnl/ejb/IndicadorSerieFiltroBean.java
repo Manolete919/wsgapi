@@ -23,6 +23,7 @@ import pnl.modelo.IndicadorSerieFiltroPK;
 /**
  * @generated DT_ID=none
  */
+@SuppressWarnings("unchecked")
 @Stateless(name = "IndicadorSerieFiltroBean")
 public class IndicadorSerieFiltroBean
         implements IndicadorSerieFiltroBeanRemote,Serializable {

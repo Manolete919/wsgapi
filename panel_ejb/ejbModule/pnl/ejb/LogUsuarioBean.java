@@ -86,6 +86,7 @@ public class LogUsuarioBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<LogUsuario> getLogUsuarioFindAll() {
         return em.createNamedQuery("LogUsuario.findAll").getResultList();

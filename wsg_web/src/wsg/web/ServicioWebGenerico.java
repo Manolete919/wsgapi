@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
-
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -22,14 +21,11 @@ import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
-
 import org.apache.log4j.Logger;
-
 import wsg.conexion.Conexion;
 import wsg.interfaz.WsgServicioBeanRemote;
 import wsg.interfaz.WsgServiciosLogBeanRemote;
 import wsg.interfaz.WsgUsuarioServicioBeanRemote;
-import wsg.logger.WebServiceLogger;
 import wsg.modelo.WsgServicio;
 import wsg.modelo.WsgServiciosLog;
 import wsg.modelo.WsgUsuario;
@@ -49,8 +45,6 @@ public class ServicioWebGenerico {
 
 
 	public ServicioWebGenerico() {
-		WebServiceLogger.getInstance().setup();
-		System.out.println("inicializa logger");
 	}
 
 	Properties propiedades = new Properties();

@@ -3,6 +3,7 @@ package pnl.ejb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -13,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
@@ -96,7 +98,9 @@ public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
     /**
      * @generated DT_ID=none
      */
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+
+    @SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<UsuarioGrupo> getUsuarioGrupoFindAll() {
         return em.createNamedQuery("UsuarioGrupo.findAll").getResultList();
     }

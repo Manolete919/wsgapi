@@ -1,9 +1,7 @@
 package pnl.ejb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -14,9 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.UsuarioBeanRemote;
-import pnl.modelo.Filtro;
 import pnl.modelo.Usuario;
 
 
@@ -91,6 +87,7 @@ public class UsuarioBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Usuario> getUsuarioFindAll() {
         return em.createNamedQuery("Usuario.findAll").getResultList();

@@ -85,6 +85,7 @@ public class RecursosAppBean implements RecursosAppBeanRemote
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<RecursosApp> getRecursosAppFindAll() {
         return em.createNamedQuery("RecursosApp.findAll").getResultList();

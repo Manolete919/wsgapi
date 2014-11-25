@@ -253,7 +253,7 @@ public class Filtro implements Serializable {
 			if(this.getAnivelIndicador().equals("S")){
 				anivelVisual = "Indicador";
 			}else{
-				anivelVisual = "Serie";
+				anivelVisual = "Series";
 			}
 		}
 		

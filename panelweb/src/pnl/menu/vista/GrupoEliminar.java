@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -26,7 +27,10 @@ import pnl.modelo.UsuarioGrupo;
 import pnl.servicio.UsuarioServicio;
 
 @ManagedBean
+@ViewScoped
 public class GrupoEliminar implements Serializable {
+	
+	//http://jsfcorner.blogspot.com/2012/11/disabled-selection-button-for.html
 
 	/**
 	 * 
@@ -43,6 +47,8 @@ public class GrupoEliminar implements Serializable {
 	
 	@ManagedProperty("#{menuVista}")
 	private MenuVista menuVista;
+	
+	
 
 
 	@PostConstruct
@@ -176,7 +182,8 @@ public class GrupoEliminar implements Serializable {
 	public void setMenuVista(MenuVista menuVista) {
 		this.menuVista = menuVista;
 	}
-	
+
+
 
 
 }

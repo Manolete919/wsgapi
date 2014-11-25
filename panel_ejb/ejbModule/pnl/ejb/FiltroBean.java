@@ -86,6 +86,7 @@ public class FiltroBean implements FiltroBeanRemote,Serializable {
 	/**
 	 * @generated DT_ID=none
 	 */
+	@SuppressWarnings("unchecked")
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Filtro> getFiltroFindAll() {
 		return em.createNamedQuery("Filtro.findAll").getResultList();

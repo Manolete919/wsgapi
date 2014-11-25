@@ -27,7 +27,10 @@
 							paginator="true" >
 		
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-        				
+        				<p:ajax event="toggleSelect" update="btnEliminar" /> 
+        				<p:ajax event="rowSelectCheckbox" update="btnEliminar" /> 
+        				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" />  
+        				    
         				<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
         					<h:outputText value="#{filtro.nombre}" />
         				</p:column>
@@ -42,7 +45,7 @@
 						</p:column>
 						
 						<f:facet name="footer">
-							<p:commandButton value="Eliminar" disabled="#{filtrosEliminar.filtros.size()==0}" update=":form:msgs,filtroTabla"
+							<p:commandButton id="btnEliminar" value="Eliminar" disabled="#{empty filtrosEliminar.selectedFiltros}" update=":form:msgs,filtroTabla"
 								actionListener="#{filtrosEliminar.eliminarFiltrosSeleccionados}">						
 							</p:commandButton>
 						</f:facet>

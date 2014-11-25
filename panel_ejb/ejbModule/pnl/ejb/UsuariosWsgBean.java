@@ -85,6 +85,7 @@ public class UsuariosWsgBean implements UsuariosWsgBeanRemote
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<UsuariosWsg> getUsuariosWsgFindAll() {
         return em.createNamedQuery("UsuariosWsg.findAll").getResultList();

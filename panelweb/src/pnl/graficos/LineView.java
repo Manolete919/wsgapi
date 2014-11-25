@@ -96,9 +96,9 @@ public class LineView implements Serializable {
 												dinamico.getIndicador()
 														.getIdServicio()
 														.longValue(), dinamico
-														.getUsuario()
+														.getUsuario().getUsuariosWsg()
 														.getIdUsuario(),
-												dinamico.getUsuario()
+												dinamico.getUsuario().getUsuariosWsg()
 														.getClave());
 								if (servicio != null) {
 									if (servicio.get_any() != null) {

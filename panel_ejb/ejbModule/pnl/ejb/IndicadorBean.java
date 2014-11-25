@@ -11,7 +11,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import pnl.interfaz.IndicadorBeanRemote;
 import pnl.modelo.Indicador;
@@ -89,6 +88,7 @@ public class IndicadorBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Indicador> getIndicadorFindAll() {
         return em.createNamedQuery("Indicador.findAll").getResultList();

@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -36,7 +37,10 @@ import pnl.webservice.integracion.Utileria;
 import pnl.wsg.Servicio;
 
 @ManagedBean
+@ViewScoped
 public class IndicadorEliminar implements Serializable {
+	
+	//http://jsfcorner.blogspot.com/2012/11/disabled-selection-button-for.html
 
 	/**
 	 * 

@@ -4,22 +4,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.apache.log4j.Logger;
-
 import wsg.beanAbstracto.AbstractBean;
-import wsg.logger.WebServiceJPALogger;
 import wsg.modelo.WsgServicio;
 import wsg.modelo.WsgServiciosLog;
+import wsg.qualificadores.AuditorGeneral;
 
 /**
  * Session Bean implementation class WsgServiciosLogBean
  */
+@AuditorGeneral
 @Stateless
 public class WsgServiciosLogBean extends AbstractBean<WsgServiciosLog>  implements wsg.interfaz.WsgServiciosLogBeanRemote, Serializable{
 
@@ -39,7 +37,6 @@ public class WsgServiciosLogBean extends AbstractBean<WsgServiciosLog>  implemen
      */
     public WsgServiciosLogBean() {
         super(WsgServiciosLog.class);
-        WebServiceJPALogger.getInstance();
     }
 
 

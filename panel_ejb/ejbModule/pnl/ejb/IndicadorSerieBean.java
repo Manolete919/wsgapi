@@ -91,6 +91,7 @@ public class IndicadorSerieBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<IndicadorSerie> getIndicadorSerieFindAll() {
         return em.createNamedQuery("IndicadorSerie.findAll").getResultList();

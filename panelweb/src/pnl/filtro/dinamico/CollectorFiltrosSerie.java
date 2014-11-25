@@ -132,7 +132,7 @@ public class CollectorFiltrosSerie implements Serializable{
 			indicador = grupoIndicadorBeanRemote.obtieneIndicadorPorIdYUsuario(idIndicador,usuario.getIdUsuario());
 			filtroValores = new ArrayList<FiltroValorDefault>();
 			filtroValores.add(new FiltroValorDefault(null,indicador.getIdServicio().toString()));
-			filtrosConfigurados = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(idIndicador,"N");
+			filtrosConfigurados = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(idIndicador,null);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -214,7 +214,7 @@ public class CollectorFiltrosSerie implements Serializable{
 		ConsultaGenerico cg = new ConsultaGenerico();
 		Utileria u = new Utileria();		
 		try {
-			Servicio servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getIdUsuario(), usuario.getClave());
+			Servicio servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(3), usuario.getUsuariosWsg().getIdUsuario(), usuario.getUsuariosWsg().getClave());
 			if(servicio != null ){
 				if(servicio.get_any() != null ){
 					query = cg.procesaDatosIdServicio(servicio.get_any());

@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
 
-import wsg.logger.WebServiceLogger;
 
 
 
@@ -25,7 +22,6 @@ public class Conexion implements Serializable {
 
 	static Properties propiedades = new Properties();
 	public Conexion(){
-		WebServiceLogger.getInstance().setup();
 	}
 	
 

@@ -3,15 +3,15 @@
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="oraclePU" transaction-type="JTA">
-		<jta-data-source>jdbc/wsg</jta-data-source>
+		<jta-data-source>jdbc/panel</jta-data-source>
 		<class>wsg.modelo.WsgCategoria</class>
 		<class>wsg.modelo.WsgJndi</class>
 		<class>wsg.modelo.WsgQuery</class>
 		<class>wsg.modelo.WsgServicio</class>
-		<class>wsg.modelo.WsgServiciosLog</class>
 		<class>wsg.modelo.WsgUsuario</class>
 		<class>wsg.modelo.WsgUsuarioServicio</class>
 		<class>wsg.modelo.WsgUsuarioServicioPK</class>
+		<class>wsg.modelo.WsgServiciosLog</class>
 		<properties>
 			<property name="eclipselink.target-server" value="WebLogic" />
 			<!--Global logging level -->
@@ -32,7 +32,7 @@
 		</properties>
 	</persistence-unit>
 	<persistence-unit name="mySQlPU">
-		<jta-data-source>jdbc/wsg2</jta-data-source>
+		<jta-data-source>jdbc/panel2</jta-data-source>
 		<class>wsg.modelo.WsgCategoria</class>
 		<class>wsg.modelo.WsgJndi</class>
 		<class>wsg.modelo.WsgQuery</class>

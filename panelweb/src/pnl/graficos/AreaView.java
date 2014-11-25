@@ -106,7 +106,7 @@ public class AreaView implements Serializable {
 							try {
 								
 								System.out.print(Utileria.convertirDocumentToString(u.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
-								servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getIdUsuario(), dinamico.getUsuario().getClave());
+								servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getUsuariosWsg().getIdUsuario(), dinamico.getUsuario().getUsuariosWsg().getClave());
 								if(servicio != null ){
 									if(servicio.get_any() != null ){
 										datos = new ArrayList<Generico>();

@@ -91,6 +91,7 @@ public class RolBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Rol> getRolFindAll() {
         return em.createNamedQuery("Rol.findAll").getResultList();

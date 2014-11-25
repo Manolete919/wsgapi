@@ -12,12 +12,13 @@ import javax.persistence.Persistence;
 import org.apache.log4j.Logger;
 import wsg.beanAbstracto.AbstractBean;
 import wsg.interfaz.WsgJndiBeanRemote;
-import wsg.logger.WebServiceJPALogger;
 import wsg.modelo.WsgJndi;
+import wsg.qualificadores.AuditorGeneral;
 
 /**
  * Session Bean implementation class EisGrupoBean
  */
+@AuditorGeneral
 @Stateless
 public class WsgJndiBean extends AbstractBean<WsgJndi> implements WsgJndiBeanRemote, Serializable {
 
@@ -38,7 +39,6 @@ public class WsgJndiBean extends AbstractBean<WsgJndi> implements WsgJndiBeanRem
 	
     public WsgJndiBean() {
         super(WsgJndi.class);
-        WebServiceJPALogger.getInstance();
     }
     
 

@@ -14,12 +14,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.GrupoIndicadorPK;
 import pnl.modelo.Indicador;
-import pnl.modelo.UsuarioGrupo;
+
 
 
 /**
@@ -96,6 +95,7 @@ public class GrupoIndicadorBean
     /**
      * @generated DT_ID=none
      */
+	@SuppressWarnings("unchecked")
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<GrupoIndicador> getGrupoIndicadorFindAll() {
         return em.createNamedQuery("GrupoIndicador.findAll").getResultList();

@@ -19,7 +19,7 @@
 			<p:row>
 				<p:column>
 								
-					<p:dataTable id="gruposAEliminar" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" 
+					<p:dataTable id="gruposAEliminar" rowIndexVar="rowIndex" emptyMessage="No hay datos" resizableColumns="true"  value="#{grupoEliminar.usuarioGrupos}" 
 					selection="#{grupoEliminar.selectedGrupos}" rowKey="#{usuarioGrupo.id.idGrupo}" style="margin:10px;" var="usuarioGrupo" rows="5" paginator="true">
 						
 						<f:facet name="header">          				
@@ -29,7 +29,9 @@
         				
         				
         				<p:column selectionMode="multiple"  style="text-align:center"/>
-        				
+        				<p:ajax event="toggleSelect" update="btnEliminar" /> 
+        				<p:ajax event="rowSelectCheckbox"  update="btnEliminar" /> 
+        				<p:ajax event="rowUnselectCheckbox"   update="btnEliminar" />  
         				        				
 						<p:column headerText="Descripción"  footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}"  filterFunction="#{filterView.filterByName}"  >
 							<p:outputLabel required="true" requiredMessage="La descripción no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
@@ -40,7 +42,7 @@
         				</p:column>
         				
         				<f:facet name="footer">
-        					<p:commandButton id="eliminarSeleccionados" value="Eliminar" disabled="#{grupoEliminar.usuarioGrupos.size() == 0}" update=":form:msgs :form:gruposAEliminar :menuForm:lbxIndicadores"
+        					<p:commandButton id="btnEliminar" value="Eliminar" ajax="false"  disabled="#{empty grupoEliminar.selectedGrupos}" update=":form:msgs :form:gruposAEliminar :menuForm:lbxIndicadores"
 								actionListener="#{grupoEliminar.eliminarGruposSeleccionados}">						
 							</p:commandButton>
 				        </f:facet>

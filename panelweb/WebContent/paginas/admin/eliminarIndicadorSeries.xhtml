@@ -33,7 +33,9 @@
 							paginator="true">
 				
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-        			
+        			    <p:ajax event="toggleSelect" update="btnEliminar" /> 
+        				<p:ajax event="rowSelectCheckbox" update="btnEliminar" /> 
+        				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" /> 
         				
         				
         				<p:column headerText="Nombre" footerText="contiene" filterBy="#{indicadorSerie.nombre}" filterFunction="#{filterView.filterByName}"  >
@@ -45,7 +47,7 @@
 						</p:column>
         				
         				<f:facet name="footer">
-        					<p:commandButton value="Eliminar"  disabled="#{indicadorSerieEliminar.indicadorSeries.size()==0}" update=":form:msgs,seriesAElminar" actionListener="#{indicadorSerieEliminar.eliminar}" /> 											
+        					<p:commandButton id="btnEliminar" value="Eliminar"  disabled="#{empty indicadorSerieEliminar.selectedIndicadorSeries}" update=":form:msgs,seriesAElminar" actionListener="#{indicadorSerieEliminar.eliminar}" /> 											
         				</f:facet>
 						
 					</p:dataTable>
