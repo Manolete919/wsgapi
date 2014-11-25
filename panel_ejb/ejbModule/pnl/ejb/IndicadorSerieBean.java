@@ -14,9 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.IndicadorSerieBeanRemote;
-import pnl.modelo.Indicador;
 import pnl.modelo.IndicadorSerie;
 
 
@@ -100,10 +98,8 @@ public class IndicadorSerieBean
 
 
 	@Override
-	public void persistIndicadorSeries(List<IndicadorSerie> indicadorSeries,
-			Indicador indicador) throws Exception {
+	public void persistIndicadorSeries(List<IndicadorSerie> indicadorSeries) throws Exception {
 		for(IndicadorSerie indicadorSerie : indicadorSeries ){
-			indicadorSerie.setIndicador(indicador);
 			this.persistIndicadorSerie(indicadorSerie);
 		}
 		

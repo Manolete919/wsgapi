@@ -51,7 +51,7 @@ public class IndicadorSerie implements Serializable {
 
 
 	//bi-directional many-to-one association to IndicadorSerieFiltro
-	@OneToMany(mappedBy="indicadorSery",cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="indicadorSery",cascade={CascadeType.REMOVE,CascadeType.PERSIST})
 	private List<IndicadorSerieFiltro> indicadorSerieFiltros;
 
 	public IndicadorSerie() {

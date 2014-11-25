@@ -40,8 +40,7 @@ public interface IndicadorSerieBeanRemote
      */
     public List<IndicadorSerie> getIndicadorSerieFindAll();
 
-	void persistIndicadorSeries(List<IndicadorSerie> indicadorSeries,
-			Indicador indicador) throws Exception;
+	void persistIndicadorSeries(List<IndicadorSerie> indicadorSeries) throws Exception;
 
 	List<IndicadorSerie> obtenerIndicadorSeriePorIdIndicadorEstado(
 			long idIndicador, String estado)  throws Exception;

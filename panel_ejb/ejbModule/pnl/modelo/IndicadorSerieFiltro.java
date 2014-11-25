@@ -21,19 +21,14 @@ public class IndicadorSerieFiltro implements Serializable {
 	private IndicadorSerieFiltroPK id;
 	
 	//bi-directional many-to-one association to Filtro
-	@ManyToOne
+	//@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="ID_FILTRO")
 	private Filtro filtro;
 
 	@Size(max = 2000)
 	private String valor;
 	
-	@Transient
-	private boolean actualizar;
 	
-
-
-
 
 	//bi-directional many-to-one association to Indicador
 	@ManyToOne
@@ -41,7 +36,6 @@ public class IndicadorSerieFiltro implements Serializable {
 	private Indicador indicador;
 
 	//bi-directional many-to-one association to IndicadorSerie
-	//@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="ID_SERIE")
 	private IndicadorSerie indicadorSery;
 
@@ -72,13 +66,7 @@ public class IndicadorSerieFiltro implements Serializable {
 		this.valor = valor;
 	}
 
-	public boolean isActualizar() {
-		return actualizar;
-	}
 
-	public void setActualizar(boolean actualizar) {
-		this.actualizar = actualizar;
-	}
 
 	public Indicador getIndicador() {
 		return indicador;

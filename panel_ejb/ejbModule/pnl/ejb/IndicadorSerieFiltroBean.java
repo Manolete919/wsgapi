@@ -138,17 +138,28 @@ public class IndicadorSerieFiltroBean
 	@Override
 	public void persistIndicadorSerieFiltros(
 			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception {
-		// TODO Auto-generated method stub
+		
 		
 		for(IndicadorSerieFiltro indicadorSerieFiltro :indicadorSerieFiltros ){
-			if(indicadorSerieFiltro.isActualizar()){
-				this.mergeIndicadorSerieFiltro(indicadorSerieFiltro);
-			}else{
-				this.persistIndicadorSerieFiltro(indicadorSerieFiltro);
-			}
-				
+
+				this.persistIndicadorSerieFiltro (indicadorSerieFiltro);
+			
 		}
 		
 	}
+
+
+
+	@Override
+	public void mergeIndicadorSerieFiltros(
+			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception {
+		
+		for(IndicadorSerieFiltro indicadorSerieFiltro :indicadorSerieFiltros ){
+
+			this.mergeIndicadorSerieFiltro(indicadorSerieFiltro);
+		
+		}
+		
+	} 
 
 }

@@ -93,7 +93,7 @@
 
 				<f:facet name="footer">
 					<p:commandButton
-						disabled="#{collectorFiltrosIndicador.filtros.size()==0}"
+						disabled="#{empty collectorFiltrosIndicador.filtros}"
 						value="Guardar" 
 						process=":form:filtrosTable"					
 						actionListener="#{collectorFiltrosIndicador.guardarfiltros}"

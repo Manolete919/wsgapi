@@ -82,7 +82,7 @@
 				</p:column>
 				
 				<f:facet name="footer">
-				<p:commandButton  disabled="#{collectorFiltrosSerie.filtros.size()==0}" value="Guardar"  process=":form:filtrosTableSerie" update=":form:msgs,filtrosTableSerie"
+				<p:commandButton  disabled="#{empty collectorFiltrosSerie.filtros}" value="Guardar"  process=":form:filtrosTableSerie" update=":form:msgs,filtrosTableSerie"
 					actionListener="#{collectorFiltrosSerie.guardarFiltros}" />
 				</f:facet>
 

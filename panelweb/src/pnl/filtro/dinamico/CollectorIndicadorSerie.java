@@ -3,7 +3,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -13,10 +12,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
+import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
+import pnl.modelo.Filtro;
 import pnl.modelo.Indicador;
+import pnl.modelo.IndicadorSerieFiltro;
+import pnl.modelo.IndicadorSerieFiltroPK;
 import pnl.modelo.Usuario;
 import pnl.modelo.IndicadorSerie;
 import pnl.servicio.UsuarioServicio;
@@ -38,6 +40,7 @@ public class CollectorIndicadorSerie implements Serializable{
 	private Usuario usuario;
 	private GrupoIndicadorBeanRemote grupoIndicadorBeanRemote;
 	private IndicadorSerieBeanRemote indicadorSerieBeanRemote;
+	private FiltroBeanRemote filtroBeanRemote;
 	  
     
     @ManagedProperty("#{usuarioServicio}")
@@ -63,13 +66,12 @@ public class CollectorIndicadorSerie implements Serializable{
 
 			InitialContext ic = new InitialContext(pr);
 
-			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
+			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 
 			
 			indicadorSerieBeanRemote  = (IndicadorSerieBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
 			
-			
+			filtroBeanRemote = (FiltroBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
 			
 
 		
@@ -127,8 +129,47 @@ public class CollectorIndicadorSerie implements Serializable{
 	public void guardarIndicadorSeries(){
 		
   		try {
-    			List<IndicadorSerie> indicadorSeries2 = this.getIndicadorSeries();
-    			indicadorSerieBeanRemote.persistIndicadorSeries(indicadorSeries2,indicador);
+  			
+  			List<IndicadorSerieFiltro> indicadorSerieFiltros = new ArrayList<IndicadorSerieFiltro>(); 
+    		
+  			List<IndicadorSerie> indicadorSeries2 =  new ArrayList<IndicadorSerie>();
+    		
+    		List<Filtro> filtros = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(this.getIndicador().getIdIndicador(), "N");
+    			
+    			
+    			//Series a crearse, deben registrar los filtros que ya existen	
+	  			for(IndicadorSerie indicadorSerie : this.getIndicadorSeries()){        				       				
+    				
+	  				indicadorSerie.setIndicador(indicador);
+	  				
+	  				
+	  				
+    				for(Filtro filtro :filtros){
+    					
+    					filtro.setIndicador(indicador);
+    					IndicadorSerieFiltro  indicadorSerieFiltro = new IndicadorSerieFiltro();
+    					IndicadorSerieFiltroPK id = new IndicadorSerieFiltroPK();
+    					indicadorSerieFiltro.setId(id);  					
+    					indicadorSerieFiltro.setFiltro(filtro);
+    					indicadorSerieFiltro.setIndicadorSery(indicadorSerie);
+    					indicadorSerieFiltro.setIndicador(indicador);
+    								
+    					indicadorSerieFiltros.add(indicadorSerieFiltro);
+    				}  	
+    				
+    				
+    				indicadorSerie.setIndicadorSerieFiltros(indicadorSerieFiltros);
+    				indicadorSeries2.add(indicadorSerie);
+    				   				
+    			}
+	  			
+	  			
+    			
+	  		
+	  			indicadorSerieBeanRemote.persistIndicadorSeries(indicadorSeries2);
+	  			
+    			
+    			
     			
     			indicadorSeries = new ArrayList<IndicadorSerie>();
 

@@ -39,6 +39,12 @@
 							<p:outputLabel required="true" requiredMessage="El orden no debe estar vacio"
 								value="#{filtro.indiceFiltro}" />
 						</p:column>
+						
+						<p:column headerText="Valor">					
+							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
+							<p:commandButton rendered="#{filtro.anivelIndicador=='N'}" update=":form:serieFiltroValorDetalle"
+										oncomplete="PF('seriesFiltrosValorDialogo').show()" value="Ver" icon="ui-icon-search" />
+						</p:column>
 
 						<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
 							<p:outputLabel
@@ -53,6 +59,13 @@
 			
 		</p:panelGrid>
 
+		<p:dialog header=" Info: filtros de series" widgetVar="seriesFiltrosValorDialogo"
+			appendTo="@(body)" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="false">
+			<p:outputPanel id="serieFiltroValorDetalle" style="text-align:center;">
+				
+			</p:outputPanel>
+		</p:dialog>
 	
 
 

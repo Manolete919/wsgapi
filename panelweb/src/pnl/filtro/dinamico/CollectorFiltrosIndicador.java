@@ -147,10 +147,17 @@ public class CollectorFiltrosIndicador implements Serializable{
 
 	public void guardarfiltros(){
 				
+  			List<Filtro> filtros2 = new ArrayList<Filtro>();
   			
 		try {
+			
+			for(Filtro filtro : this.getFiltros()){
+				filtro.setIndicador(indicador);
+				filtros2.add(filtro);
+				
+			}
 	
-			filtroBeanRemote.persistFiltros(this.getFiltros(),indicador);
+			filtroBeanRemote.persistFiltros(filtros2);
 			filtros = new ArrayList<Filtro>();
 			filtro = new Filtro();
 			addMessage("Datos Guardados exitosamente");

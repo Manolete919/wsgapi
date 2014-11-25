@@ -42,7 +42,10 @@ public interface IndicadorSerieFiltroBeanRemote
 	List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicador(
 			long idIndicador) throws Exception;
 
+	void mergeIndicadorSerieFiltros(
+			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
+
 	void persistIndicadorSerieFiltros(
-			List<IndicadorSerieFiltro> getpSerieParametros) throws Exception;
+			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
 
 }

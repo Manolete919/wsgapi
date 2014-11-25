@@ -73,11 +73,9 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 					.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 			
 			
-			indicadorSerieFiltroBeanRemote = (IndicadorSerieFiltroBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieFiltroBean");
+			indicadorSerieFiltroBeanRemote = (IndicadorSerieFiltroBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieFiltroBean");
 			
-			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
+			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
 			
 			filtroBeanRemote = (FiltroBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
@@ -113,7 +111,7 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 			for(Filtro filtro :filtros){
 				
 				IndicadorSerieFiltro  indicadorSerieFiltro = new IndicadorSerieFiltro();
-				indicadorSerieFiltro.setActualizar(true);
+				//indicadorSerieFiltro.setActualizar(true);
 				//para busqueda
 				IndicadorSerieFiltroPK pSerieParametroPK = new IndicadorSerieFiltroPK();
 				
@@ -129,13 +127,13 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 					
 					indicadorSerieFiltro = new IndicadorSerieFiltro();
 					indicadorSerieFiltro.setId(pSerieParametroPK);
-					indicadorSerieFiltro.setActualizar(false);
+					//indicadorSerieFiltro.setActualizar(false);
 					indicadorSerieFiltro.setIndicadorSery(indicadorSerie);
 					indicadorSerieFiltro.setIndicador(indicador);
 					indicadorSerieFiltro.setFiltro(filtro);
 					
 				}else{
-					indicadorSerieFiltro.setActualizar(true);
+					//indicadorSerieFiltro.setActualizar(true);
 				}
 				
 				indicadorSerieFiltros.add(indicadorSerieFiltro);
@@ -190,7 +188,7 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 	public void guardarFiltrosSeries(){
 				
 		try{
-			indicadorSerieFiltroBeanRemote.persistIndicadorSerieFiltros(this.getIndicadorSerieFiltros());
+			indicadorSerieFiltroBeanRemote.mergeIndicadorSerieFiltros(this.getIndicadorSerieFiltros());
 			addMessage("Se grabo exitosamente",FacesMessage.SEVERITY_INFO);
 		}catch (Exception e){
 			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);

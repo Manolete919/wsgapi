@@ -68,7 +68,7 @@ public class Filtro implements Serializable {
 	private Indicador indicador;
 
 	// bi-directional many-to-one association to IndicadorSerieFiltro
-	@OneToMany(mappedBy = "filtro")
+	@OneToMany(mappedBy = "filtro",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	private List<IndicadorSerieFiltro> indicadorSerieFiltros;
 
 	public Filtro() {
