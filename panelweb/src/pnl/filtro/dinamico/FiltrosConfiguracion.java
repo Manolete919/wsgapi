@@ -17,7 +17,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import pnl.interfaz.FiltroBeanRemote;
+import pnl.interfaz.IndicadorSerieFiltroBeanRemote;
 import pnl.modelo.Filtro;
+import pnl.modelo.IndicadorSerieFiltro;
 import pnl.servicio.UsuarioServicio;
 
 @ManagedBean
@@ -31,6 +33,9 @@ public class FiltrosConfiguracion implements Serializable{
 	private List<Filtro> filtros;
 	private List<Filtro> filtrosConfigurados;
 	private FiltroBeanRemote filtroBeanRemote;
+	private IndicadorSerieFiltroBeanRemote indicadorSerieFiltroBeanRemote;
+	private Filtro selectedFiltro;
+	private List<IndicadorSerieFiltro> indicadorSerieFiltros;
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
@@ -52,9 +57,9 @@ public class FiltrosConfiguracion implements Serializable{
 
 			InitialContext ic = new InitialContext(pr);
 
-			filtroBeanRemote = (FiltroBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
+			filtroBeanRemote = (FiltroBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/FiltroBean");
 			
+			indicadorSerieFiltroBeanRemote = (IndicadorSerieFiltroBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieFiltroBean");
 			
 
 		} catch (Exception e) {
@@ -128,10 +133,10 @@ public class FiltrosConfiguracion implements Serializable{
 	}
 	
 	public void obtenerConfigurados(){
+		
        	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();       
      	String idIndicador = (String) params.get("idIndicador"); 
      	
-     	System.out.println("INDICADOR --> " + idIndicador);
      	
 		try {
 			filtrosConfigurados = filtroBeanRemote.obtenerFiltrosDeIndicadorPorIndicadorNivel(new Long(idIndicador),null);
@@ -140,9 +145,32 @@ public class FiltrosConfiguracion implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	
+	
+
 
 	public List<Filtro> getFiltrosConfigurados() {
 		return filtrosConfigurados;
+	}
+
+	public Filtro getSelectedFiltro() {
+		return selectedFiltro;
+	}
+
+	public void setSelectedFiltro(Filtro selectedFiltro) {
+		
+		try {
+			indicadorSerieFiltros = indicadorSerieFiltroBeanRemote.obtenerSerieFiltrosPorIdIndicadorIdFiltro(selectedFiltro.getIndicador().getIdIndicador(), selectedFiltro.getIdFiltro());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		this.selectedFiltro = selectedFiltro;
+	}
+
+	public List<IndicadorSerieFiltro> getIndicadorSerieFiltros() {
+		return indicadorSerieFiltros;
 	}
 
 

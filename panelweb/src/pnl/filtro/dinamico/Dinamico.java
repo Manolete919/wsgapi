@@ -104,8 +104,7 @@ public class Dinamico implements Serializable {
 
 			indicador = grupoIndicadorBeanRemote.obtieneIndicadorPorIdYUsuario(idIndicador,usuario.getIdUsuario());
 		
-			indicadorSerieFiltros = indicadorSerieFiltroBeanRemote
-					.obtenerSerieFiltrosPorIdIndicador(idIndicador);
+			indicadorSerieFiltros = indicadorSerieFiltroBeanRemote.obtenerSerieFiltrosPorIdIndicadorIdFiltro(idIndicador,-1);
 
 			indicadorSeries = indicadorSerieBeanRemote.obtenerIndicadorSeriePorIdIndicadorEstado(idIndicador,"A");
 

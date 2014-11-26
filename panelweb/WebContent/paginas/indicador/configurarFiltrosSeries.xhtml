@@ -33,10 +33,10 @@
 						style="margin:10px;" var="indicadorSerieFiltro" rows="5"
 							paginator="true" >
 							
-						<p:column headerText="Serie" >
+						<p:column headerText="Serie" footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
 							<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}" />
 						</p:column>
-						<p:column headerText="Filtro">
+						<p:column headerText="Filtro" footerText="contiene" filterBy="#{indicadorSerieFiltro.filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 							<h:outputText
 								value="#{indicadorSerieFiltro.filtro.nombre}" />
 						</p:column>

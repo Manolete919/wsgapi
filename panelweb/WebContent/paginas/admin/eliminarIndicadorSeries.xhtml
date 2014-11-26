@@ -19,7 +19,7 @@
 		
 			<f:facet name="header">
 				<p:row>
-					<p:column>Borrado de Series</p:column>
+					<p:column>Borrado de Series de indicador</p:column>
 				</p:row>
 			</f:facet>
 
@@ -29,7 +29,7 @@
 
 
 					<p:dataTable id="seriesAElminar" value="#{indicadorSerieEliminar.indicadorSeries}" selection="#{indicadorSerieEliminar.selectedIndicadorSeries}" rowKey="#{indicadorSerie.idSerie}"
-						style="margin:10px;" var="indicadorSerie" rows="5"
+						style="margin:10px;" var="indicadorSerie" rows="5" emptyMessage="No hay series configuradas"
 							paginator="true">
 				
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>

@@ -126,9 +126,15 @@
 					<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 						<h:outputText value="#{filtro.nombre}" />
 					</p:column>
-					<p:column headerText="Valor">					
-							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
-							<p:commandButton rendered="#{filtro.anivelIndicador=='N'}" value="Ver" icon="ui-icon-search" />
+					
+					<p:column headerText="Valor">		
+								
+						<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
+						
+			             <p:commandButton rendered="#{filtro.anivelIndicador=='N'}" immediate="true" update=":form:serieFiltroValorDetalle4" oncomplete="PF('seriesFiltrosValorDialogo4').show()" icon="ui-icon-search" title="Ver detalle">
+			                <f:setPropertyActionListener value="#{filtro}" target="#{collectorFiltrosIndicador.selectedFiltro}" />
+			            </p:commandButton>
+		            							
 					</p:column>
 					
 					<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
@@ -139,6 +145,28 @@
 				</p:dataTable>
 			</p:outputPanel>
 		</p:dialog>
+		
+		<p:dialog header=" Info: filtros de series" widgetVar="seriesFiltrosValorDialogo4"
+			 showEffect="fade" hideEffect="fade"
+			resizable="false">
+			<p:outputPanel id="serieFiltroValorDetalle4"  style="text-align:center;">
+		        
+		            
+		            <p:dataTable value="#{collectorFiltrosIndicador.indicadorSerieFiltrosConfigurados}" style="width:600px;" var="indicadorSerieFiltro">
+		            	<p:column headerText="Serie"  footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
+		            		<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}"/>
+		            	</p:column>
+		            	<p:column headerText="Filtro">
+		            		<h:outputText value="#{indicadorSerieFiltro.filtro.nombre}"/>
+		            	</p:column>
+		            	<p:column headerText="Valor">
+		            		<h:outputText value="#{indicadorSerieFiltro.valor}"/>
+		            	</p:column>
+		            </p:dataTable>
+	           
+			</p:outputPanel>
+		</p:dialog>
+		
 
 	</ui:define>
 

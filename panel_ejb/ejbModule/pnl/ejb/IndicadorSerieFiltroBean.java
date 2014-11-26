@@ -103,21 +103,35 @@ public class IndicadorSerieFiltroBean
 
 
 	@Override
-	public List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicador(
-			long idIndicador) throws Exception {
+	public List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicadorIdFiltro(long idIndicador, long idFiltro) throws Exception {
 		
 		try{
 			String queryStr = "SELECT isf FROM IndicadorSerieFiltro isf  " 
 					+ " LEFT JOIN isf.filtro f "
 					+ " LEFT JOIN f.indicador i "
+					+ " LEFT JOIN isf.indicadorSery s "
 					+ " WHERE i.idIndicador = :idIndicador ";
 					
 					
+			if(idFiltro != -1){
+				
+				queryStr+= " AND f.idFiltro = :idFiltro ";
+				
+			}
+			
+			queryStr+= " ORDER BY s.idSerie, f.indiceFiltro ";
 
 			TypedQuery<IndicadorSerieFiltro> query = em.createQuery(queryStr,
 					IndicadorSerieFiltro.class);
 
 			query.setParameter("idIndicador", idIndicador);
+			
+			if(idFiltro != -1){
+				
+				query.setParameter("idFiltro", idFiltro);
+				
+			}
+			
 			
 			
 
@@ -160,6 +174,7 @@ public class IndicadorSerieFiltroBean
 		
 		}
 		
-	} 
+	}
+
 
 }

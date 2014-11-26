@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,9 +12,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
+import pnl.interfaz.IndicadorSerieFiltroBeanRemote;
 import pnl.modelo.Indicador;
 import pnl.modelo.Filtro;
 import pnl.modelo.IndicadorSerie;
@@ -46,6 +49,9 @@ public class CollectorFiltrosSerie implements Serializable{
 	private int indiceTipoEntrada; 
     private List<Filtro> filtros;
 	private List<IndicadorSerieFiltro> indicadorSerieFiltros;
+	private IndicadorSerieFiltroBeanRemote indicadorSerieFiltroBeanRemote;
+	private List<IndicadorSerieFiltro> indicadorSerieFiltrosConfigurados;
+	private Filtro selectedFiltro;
     private Usuario usuario;
  
     private String query;
@@ -78,6 +84,7 @@ public class CollectorFiltrosSerie implements Serializable{
 
 			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 	
+			indicadorSerieFiltroBeanRemote = (IndicadorSerieFiltroBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieFiltroBean");
 			
 			indicadorSerieBeanRemote = (IndicadorSerieBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorSerieBean");
 
@@ -266,5 +273,31 @@ public class CollectorFiltrosSerie implements Serializable{
 		}
 	}
 
+
+	public Filtro getSelectedFiltro() {
+		return selectedFiltro;
+	}
+
+
+	public void setSelectedFiltro(Filtro selectedFiltro) {
+		
+		try {
+			indicadorSerieFiltrosConfigurados = indicadorSerieFiltroBeanRemote.obtenerSerieFiltrosPorIdIndicadorIdFiltro(selectedFiltro.getIndicador().getIdIndicador(), selectedFiltro.getIdFiltro());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
+		this.selectedFiltro = selectedFiltro;
+	}
+
+
+	public List<IndicadorSerieFiltro> getIndicadorSerieFiltrosConfigurados() {
+		return indicadorSerieFiltrosConfigurados;
+	}
+
+	
+	
     
 }

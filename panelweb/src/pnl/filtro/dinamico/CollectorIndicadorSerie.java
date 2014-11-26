@@ -228,8 +228,6 @@ public class CollectorIndicadorSerie implements Serializable{
 			indicadorSeries = indicadorSerieBeanRemote.obtenerIndicadorSeriePorIdIndicadorEstado(selectedIndicador.getIdIndicador(), null);
 			selectedIndicador.setIndicadorSeries(indicadorSeries);
 			this.selectedIndicador = selectedIndicador;
-			
-			System.out.println("TAMANO LISTA " + this.getSelectedIndicador().getIndicadorSeries().size());
 		
 		} catch (Exception e) {
 			addMessage("Hubieron errores",FacesMessage.SEVERITY_ERROR);

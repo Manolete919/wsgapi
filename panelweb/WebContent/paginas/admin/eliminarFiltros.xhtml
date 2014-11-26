@@ -17,7 +17,7 @@
 		<p:panelGrid style="margin-top:20px">
 			<f:facet name="header">
 				<p:row>
-					<p:column>Borrado de Filtros</p:column>
+					<p:column>Borrado de Filtros de indicador</p:column>
 				</p:row>
 			</f:facet>
 			<p:row>
@@ -29,15 +29,27 @@
         				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
         				<p:ajax event="toggleSelect" update="btnEliminar" /> 
         				<p:ajax event="rowSelectCheckbox" update="btnEliminar" /> 
-        				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" />  
+        				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" /> 
+        				
+        				<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
+        					<h:outputText value="#{filtro.indiceFiltro}" />
+        				</p:column> 
         				    
         				<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
         					<h:outputText value="#{filtro.nombre}" />
         				</p:column>
         				
-        				<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
-        					<h:outputText value="#{filtro.indiceFiltro}" />
-        				</p:column>
+        				<p:column headerText="Valor">		
+									
+							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
+							
+				             <p:commandButton rendered="#{filtro.anivelIndicador=='N'}" update=":form:serieFiltroValorDetalle2" oncomplete="PF('seriesFiltrosValorDialogo2').show()" icon="ui-icon-search" title="Ver detalle">
+				                <f:setPropertyActionListener value="#{filtro}" target="#{filtrosEliminar.selectedFiltro}" />
+				            </p:commandButton>
+			            							
+						</p:column>
+        				
+
         				
 						<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
 							<p:outputLabel
@@ -54,6 +66,28 @@
 				</p:column>
 			</p:row>
 		</p:panelGrid>
+		
+				<p:dialog header=" Info: filtros de series" widgetVar="seriesFiltrosValorDialogo2"
+			 showEffect="fade" hideEffect="fade"
+			resizable="false">
+			
+			<p:outputPanel id="serieFiltroValorDetalle2"  style="text-align:center;">
+		        
+		            
+		            <p:dataTable value="#{filtrosEliminar.indicadorSerieFiltros}" style="width:600px;" var="indicadorSerieFiltro">
+		            	<p:column headerText="Serie"  footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
+		            		<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}"/>
+		            	</p:column>
+		            	<p:column headerText="Filtro">
+		            		<h:outputText value="#{indicadorSerieFiltro.filtro.nombre}"/>
+		            	</p:column>
+		            	<p:column headerText="Valor">
+		            		<h:outputText value="#{indicadorSerieFiltro.valor}"/>
+		            	</p:column>
+		            </p:dataTable>
+	           
+			</p:outputPanel>
+		</p:dialog>
 
 	</ui:define>
 

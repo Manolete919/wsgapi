@@ -105,9 +105,7 @@ public class FiltrosIndicadorConfiguracion {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/area.xhtml"+parametros);
 			} else if (idModelo.equals("3")) {
 				context.redirect(context.getRequestContextPath()+"/paginas/graficos/linea.xhtml"+parametros);
-			} else if (idModelo.equals("4")) { 
-				context.redirect(context.getRequestContextPath()+"/paginas/graficos/pastel.xhtml"+parametros);
-			} 
+			}
 		
 		
 		

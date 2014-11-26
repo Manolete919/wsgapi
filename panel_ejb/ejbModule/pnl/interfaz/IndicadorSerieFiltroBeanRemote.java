@@ -39,13 +39,12 @@ public interface IndicadorSerieFiltroBeanRemote
      */
     public List<IndicadorSerieFiltro> getIndicadorSerieFiltroFindAll();
 
-	List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicador(
-			long idIndicador) throws Exception;
+	public List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicadorIdFiltro(long idIndicador,long idFiltro) throws Exception;
 
-	void mergeIndicadorSerieFiltros(
-			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
+	public void mergeIndicadorSerieFiltros(List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
 
-	void persistIndicadorSerieFiltros(
-			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
+	public void persistIndicadorSerieFiltros(List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
+
+	
 
 }
