@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		
+		<center>
+			<p:panelGrid>
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="4">Historial de usuario</p:column>
+					</p:row>
+				</f:facet>
+					<p:row>
+						<p:column>Usuario:</p:column>
+						<p:column>     
+							<p:selectOneMenu id="usuarioSelect" value="#{selectOneMenuView.console}">
+					            <f:selectItem itemLabel="Elija un usuario" itemValue="" />					          
+					            <f:selectItem itemLabel="MGARCIA" itemValue="Manuel 1" />
+					            <f:selectItem itemLabel="MGARCIA2" itemValue="Manuel 2" />
+					        </p:selectOneMenu>
+				        </p:column>	
+				        
+				        <p:column>Actividad:</p:column>
+				        <p:column>     
+							<p:selectOneMenu id="actividadSelect" value="#{selectOneMenuView.console}">
+					            <f:selectItem itemLabel="Todas" itemValue="" />					          
+					            <f:selectItem itemLabel="Crear" itemValue="Crear" />
+					            <f:selectItem itemLabel="Actualizacion" itemValue="Actualizacion" />
+					        </p:selectOneMenu>
+				        </p:column>	
+				        				
+					</p:row>
+					
+					<p:row>
+						<p:column>Recurso:</p:column>
+						<p:column>     
+							<p:selectOneMenu id="recursoSelect" value="#{selectOneMenuView.console}">
+					            <f:selectItem itemLabel="Todos" itemValue="" />					          
+					            <f:selectItem itemLabel="Grupo" itemValue="grupo" />
+					            <f:selectItem itemLabel="Indicador" itemValue="indicador" />
+					        </p:selectOneMenu>
+				        </p:column>	
+						<p:column>Contiene:</p:column>
+						<p:column><p:inputText  value=""/></p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column>Fecha inicial:</p:column>
+						<p:column><p:inputText value="" /> </p:column>
+						<p:column>Fecha final:</p:column>
+						<p:column><p:inputText  value=""/></p:column>
+					</p:row>
+					
+					
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="4">
+							<center>
+								<p:commandButton id="buscar" value="Buscar" icon="ui-icon-search" ajax="false"/>
+							</center>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+		</center>
+	</ui:define>
+
+</ui:composition>
