@@ -46,8 +46,7 @@ public class UsuarioServicio implements Serializable {
 
 			InitialContext ic = new InitialContext(pr);
 
-			usuarioBeanRemote = (UsuarioBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioBean");
+			usuarioBeanRemote = (UsuarioBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioBean");
 			
 			usuario = usuarioBeanRemote.obtieneUsuarioPorId(idUsuario);
 			

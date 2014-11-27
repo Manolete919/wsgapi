@@ -24,7 +24,7 @@ public class LogUsuario implements Serializable {
 	@Column(name="ID_LOG_USUARIO")
 	private long idLogUsuario;
 
-	@Lob
+
 	private String detalle;
 
 	@Temporal(TemporalType.TIMESTAMP)

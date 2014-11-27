@@ -98,7 +98,7 @@ public class UsuarioBean
 	@Override
 	public Usuario obtieneUsuarioPorId(String idUsuario) throws Exception {
 		try {
-			String queryStr = "SELECT u FROM Usuario u  WHERE u.idUsuario = :idUsuario";
+			String queryStr = "SELECT u FROM Usuario u  WHERE UPPER(TRIM(u.idUsuario)) = UPPER(TRIM(:idUsuario))";
 					
 
 			TypedQuery<Usuario> query = em.createQuery(queryStr, Usuario.class);

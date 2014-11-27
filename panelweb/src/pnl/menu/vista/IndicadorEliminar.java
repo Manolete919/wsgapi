@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -136,8 +137,8 @@ public class IndicadorEliminar implements Serializable {
 		this.menuVista = menuVista;
 	}
 
-	public void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+	public void addMessage(String summary,Severity severity) {
+		FacesMessage message = new FacesMessage(severity,
 				summary, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
@@ -151,18 +152,18 @@ public class IndicadorEliminar implements Serializable {
 
 				indicadorBeanRemote.removeIndicadores(this.getSelectedIndicadores());
 
-				addMessage("Se eliminaron exitosamente!!");
+				addMessage("Se eliminaron exitosamente!!",FacesMessage.SEVERITY_INFO);
 
 				menuVista.actualizarMenu();
 				//recalcular
 				indicadores = grupoIndicadorBeanRemote.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
 
 			} catch (Exception e) {
-
+				addMessage("Hubieron errores!",FacesMessage.SEVERITY_ERROR);
 			}
 
 		} else {
-			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!");
+			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_INFO);
 		}
 
 	}

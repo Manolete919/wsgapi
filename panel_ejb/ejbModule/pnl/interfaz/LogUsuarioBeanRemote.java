@@ -1,7 +1,10 @@
 package pnl.interfaz;
 
+import java.util.Date;
 import java.util.List;
+
 import javax.ejb.Remote;
+
 import pnl.modelo.LogUsuario;
 
 
@@ -36,5 +39,11 @@ public interface LogUsuarioBeanRemote
      * @generated DT_ID=none
      */
     public List<LogUsuario> getLogUsuarioFindAll();
+
+	public List<LogUsuario> obtenerHistorial(String idUsuario, long idRecursosApp,
+			long idAccionUsuario, String palabraClave, Date fechaInicial,
+			Date fechaFinal) throws Exception;
+
+	
 
 }
