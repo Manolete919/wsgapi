@@ -11,12 +11,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,7 +37,7 @@ import pnl.servicio.UsuarioServicio;
 
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class GrupoNuevo implements Serializable{
 
 	/**
@@ -146,8 +145,7 @@ public class GrupoNuevo implements Serializable{
         		grupo = new Grupo();
         		grupo.setEstado("A");
         		usuarioGrupo.setGrupo(grupo);
-        		
-        		
+         		
         		logger.info("GRABO EXITOSAMENTE");
             	
                 addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
