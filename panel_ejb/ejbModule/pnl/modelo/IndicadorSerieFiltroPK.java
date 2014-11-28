@@ -14,18 +14,15 @@ public class IndicadorSerieFiltroPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 	
-	@Basic(optional = false)
-	@NotNull
+
 	@Column(name="ID_INDICADOR", insertable=false, updatable=false)
 	private long idIndicador;
 
-	@Basic(optional = false)
-	@NotNull
+
 	@Column(name="ID_SERIE", insertable=false, updatable=false)
 	private long idSerie;
 	
-	@Basic(optional = false)
-	@NotNull
+
 	@Column(name="ID_FILTRO", insertable=false, updatable=false)
 	private long idFiltro;
 

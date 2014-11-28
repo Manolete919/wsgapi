@@ -1,24 +1,36 @@
 package pnl.menu.vista;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import pnl.interfaz.AccionUsuarioBeanRemote;
+import pnl.interfaz.LogUsuarioBeanRemote;
+import pnl.interfaz.RecursosAppBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
+import pnl.modelo.AccionUsuario;
 import pnl.modelo.Grupo;
+import pnl.modelo.LogUsuario;
+import pnl.modelo.RecursosApp;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
@@ -26,6 +38,7 @@ import pnl.servicio.UsuarioServicio;
 
 
 @ManagedBean
+@ViewScoped
 public class GrupoNuevo implements Serializable{
 
 	/**
@@ -38,6 +51,12 @@ public class GrupoNuevo implements Serializable{
 	
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
 	private List<UsuarioGrupo> usuarioGrupos = new ArrayList<UsuarioGrupo>();
+	private LogUsuarioBeanRemote logUsuarioBeanRemote;
+	private RecursosAppBeanRemote recursosAppBeanRemote;
+	private RecursosApp recursosApp;
+	private AccionUsuarioBeanRemote accionUsuarioBeanRemote;
+	private AccionUsuario accionUsuario;
+	private LogUsuario logUsuario;
     private Usuario usuario;
     private UsuarioGrupo usuarioGrupo;
     private Grupo grupo;
@@ -73,14 +92,21 @@ public class GrupoNuevo implements Serializable{
 
 			InitialContext ic = new InitialContext(pr);
 
-			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
 			
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
 			
+			logUsuarioBeanRemote = (LogUsuarioBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/LogUsuarioBean");
 			
+			recursosAppBeanRemote  = (RecursosAppBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/RecursosAppBean");
 
-		} catch (Exception e) {
+			recursosApp = recursosAppBeanRemote.obtenerRecursosAppPorId(1l);
+			
+			accionUsuarioBeanRemote = (AccionUsuarioBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/AccionUsuarioBean");
+		
+			accionUsuario = accionUsuarioBeanRemote.obtenerAccionUsuario(1l);
+    	
+    	} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
@@ -91,11 +117,7 @@ public class GrupoNuevo implements Serializable{
     public void guardarUsuarioGrupo(ActionEvent actionEvent) {
     	
     	
-    	
-    	//HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
-    	//if (request.getRequestedSessionId() != null && !request.isRequestedSessionIdValid()) {
-    	    // Session has been invalidated during the previous request.
         	UsuarioGrupoPK id = new UsuarioGrupoPK();
         	
         	if(this.hasRole("ROLE_ADMIN")){
@@ -105,13 +127,27 @@ public class GrupoNuevo implements Serializable{
         		usuarioGrupo.setEstado("A");
         		usuarioGrupoBeanRemote.persistUsuarioGrupo(usuarioGrupo);
         		
+        		
+        		
+        		Date d = new Date();
+                Calendar c = Calendar.getInstance();
+                c.setTime(d);
+            	
+        		
+        		logUsuario = new LogUsuario();
+        		logUsuario.setUsuario(usuarioServicio.getUsuario());
+        		logUsuario.setFecha(c.getTime());
+        		logUsuario.setAccionUsuario(accionUsuario);
+        		logUsuario.setRecursosApp(recursosApp);
+        		logUsuario.setIdSesion(usuarioServicio.getSession().getId());
+        		logUsuario.setDetalle(usuarioGrupo.getGrupo().getDescripcion());
+        		logUsuarioBeanRemote.persistLogUsuario(logUsuario);
+        		
         		grupo = new Grupo();
         		grupo.setEstado("A");
         		usuarioGrupo.setGrupo(grupo);
-            	
         		
         		
-
         		logger.info("GRABO EXITOSAMENTE");
             	
                 addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
@@ -190,6 +226,5 @@ public class GrupoNuevo implements Serializable{
 
 	
 
-    
     
 }

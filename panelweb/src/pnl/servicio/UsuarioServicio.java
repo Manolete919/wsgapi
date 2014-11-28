@@ -6,8 +6,10 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,8 +67,12 @@ public class UsuarioServicio implements Serializable {
 
 
 
-
 	
+	public HttpSession getSession() {
+
+		return (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+	}
 	
 	
 	

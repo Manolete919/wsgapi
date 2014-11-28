@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="Panel-EJB" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<jta-data-source>jdbc/panel</jta-data-source>
+		<jta-data-source>jdbc/panel2</jta-data-source>
 		<class>pnl.modelo.Filtro</class>
 		<class>pnl.modelo.Grupo</class>
 		<class>pnl.modelo.GrupoIndicador</class>

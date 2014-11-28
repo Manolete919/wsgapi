@@ -172,6 +172,8 @@ public class CollectorFiltrosSerie implements Serializable{
   
    			
    				for(Filtro filtro :filtros){
+   					
+   					
 					
    					//inicializa el array de serie filt
    					indicadorSerieFiltros = new ArrayList<IndicadorSerieFiltro>();
@@ -194,7 +196,7 @@ public class CollectorFiltrosSerie implements Serializable{
    					
 				}  
     			
-    			
+    			System.out.println(" CANTIDAD DE FILTROS A GUARDAR " + filtros2.size());
     			
     			
     			//cada uno de los filtros deben agregar seccion e indicador
@@ -203,6 +205,7 @@ public class CollectorFiltrosSerie implements Serializable{
     			addMessage("Datos Guardados exitosamente");
     			filtro = new Filtro();
     			filtros = new ArrayList<Filtro>();
+    			
     			
     		} catch (Exception e) {
     			// TODO Auto-generated catch block

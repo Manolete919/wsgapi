@@ -1,7 +1,9 @@
 package pnl.interfaz;
 
 import java.util.List;
+
 import javax.ejb.Remote;
+
 import pnl.modelo.RecursosApp;
 
 
@@ -36,5 +38,8 @@ public interface RecursosAppBeanRemote
      * @generated DT_ID=none
      */
     public List<RecursosApp> getRecursosAppFindAll();
+    
+    public RecursosApp obtenerRecursosAppPorId(long idRecursosApp) throws Exception;
+    
 
 }

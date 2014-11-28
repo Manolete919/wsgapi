@@ -21,11 +21,10 @@ public class IndicadorSerieFiltro implements Serializable {
 	private IndicadorSerieFiltroPK id;
 	
 	//bi-directional many-to-one association to Filtro
-	//@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="ID_FILTRO")
 	private Filtro filtro;
 
-	@Size(max = 2000)
+
 	private String valor;
 	
 	
