@@ -125,6 +125,12 @@ public class LogUsuarioBean
 				query.setParameter("idRecursosApp", idRecursosApp);
 			if(idAccionUsuario != -1 )
 				query.setParameter("idAccionUsuario", idAccionUsuario);
+			
+			if(palabraClave!= null){
+				if(palabraClave.equals("")){
+					palabraClave = null;
+				}
+			}
 			query.setParameter("palabraClave", palabraClave);
 			query.setParameter("fechaInicial", fechaInicial);
 			query.setParameter("fechaFinal", fechaFinal);

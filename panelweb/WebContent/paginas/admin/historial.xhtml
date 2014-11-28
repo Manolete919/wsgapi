@@ -72,7 +72,7 @@
 					<p:row>
 						<p:column colspan="4">
 							<center>
-								<p:commandButton id="buscar" value="Buscar" actionListener="#{historial.consultar}" icon="ui-icon-search" update="logTabla msgs" />
+								<p:commandButton id="buscar" value="Buscar" actionListener="#{historial.consultar}" icon="ui-icon-search" update="logTabla usuariosSelect  accionUsuarioSelect recursoAppSelect  msgs" />
 								<p:commandButton id="btn_resetLog" value="Resetear" type="reset" />
 							</center>
 						</p:column>
@@ -91,7 +91,7 @@
 	        
 	        	<p:column filterBy="#{logUsuario.usuario.idUsuario}" headerText="Usuarios" footerText="exacto" filterMatchMode="exact">
 		            <f:facet name="filter">
-		                <p:selectOneMenu onchange="PF('historialTabla').filter()" >
+		                <p:selectOneMenu id="usuariosSelect" onchange="PF('historialTabla').filter()" >
 		                    <f:selectItem itemLabel="Todos" noSelectionOption="true" itemValue="#{null}" />
 							<f:selectItems value="#{historial.usuariosSelect}" />				
 		                </p:selectOneMenu>
@@ -103,7 +103,7 @@
 				
 				<p:column filterBy="#{logUsuario.accionUsuario.idAccionUsuario}" headerText="Actividad" footerText="exacto" filterMatchMode="exact">
 		            <f:facet name="filter">
-		                <p:selectOneMenu onchange="PF('historialTabla').filter()" >
+		                <p:selectOneMenu id="accionUsuarioSelect" onchange="PF('historialTabla').filter()" >
 		                    <f:selectItem itemLabel="Todas" noSelectionOption="true" itemValue="#{null}" />
 							<f:selectItems value="#{historial.accionUsuarioSelect}" />					
 		                </p:selectOneMenu>
@@ -113,7 +113,7 @@
 				
 				<p:column filterBy="#{logUsuario.recursosApp.idRecursosApp}" headerText="Recursos" footerText="exacto" filterMatchMode="exact">
 		            <f:facet name="filter">
-		                <p:selectOneMenu onchange="PF('historialTabla').filter()" >
+		                <p:selectOneMenu id="recursoAppSelect" onchange="PF('historialTabla').filter()" >
 		                    <f:selectItem itemLabel="Todas" noSelectionOption="true" itemValue="#{null}" />
 							<f:selectItems value="#{historial.recursoAppSelect}" />					
 		                </p:selectOneMenu>

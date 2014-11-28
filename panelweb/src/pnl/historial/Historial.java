@@ -127,7 +127,15 @@ public class Historial implements Serializable {
 					fechaInicial,
 					fechaFinal
 					);
-			addMessage("Consulta exitos",FacesMessage.SEVERITY_INFO);
+			
+			
+			if(logUsuarios.isEmpty()){
+				addMessage("La consulta no trajo resultados",FacesMessage.SEVERITY_INFO);
+			}else{
+				addMessage(logUsuarios.size() + " registros recuperados",FacesMessage.SEVERITY_INFO);
+			}
+			
+			
 		} catch (Exception e) {
 			addMessage("Hubieron errores en la consulta!",FacesMessage.SEVERITY_ERROR);
 			e.printStackTrace();
