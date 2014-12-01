@@ -41,5 +41,7 @@ public interface GrupoBeanRemote
     public List<Grupo> getGrupoFindAll();
 
 	public void removeGrupos(List<UsuarioGrupo> selectedGrupos) throws Exception;
+	
+	public Grupo obtenerGrupoPorId(long idGrupo) throws Exception;
 
 }

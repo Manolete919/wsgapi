@@ -18,6 +18,7 @@ import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.IndicadorSerieFiltroBeanRemote;
 import pnl.modelo.Filtro;
 import pnl.modelo.IndicadorSerieFiltro;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 @ManagedBean
 @ViewScoped
@@ -37,6 +38,9 @@ public class FiltrosEliminar  implements Serializable{
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 
 	
 	@PostConstruct
@@ -102,6 +106,7 @@ public class FiltrosEliminar  implements Serializable{
 		
 	     	
 			filtroBeanRemote.removeFiltros(this.getSelectedFiltros());
+			registraLog.registrarLog(this.getSelectedFiltros(), RegistraLog.ACCION_BORRAR, RegistraLog.RECURSO_FILTROS);
 			
 			addMessage("Los datos fueron eliminados",FacesMessage.SEVERITY_INFO);
 			
@@ -156,7 +161,9 @@ public class FiltrosEliminar  implements Serializable{
 		return indicadorSerieFiltros;
 	}
 
-
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
 
 }
 

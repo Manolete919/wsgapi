@@ -15,10 +15,12 @@ import javax.persistence.TypedQuery;
 
 import pnl.interfaz.RecursosAppBeanRemote;
 import pnl.modelo.RecursosApp;
+import pnl.qualificadores.AuditorGeneral;
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "RecursosAppBean")
 public class RecursosAppBean implements RecursosAppBeanRemote {
 

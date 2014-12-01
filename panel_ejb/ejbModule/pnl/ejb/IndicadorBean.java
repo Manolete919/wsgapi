@@ -9,16 +9,20 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import pnl.interfaz.IndicadorBeanRemote;
 import pnl.modelo.Indicador;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "IndicadorBean")
 public class IndicadorBean
         implements IndicadorBeanRemote ,Serializable {
@@ -107,7 +111,25 @@ public class IndicadorBean
 		
 	}
 
+	public Indicador obtenerIndicadorPorId(long idIndicador) throws Exception {
 
+		try {
+
+			String queryStr = "SELECT i FROM Indicador i "
+					+ " WHERE i.idIndicador = :idIndicador ";
+
+			TypedQuery<Indicador> query = em.createQuery(queryStr,
+					Indicador.class);
+
+			query.setParameter("idIndicador", idIndicador);
+			Indicador indicador = query.getSingleResult();
+			return indicador;
+
+		} catch (NoResultException nr) {
+			return null;
+		}
+
+	}
 
 
 

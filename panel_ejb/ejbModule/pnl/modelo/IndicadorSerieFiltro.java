@@ -3,7 +3,7 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+
 
 
 /**
@@ -37,6 +37,8 @@ public class IndicadorSerieFiltro implements Serializable {
 	//bi-directional many-to-one association to IndicadorSerie
 	@JoinColumn(name="ID_SERIE")
 	private IndicadorSerie indicadorSery;
+
+	
 
 	public IndicadorSerieFiltro() {
 	}

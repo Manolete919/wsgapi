@@ -8,144 +8,172 @@
 	template="/template/template.xhtml">
 	<ui:define name="overlay"></ui:define>
 	<ui:define name="content">
-	<p:growl id="msgs" showDetail="true" />
-		
+		<p:growl id="msgs" showDetail="true" />
+
 		<center>
-			<p:panelGrid id="formHistorial">
-				<f:facet name="header">
-					<p:row>
-						<p:column colspan="4">Formulario de búsqueda</p:column>
-					</p:row>
-				</f:facet>
+			<p:fieldset legend="Búsqueda" toggleable="true" toggleSpeed="500">
+				<p:panelGrid id="formHistorial">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="4">Formulario de búsqueda</p:column>
+						</p:row>
+					</f:facet>
 					<p:row>
 						<p:column>Usuario:</p:column>
-						<p:column>     					        
-					        <p:selectOneMenu id="usuarioSelect"
-								value="#{historial.idUsuario}"  effect="fold"
-								editable="false">
-								<f:selectItem itemLabel="Todos"  itemValue=""></f:selectItem>
+						<p:column>
+							<p:selectOneMenu id="usuarioSelect"
+								value="#{historial.idUsuario}" effect="fold" editable="false">
+								<f:selectItem itemLabel="Todos" itemValue=""></f:selectItem>
 								<f:selectItems value="#{historial.usuariosSelect}" />
-								
+
 							</p:selectOneMenu>
-				        </p:column>	
-				        
-				        <p:column>Actividad:</p:column>
-				        <p:column>     
-					        <p:selectOneMenu id="accionSelect"
+						</p:column>
+
+						<p:column>Actividad:</p:column>
+						<p:column>
+							<p:selectOneMenu id="accionSelect"
 								value="#{historial.idAccionUsuario}" required="true"
 								requiredMessage="Seleccione la actividad" effect="fold"
 								editable="false">
-								<f:selectItem itemLabel="Todas"  itemValue="-1"></f:selectItem>
+								<f:selectItem itemLabel="Todas" itemValue="-1"></f:selectItem>
 								<f:selectItems value="#{historial.accionUsuarioSelect}" />
 							</p:selectOneMenu>
-				        </p:column>	
-				        				
+						</p:column>
+
 					</p:row>
-					
+
 					<p:row>
 						<p:column>Recurso:</p:column>
-						<p:column>     
-					        <p:selectOneMenu id="recursoSelect"
+						<p:column>
+							<p:selectOneMenu id="recursoSelect"
 								value="#{historial.idRecursosApp}" required="true"
 								requiredMessage="Seleccione el recurso" effect="fold"
 								editable="false">
-								<f:selectItem itemLabel="Todos"  itemValue="-1"></f:selectItem>
+								<f:selectItem itemLabel="Todos" itemValue="-1"></f:selectItem>
 								<f:selectItems value="#{historial.recursoAppSelect}" />
 							</p:selectOneMenu>
-				        </p:column>	
+						</p:column>
 						<p:column>Contiene:</p:column>
 						<p:column>
-							<p:inputText id="palabraClave"   value="#{historial.palabraClave}"/>
+							<p:inputText id="palabraClave" value="#{historial.palabraClave}" />
 							<p:watermark for="palabraClave" value="% use comodines %" />
 						</p:column>
 					</p:row>
-					
+
 					<p:row>
 						<p:column>Fecha inicial:</p:column>
-						<p:column><p:calendar required="true" showButtonPanel="true" requiredMessage="Ingrese la fecha de inicio" value="#{historial.fechaInicial}" pattern="dd/MM/yyyy HH:mm:ss" showOn="button" /> </p:column>
+						<p:column>
+							<p:calendar required="true" showButtonPanel="true"
+								requiredMessage="Ingrese la fecha de inicio"
+								value="#{historial.fechaInicial}" pattern="dd/MM/yyyy HH:mm:ss"
+								showOn="button" />
+						</p:column>
 						<p:column>Fecha final:</p:column>
-						<p:column><p:calendar required="true" showButtonPanel="true"  requiredMessage="Ingrese la fecha final" value="#{historial.fechaFinal}" pattern="dd/MM/yyyy HH:mm:ss" showOn="button" /></p:column>
-					</p:row>
-					
-					
-				<f:facet name="footer">
-					<p:row>
-						<p:column colspan="4">
-							<center>
-								<p:commandButton id="buscar" value="Buscar" actionListener="#{historial.consultar}" icon="ui-icon-search" update="logTabla usuariosSelect  accionUsuarioSelect recursoAppSelect  msgs" />
-								<p:commandButton id="btn_resetLog" value="Resetear" type="reset" />
-							</center>
+						<p:column>
+							<p:calendar required="true" showButtonPanel="true"
+								requiredMessage="Ingrese la fecha final"
+								value="#{historial.fechaFinal}" pattern="dd/MM/yyyy HH:mm:ss"
+								showOn="button" />
 						</p:column>
 					</p:row>
-				</f:facet>
-			</p:panelGrid>
-			<br />
-			<p:dataTable id="logTabla" value="#{historial.logUsuarios}" widgetVar="historialTabla" var="logUsuario" emptyMessage="No hay historial" rows="5"
-							paginator="true">
-							
-			<f:facet name="header">
-	            <p:outputPanel>
-	                <h:outputText value="Historial de actividades de usuarios" />	                
-	            </p:outputPanel>
-	        </f:facet>
-	        
-	        	<p:column filterBy="#{logUsuario.usuario.idUsuario}" headerText="Usuarios" footerText="exacto" filterMatchMode="exact">
-		            <f:facet name="filter">
-		                <p:selectOneMenu id="usuariosSelect" onchange="PF('historialTabla').filter()" >
-		                    <f:selectItem itemLabel="Todos" noSelectionOption="true" itemValue="#{null}" />
-							<f:selectItems value="#{historial.usuariosSelect}" />				
-		                </p:selectOneMenu>
-		            </f:facet>
-		            <h:outputText value="#{logUsuario.usuario.nombre}" />
-		        </p:column>
-			
 
-				
-				<p:column filterBy="#{logUsuario.accionUsuario.idAccionUsuario}" headerText="Actividad" footerText="exacto" filterMatchMode="exact">
-		            <f:facet name="filter">
-		                <p:selectOneMenu id="accionUsuarioSelect" onchange="PF('historialTabla').filter()" >
-		                    <f:selectItem itemLabel="Todas" noSelectionOption="true" itemValue="#{null}" />
-							<f:selectItems value="#{historial.accionUsuarioSelect}" />					
-		                </p:selectOneMenu>
-		            </f:facet>
-		            <h:outputText value="#{logUsuario.accionUsuario.descripcion}" />
-		        </p:column>
-				
-				<p:column filterBy="#{logUsuario.recursosApp.idRecursosApp}" headerText="Recursos" footerText="exacto" filterMatchMode="exact">
-		            <f:facet name="filter">
-		                <p:selectOneMenu id="recursoAppSelect" onchange="PF('historialTabla').filter()" >
-		                    <f:selectItem itemLabel="Todas" noSelectionOption="true" itemValue="#{null}" />
-							<f:selectItems value="#{historial.recursoAppSelect}" />					
-		                </p:selectOneMenu>
-		            </f:facet>
-		            <h:outputText value="#{logUsuario.recursosApp.descripcion}" />
-		        </p:column>
-				
-			
-				
-				
-				
-				
-				<p:column headerText="Detalle" footerText="contiene" filterBy="#{logUsuario.detalle}"  filterFunction="#{filterView.filterByName}"  >
+
+					<f:facet name="footer">
+						<p:row>
+							<p:column colspan="4">
+								<center>
+									<p:commandButton id="buscar" value="Buscar"
+										actionListener="#{historial.consultar}" icon="ui-icon-search"
+										update="logTabla msgs" />
+									<p:commandButton id="btn_resetLog" value="Resetear"
+										type="reset" />
+								</center>
+							</p:column>
+						</p:row>
+					</f:facet>
+				</p:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:dataTable id="logTabla" value="#{historial.logUsuarios}"  resizableColumns="true"
+				widgetVar="historialTabla" var="logUsuario"
+				emptyMessage="No hay historial" rows="5" paginator="true">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Historial de actividades de usuarios" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column filterBy="#{logUsuario.usuario.idUsuario}"
+					headerText="Usuarios" footerText="exacto" filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu id="usuariosSelect"
+							onchange="PF('historialTabla').filter()">
+							<f:selectItem itemLabel="Todos" noSelectionOption="true"
+								itemValue="#{null}" />
+							<f:selectItems value="#{historial.usuariosSelect}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{logUsuario.usuario.nombre}" />
+				</p:column>
+
+
+
+				<p:column filterBy="#{logUsuario.accionUsuario.idAccionUsuario}"
+					headerText="Actividad" footerText="exacto" filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu id="accionUsuarioSelect"
+							onchange="PF('historialTabla').filter()">
+							<f:selectItem itemLabel="Todas" noSelectionOption="true"
+								itemValue="#{null}" />
+							<f:selectItems value="#{historial.accionUsuarioSelect}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{logUsuario.accionUsuario.descripcion}" />
+				</p:column>
+
+				<p:column filterBy="#{logUsuario.recursosApp.idRecursosApp}"
+					headerText="Recursos" footerText="exacto" filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu id="recursoAppSelect"
+							onchange="PF('historialTabla').filter()">
+							<f:selectItem itemLabel="Todas" noSelectionOption="true"
+								itemValue="#{null}" />
+							<f:selectItems value="#{historial.recursoAppSelect}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{logUsuario.recursosApp.descripcion}" />
+				</p:column>
+
+
+
+
+
+
+				<p:column headerText="Detalle" footerText="contiene"
+					filterBy="#{logUsuario.detalle}"
+					filterFunction="#{filterView.filterByName}">
 					<p:outputLabel value="#{logUsuario.detalle}" />
 				</p:column>
-				
+
 				<p:column headerText="Fecha">
-				
-					<p:outputLabel  value="#{logUsuario.fecha}" > 
+
+					<p:outputLabel value="#{logUsuario.fecha}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
 					</p:outputLabel>
-					
+
 				</p:column>
-			
+
 			</p:dataTable>
 			<h3>
-			<p:outputLabel value="Exportar datos" /></h3>
+				<p:outputLabel value="Exportar datos" />
+			</h3>
 			<h:commandLink immediate="true">
-		        <h:graphicImage value="/resources/images/pdf1.png"  />
-		        <p:dataExporter type="pdf" target="logTabla" fileName="log" pageOnly="true" />
-		    </h:commandLink>
-		    
+				<h:graphicImage value="/resources/images/pdf1.png" />
+				<p:dataExporter type="pdf" target="logTabla" fileName="log"
+					pageOnly="true" />
+			</h:commandLink>
+
 		</center>
 	</ui:define>
 

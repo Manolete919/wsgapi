@@ -32,6 +32,7 @@ import pnl.modelo.GrupoIndicador;
 import pnl.modelo.Indicador;
 import pnl.modelo.IndicadorSerie;
 import pnl.modelo.Usuario;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
@@ -63,6 +64,9 @@ public class IndicadorEliminar implements Serializable {
 
 	@ManagedProperty("#{menuVista}")
 	private MenuVista menuVista;
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 
 	@PostConstruct
 	public void init() {
@@ -81,8 +85,7 @@ public class IndicadorEliminar implements Serializable {
 			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic
 					.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 			
-			indicadorBeanRemote = (IndicadorBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/IndicadorBean");
+			indicadorBeanRemote = (IndicadorBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/IndicadorBean");
 
 			indicadores = grupoIndicadorBeanRemote.obtieneIndicadoresPorIdUsuario(usuario.getIdUsuario());
 			
@@ -151,6 +154,8 @@ public class IndicadorEliminar implements Serializable {
 				
 
 				indicadorBeanRemote.removeIndicadores(this.getSelectedIndicadores());
+				
+				registraLog.registrarLog(this.getSelectedIndicadores(), RegistraLog.ACCION_BORRAR, RegistraLog.RECURSO_INDICADOR);
 
 				addMessage("Se eliminaron exitosamente!!",FacesMessage.SEVERITY_INFO);
 
@@ -227,6 +232,9 @@ public class IndicadorEliminar implements Serializable {
 		return query;
 	}
 
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
 
 	
 	

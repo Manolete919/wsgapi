@@ -33,6 +33,8 @@ public class LineView implements Serializable {
 	private LineChartModel lineModel2;
 	@ManagedProperty("#{dinamico}")
 	private Dinamico dinamico;
+	private String mensajeDeAplicacion = "";
+	private int codigoDeAplicacion = 0;
 
 	@PostConstruct
 	public void init() {
@@ -76,43 +78,30 @@ public class LineView implements Serializable {
 					LineChartSeries serie = new LineChartSeries();
 					// serie.setFill(true);
 					serie.setLabel(pSerieGrafico.getNombre());
-					System.out.println("");
+		
 					// agregar los parametros del grafico
-					List<FiltroValorDefault> parametrosPropiedadValores = serieGraficoParametrosPropiedadValor
-							.getFiltroValorDefaults();
+					List<FiltroValorDefault> parametrosPropiedadValores = serieGraficoParametrosPropiedadValor.getFiltroValorDefaults();
 					List<Generico> datos = new ArrayList<Generico>();
 					datos.add(new Generico(0, 0));
 					Servicio servicio = null;
-					if (parametrosPropiedadValores != null) {
-						if (!parametrosPropiedadValores.isEmpty()) {
-							Utileria u = new Utileria();
-							try {
-								System.out
-										.print(Utileria.convertirDocumentToString(u
-												.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
-								servicio = cg
-										.consultarServicioWebGenerico(
-												u.convertirFiltroValorEnDocument(parametrosPropiedadValores),
-												dinamico.getIndicador()
-														.getIdServicio()
-														.longValue(), dinamico
-														.getUsuario().getUsuariosWsg()
-														.getIdUsuario(),
-												dinamico.getUsuario().getUsuariosWsg()
-														.getClave());
-								if (servicio != null) {
-									if (servicio.get_any() != null) {
-										datos = new ArrayList<Generico>();
-										datos = cg
-												.procesaDatosDeGraficos(servicio
-														.get_any());
-									}
-								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+					Utileria u = new Utileria();
+					CatalogoError catalogo = new CatalogoError();
+					try {
+						System.out.print(Utileria.convertirDocumentToString(u.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
+						servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(), dinamico.getUsuario().getUsuariosWsg().getIdUsuario(),dinamico.getUsuario().getUsuariosWsg().getClave());
+						if (servicio != null) {
+							if (servicio.get_any() != null) {
+								datos = new ArrayList<Generico>();
+								datos = cg
+										.procesaDatosDeGraficos(servicio
+												.get_any());
 							}
+							mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
+							codigoDeAplicacion = servicio.getCodigoError();
 						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					// setear cada serie
 					for (Generico dato : datos) {
@@ -136,5 +125,15 @@ public class LineView implements Serializable {
 	public void setDinamico(Dinamico dinamico) {
 		this.dinamico = dinamico;
 	}
+
+	public String getMensajeDeAplicacion() {
+		return mensajeDeAplicacion;
+	}
+
+	public int getCodigoDeAplicacion() {
+		return codigoDeAplicacion;
+	}
+	
+	
 
 }

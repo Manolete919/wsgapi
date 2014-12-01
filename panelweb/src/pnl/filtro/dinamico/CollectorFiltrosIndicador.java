@@ -23,6 +23,7 @@ import pnl.modelo.IndicadorSerieFiltro;
 import pnl.modelo.ModeloGrafico;
 import pnl.modelo.Filtro;
 import pnl.modelo.Usuario;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
@@ -51,6 +52,10 @@ public class CollectorFiltrosIndicador implements Serializable {
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+	
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 
 	private String query;
 
@@ -144,6 +149,9 @@ public class CollectorFiltrosIndicador implements Serializable {
 				filtros2.add(filtro);
 			}
 			filtroBeanRemote.persistFiltros(filtros2);
+			
+			registraLog.registrarLog(filtros2, RegistraLog.ACCION_CREAR, RegistraLog.RECURSO_FILTRO_INDICADOR);
+
 			filtros = new ArrayList<Filtro>();
 			filtro = new Filtro();
 			addMessage("Datos Guardados exitosamente");
@@ -236,7 +244,9 @@ public class CollectorFiltrosIndicador implements Serializable {
 	}
 	
 	
-	
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
 	
 
 }

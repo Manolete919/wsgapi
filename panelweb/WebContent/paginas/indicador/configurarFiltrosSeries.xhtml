@@ -30,8 +30,12 @@
 
 
 					<p:dataTable emptyMessage="No existen filtros de Series para configurar" value="#{filtrosSeriesConfiguracion.indicadorSerieFiltros}"
-						style="margin:10px;" var="indicadorSerieFiltro" rows="5"
+						style="margin:10px;" var="indicadorSerieFiltro" rows="5" editable="true"
 							paginator="true" >
+							
+						<p:ajax event="rowEdit" listener="#{filtrosSeriesConfiguracion.onRowEdit}" update=":form:msgs" />
+       					<p:ajax event="rowEditCancel" listener="#{filtrosSeriesConfiguracion.onRowCancel}" update=":form:msgs" />
+							
 							
 						<p:column headerText="Serie" footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
 							<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}" />
@@ -40,13 +44,17 @@
 							<h:outputText
 								value="#{indicadorSerieFiltro.filtro.nombre}" />
 						</p:column>
-						<p:column headerText="Valor">
-							<p:inputText value="#{indicadorSerieFiltro.valor}" />
+						<p:column style="text-align: center" headerText="Valor">
+							<p:cellEditor>
+				               <f:facet name="output"><h:outputText  value="#{indicadorSerieFiltro.valor}" /></f:facet>
+				               <f:facet name="input"><p:inputText style="text-align: center" value="#{indicadorSerieFiltro.valor}" /></f:facet>
+				            </p:cellEditor>	
+							
 						</p:column>
 						
-						<f:facet name="footer">
-							<p:commandButton disabled="#{filtrosSeriesConfiguracion.indicadorSerieFiltros.size()==0}" value="Grabar valores" update=":form:msgs" actionListener="#{filtrosSeriesConfiguracion.guardarFiltrosSeries}" />
-						</f:facet>
+						<p:column headerText="Editar" style="text-align: center">
+				           <p:rowEditor />
+				       	</p:column>
 						
 					</p:dataTable>
 				</p:column>

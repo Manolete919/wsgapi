@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -12,13 +13,19 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import pnl.interfaz.UsuarioGrupoBeanRemote;
+import pnl.modelo.Grupo;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 
 
@@ -36,6 +43,9 @@ public class GrupoEditar implements Serializable{
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 
 
 
@@ -53,8 +63,7 @@ public class GrupoEditar implements Serializable{
 
 			InitialContext ic = new InitialContext(pr);
 
-			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
 			
 			
 
@@ -79,22 +88,7 @@ public class GrupoEditar implements Serializable{
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public void actualizarUsuarioGrupos() {
 
-		if (this.hasRole("ROLE_ADMIN")) {
-
-			try {
-				usuarioGrupoBeanRemote.mergeUsuarioGrupos(usuarioGrupos);
-				addMessage("ACTUALIZADO CON EXITO!!",FacesMessage.SEVERITY_INFO);
-			} catch (Exception e) {
-
-			}
-
-		} else {
-			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
-		}
-
-	}
 
 	protected boolean hasRole(String role) {
 		// get security context from thread local
@@ -127,5 +121,54 @@ public class GrupoEditar implements Serializable{
 	}
 
 
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
+
+    public void onRowEdit(RowEditEvent event) {
+    	
+		if (this.hasRole("ROLE_ADMIN")) {
+
+			try {
+				
+				
+				
+	       		//registro de log de actividades de usuario
+        		List<Grupo> detalles = new ArrayList<Grupo>();
+         		detalles.add(((UsuarioGrupo) event.getObject()).getGrupo());
+         		registraLog.registrarLog(detalles, RegistraLog.ACCION_EDITAR, RegistraLog.RECURSO_GRUPO);
+
+				
+         		usuarioGrupoBeanRemote.mergeUsuarioGrupo(((UsuarioGrupo) event.getObject()));
+         		
+				addMessage("ACTUALIZADO CON EXITO!!",FacesMessage.SEVERITY_INFO);
+				
+			} catch (Exception e) {
+
+			}
+
+		} else {
+			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
+		}
+    	
+        FacesMessage msg = new FacesMessage("Se editó el registro con Id #", ""+((UsuarioGrupo) event.getObject()).getId().getIdGrupo());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+   
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Se canceló la edición del registro con Id #", ""+((UsuarioGrupo) event.getObject()).getId().getIdGrupo());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
 	
 }

@@ -37,6 +37,7 @@ import pnl.modelo.ModeloGrafico;
 import pnl.modelo.Usuario;
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.UsuarioGrupo;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
@@ -82,6 +83,9 @@ public class IndicadorEditar implements Serializable{
 	@ManagedProperty("#{menuVista}")
 	private MenuVista menuVista;
 	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
+	
 	
 	
 	@PostConstruct
@@ -107,8 +111,7 @@ public class IndicadorEditar implements Serializable{
 			
 			modeloGraficoBeanRemote = (ModeloGraficoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/ModeloGraficoBean");
 			
-			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
 			
 			modeloGraficos = modeloGraficoBeanRemote.getModeloGraficoFindAll();
 			
@@ -152,7 +155,7 @@ public class IndicadorEditar implements Serializable{
 			indicadorGrupos = grupoIndicadorBeanRemote.obtieneIndicadorGruposPorIdIndicador(idIndicador);
 		
 			if(!indicadorGrupos.isEmpty()){
-				indicador = indicadorGrupos.get(0).getIndicador();
+				indicador = indicadorGrupos.get(0).getIndicador();				
 			}
 			
 		
@@ -315,8 +318,19 @@ public class IndicadorEditar implements Serializable{
 	    			
 	    			grupoIndicadorBeanRemote.removeGrupoIndicadores(grupoEliminacionIndicadores);
 	        		
+	    			//registrar el log primero, para poder consultar antes de actualizar
+	    			
+	           		List<Indicador> detalles = new ArrayList<Indicador>();
+
+	           		detalles.add(indicador);
+	           		
+	         		registraLog.registrarLog(detalles, RegistraLog.ACCION_EDITAR, RegistraLog.RECURSO_INDICADOR);
+
+	    			
 	    			
 	    			indicadorBeanRemote.mergeIndicador(this.getIndicador());
+	    			
+
 	    				    			
 	    			
 	                addMessage("Los datos fueron actualizados exitosamente!!",FacesMessage.SEVERITY_INFO);
@@ -506,6 +520,10 @@ public class IndicadorEditar implements Serializable{
 
 	public void setGrupos(DualListModel<Grupo> grupos) {
 		this.grupos = grupos;
+	}
+
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
 	}
     
 	

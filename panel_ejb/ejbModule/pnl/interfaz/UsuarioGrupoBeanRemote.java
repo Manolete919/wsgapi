@@ -42,7 +42,6 @@ public interface UsuarioGrupoBeanRemote
 
 	public void removeUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos) throws Exception;
 
-	public void mergeUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos) throws Exception;
 
 	public  List<UsuarioGrupo> obtenerGruposPorIdUSuarioEstado(String idUsuario, String estado) throws Exception;
 

@@ -8,7 +8,7 @@
 	template="/template/template.xhtml">
 	
 	<ui:define name="head">
-		<f:event listener="#{filtrosConfiguracion.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+		<f:event listener="#{filtrosEditar.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
 	</ui:define>
 
 
@@ -28,16 +28,20 @@
 			<p:row>
 				<p:column>
 					<p:dataTable id="tabla" emptyMessage="No hay filtros configurados"
-						value="#{filtrosConfiguracion.filtros}"
+						value="#{filtrosEditar.filtros}"
 						style="margin:10px;" var="filtro" rows="5"
 							paginator="true">
 							
-						<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
+						<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{filtro.idFiltro}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{filtro.idFiltro}" />		          						
+						</p:column>
+							
+						<p:column headerText="Orden" style="text-align: center" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
 							<p:outputLabel required="true" requiredMessage="El orden no debe estar vacio"
 								value="#{filtro.indiceFiltro}" />
 						</p:column>
 
-						<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
+						<p:column headerText="Filtro" footerText="contiene" style="text-align: center" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
 							<p:outputLabel value="#{filtro.nombre}" />
 						</p:column>
 
@@ -47,7 +51,7 @@
 							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
 							
 				             <p:commandButton rendered="#{filtro.anivelIndicador=='N'}" update=":form:serieFiltroValorDetalle" oncomplete="PF('seriesFiltrosValorDialogo').show()" icon="ui-icon-search" title="Ver detalle">
-				                <f:setPropertyActionListener value="#{filtro}" target="#{filtrosConfiguracion.selectedFiltro}" />
+				                <f:setPropertyActionListener value="#{filtro}" target="#{filtrosEditar.selectedFiltro}" />
 				            </p:commandButton>
 			            							
 						</p:column>
@@ -71,7 +75,7 @@
 			<p:outputPanel id="serieFiltroValorDetalle"  style="text-align:center;">
 		        
 		            
-		            <p:dataTable value="#{filtrosConfiguracion.indicadorSerieFiltros}" style="width:600px;" var="indicadorSerieFiltro" emptyMessage="No hay series" >
+		            <p:dataTable value="#{filtrosEditar.indicadorSerieFiltros}" style="width:600px;" var="indicadorSerieFiltro" emptyMessage="No hay series" >
 		            	<p:column headerText="Serie"  footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
 		            		<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}"/>
 		            	</p:column>

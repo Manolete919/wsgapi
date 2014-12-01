@@ -2,6 +2,7 @@ package pnl.ejb;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -12,13 +13,16 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import pnl.interfaz.UsuarioBeanRemote;
 import pnl.modelo.Usuario;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "UsuarioBean")
 public class UsuarioBean
         implements  UsuarioBeanRemote,Serializable {

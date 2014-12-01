@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import pnl.modelo.IndicadorSerieFiltro;
+import pnl.modelo.IndicadorSerieFiltroPK;
 
 
 
@@ -41,10 +42,10 @@ public interface IndicadorSerieFiltroBeanRemote
 
 	public List<IndicadorSerieFiltro> obtenerSerieFiltrosPorIdIndicadorIdFiltro(long idIndicador,long idFiltro) throws Exception;
 
-	public void mergeIndicadorSerieFiltros(List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
+	
 
 	public void persistIndicadorSerieFiltros(List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception;
 
-	
+	public IndicadorSerieFiltro obtenerIndicadorSerieFiltroPorId(IndicadorSerieFiltroPK id) throws Exception;
 
 }

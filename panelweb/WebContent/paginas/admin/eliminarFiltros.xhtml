@@ -31,7 +31,11 @@
         				<p:ajax event="rowSelectCheckbox" update="btnEliminar" /> 
         				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" /> 
         				
-        				<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
+        				<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{filtro.idFiltro}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{filtro.idFiltro}" />		          						
+						</p:column>
+        				
+        				<p:column headerText="Orden" footerText="contiene" style="text-align: center" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
         					<h:outputText value="#{filtro.indiceFiltro}" />
         				</p:column> 
         				    

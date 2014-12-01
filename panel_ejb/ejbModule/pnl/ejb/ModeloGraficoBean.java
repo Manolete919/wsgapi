@@ -16,11 +16,13 @@ import javax.persistence.Query;
 
 import pnl.interfaz.ModeloGraficoBeanRemote;
 import pnl.modelo.ModeloGrafico;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "ModeloGraficoBean")
 public class ModeloGraficoBean
         implements  ModeloGraficoBeanRemote,Serializable {

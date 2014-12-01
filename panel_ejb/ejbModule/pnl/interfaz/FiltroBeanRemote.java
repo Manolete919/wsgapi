@@ -1,6 +1,8 @@
 package pnl.interfaz;
 import java.util.List;
+
 import javax.ejb.Remote;
+
 import pnl.modelo.Filtro;
 
 
@@ -41,8 +43,9 @@ public interface FiltroBeanRemote
 
 	List<Filtro> obtenerFiltrosDeIndicadorPorIndicadorNivel(long idIndicador, String aNivelIndicador) throws Exception;
 
-	void mergeFiltros(List<Filtro> filtros) throws Exception;
 
 	void removeFiltros(List<Filtro> filtros) throws Exception;
+	
+	public Filtro obtenerFiltroPorId(long idFiltro) throws Exception;
 
 }

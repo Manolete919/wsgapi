@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -12,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
@@ -21,6 +23,7 @@ import pnl.modelo.IndicadorSerieFiltro;
 import pnl.modelo.IndicadorSerieFiltroPK;
 import pnl.modelo.Usuario;
 import pnl.modelo.IndicadorSerie;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 
 
@@ -45,9 +48,10 @@ public class CollectorIndicadorSerie implements Serializable{
     
     @ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
-
-
-     
+    
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
+   
     @PostConstruct
     public void init() {
    	
@@ -168,6 +172,12 @@ public class CollectorIndicadorSerie implements Serializable{
 	  		
 	  			indicadorSerieBeanRemote.persistIndicadorSeries(indicadorSeries2);
 	  			
+	  			
+	  			
+			
+				registraLog.registrarLog(indicadorSeries2, RegistraLog.ACCION_CREAR, RegistraLog.RECURSO_SERIE);
+
+	  			
     			
     			
     			
@@ -243,5 +253,7 @@ public class CollectorIndicadorSerie implements Serializable{
 	}
 	
 	
-    
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
 }

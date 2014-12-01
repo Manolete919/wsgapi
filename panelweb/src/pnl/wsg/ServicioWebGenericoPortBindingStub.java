@@ -1,5 +1,5 @@
 /**
- * GenericoPortTypePortBindingStub.java
+ * ServicioWebGenericoPortBindingStub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,7 +7,7 @@
 
 package pnl.wsg;
 
-public class GenericoPortTypePortBindingStub extends org.apache.axis.client.Stub implements pnl.wsg.GenericoPortType {
+public class ServicioWebGenericoPortBindingStub extends org.apache.axis.client.Stub implements pnl.wsg.ServicioWebGenerico {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
@@ -36,16 +36,16 @@ public class GenericoPortTypePortBindingStub extends org.apache.axis.client.Stub
 
     }
 
-    public GenericoPortTypePortBindingStub() throws org.apache.axis.AxisFault {
+    public ServicioWebGenericoPortBindingStub() throws org.apache.axis.AxisFault {
          this(null);
     }
 
-    public GenericoPortTypePortBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public ServicioWebGenericoPortBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
 
-    public GenericoPortTypePortBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public ServicioWebGenericoPortBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {
@@ -166,7 +166,7 @@ public class GenericoPortTypePortBindingStub extends org.apache.axis.client.Stub
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[0]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("http://axis/EISApiOnlineWS.wsdl/types//eipConsumeServicio");
+        _call.setSOAPActionURI("http://axis/EISApiOnlineWS.wsdl/types//obtenerXml");
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);

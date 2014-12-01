@@ -8,9 +8,9 @@
 package pnl.wsg;
 
 public interface GenericoService extends javax.xml.rpc.Service {
-    public java.lang.String getGenericoPortTypePortAddress();
+    public java.lang.String getServicioWebGenericoPortAddress();
 
-    public pnl.wsg.GenericoPortType getGenericoPortTypePort() throws javax.xml.rpc.ServiceException;
+    public pnl.wsg.ServicioWebGenerico getServicioWebGenericoPort() throws javax.xml.rpc.ServiceException;
 
-    public pnl.wsg.GenericoPortType getGenericoPortTypePort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException;
+    public pnl.wsg.ServicioWebGenerico getServicioWebGenericoPort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException;
 }

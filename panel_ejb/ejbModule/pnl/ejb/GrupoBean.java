@@ -13,14 +13,17 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import pnl.interfaz.GrupoBeanRemote;
 import pnl.modelo.Grupo;
 import pnl.modelo.UsuarioGrupo;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "GrupoBean")
 public class GrupoBean implements GrupoBeanRemote, Serializable
 {
@@ -139,6 +142,28 @@ public class GrupoBean implements GrupoBeanRemote, Serializable
 			} catch (NoResultException nr) {
 				return false;
 			}
+
+	}
+	
+	
+	public Grupo obtenerGrupoPorId(long idGrupo) throws Exception {
+
+		try {
+			
+			String queryStr = "SELECT g "
+					+ " FROM Grupo g "
+					+ " WHERE g.idGrupo = :idGrupo ";
+				
+			TypedQuery<Grupo> query = em.createQuery(queryStr,Grupo.class);
+
+			query.setParameter("idGrupo", idGrupo);
+			
+			Grupo grupo = query.getSingleResult();
+
+			return grupo;
+		} catch (NoResultException nr) {
+			return null;
+		}
 
 	}
 

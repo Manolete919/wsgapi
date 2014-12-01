@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="head">
+		<f:event listener="#{filtrosEditar.inicializar(menuVista.indicador.idIndicador)}" type="preRenderView"></f:event>
+	</ui:define>
+
+
+	<ui:define name="overlay"></ui:define>
+	<ui:define name="content">
+		<p:growl id="msgs" showDetail="true" />
+
+
+		<p:panelGrid style="margin-top:20px">
+			<f:facet name="header">
+				<p:row>
+					<p:column>Actualización de  filtros</p:column>
+				</p:row>
+			</f:facet>
+
+
+			<p:row>
+				<p:column>
+					<p:dataTable id="tabla" editable="true" emptyMessage="No hay filtros configurados"
+						value="#{filtrosEditar.filtros}"
+						style="margin:10px;" var="filtro" rows="5"
+							paginator="true">
+							
+						<p:ajax event="rowEdit" listener="#{filtrosEditar.onRowEdit}" update=":form:msgs" />
+       					<p:ajax event="rowEditCancel" listener="#{filtrosEditar.onRowCancel}" update=":form:msgs" />
+							
+							
+						<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{filtro.idFiltro}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{filtro.idFiltro}" />		          						
+						</p:column>
+							
+
+						<p:column headerText="Filtro" footerText="contiene" filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >							
+							<p:cellEditor>
+				               <f:facet name="output"><h:outputText style="text-align: center"  value="#{filtro.nombre}" /></f:facet>
+				               <f:facet name="input"><h:inputText required="true" requiredMessage="El Nombre de Filtro no debe estar vacio" value="#{filtro.nombre}" /></f:facet>
+				           </p:cellEditor>	
+						</p:column>
+						
+						
+						
+						<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
+							
+							<p:cellEditor>
+				               <f:facet name="output"><h:outputText style="text-align: center"  value="#{filtro.indiceFiltro}" /></f:facet>
+				               <f:facet name="input"><p:inputMask  style="text-align: center"  size="3"  mask="9?99" placeHolder=" " required="true" requiredMessage="El Orden no debe estar vacio" value="#{filtro.indiceFiltro}" /></f:facet>
+				           </p:cellEditor>	
+							
+							
+						</p:column>
+
+						<p:column headerText="Nivel" footerText="contiene" filterBy="#{filtro.anivelVisual}"  filterFunction="#{filterView.filterByName}" >
+							<p:outputLabel value="#{filtro.anivelVisual}" />
+						</p:column>
+						
+						<p:column headerText="Editar" style="text-align: center">
+				           <p:rowEditor />
+				       	</p:column>
+						
+
+					</p:dataTable>
+
+				</p:column>
+			</p:row>
+			
+		</p:panelGrid>
+
+	
+
+
+			
+		
+
+
+	</ui:define>
+
+</ui:composition>

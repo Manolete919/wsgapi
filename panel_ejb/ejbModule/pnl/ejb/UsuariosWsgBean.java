@@ -13,11 +13,13 @@ import javax.persistence.Query;
 
 import pnl.interfaz.UsuariosWsgBeanRemote;
 import pnl.modelo.UsuariosWsg;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "UsuariosWsgBean")
 public class UsuariosWsgBean implements UsuariosWsgBeanRemote
 {

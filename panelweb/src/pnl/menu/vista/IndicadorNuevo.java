@@ -37,6 +37,7 @@ import pnl.modelo.ModeloGrafico;
 import pnl.modelo.Usuario;
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.UsuarioGrupo;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.Tema;
 import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
@@ -84,6 +85,9 @@ public class IndicadorNuevo implements Serializable {
 
 	@ManagedProperty("#{menuVista}")
 	private MenuVista menuVista;
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 	
 	
 	@ManagedProperty("#{tema}")
@@ -233,6 +237,10 @@ public class IndicadorNuevo implements Serializable {
 				try {
 
 					grupoIndicadorBeanRemote.persistGrupoIndicadores(grupoIndicadores);
+					
+					List<Indicador> detalles = new ArrayList<Indicador>();
+					detalles.add(indicador);
+					registraLog.registrarLog(detalles, RegistraLog.ACCION_CREAR, RegistraLog.RECURSO_INDICADOR);
 
 					// ACTUALIZAR MENU
 
@@ -433,6 +441,8 @@ public class IndicadorNuevo implements Serializable {
 		this.tema = tema;
 	}
 	
-
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
 
 }

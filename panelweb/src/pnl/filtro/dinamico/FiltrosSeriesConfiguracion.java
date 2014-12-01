@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -13,9 +14,17 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import org.primefaces.event.RowEditEvent;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import pnl.interfaz.IndicadorSerieFiltroBeanRemote;
 import pnl.modelo.Indicador;
 import pnl.modelo.IndicadorSerieFiltro;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 
 
@@ -36,6 +45,9 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 	
     @ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+    
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 	
 	
 	@PostConstruct
@@ -100,26 +112,6 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 	}
 
 
-
-
-
-
-	
-	
-	public void guardarFiltrosSeries(){
-				
-		try{
-			indicadorSerieFiltroBeanRemote.mergeIndicadorSerieFiltros(this.getIndicadorSerieFiltros());
-			addMessage("Se grabo exitosamente",FacesMessage.SEVERITY_INFO);
-		}catch (Exception e){
-			addMessage("Hubo algun error",FacesMessage.SEVERITY_ERROR);
-			e.printStackTrace();
-		}
-		
-		
-	}
-
-
 	public Indicador getIndicador() {
 		return indicador;
 	}
@@ -135,6 +127,66 @@ public class FiltrosSeriesConfiguracion implements Serializable{
 		return indicadorSerieFiltrosExistentes;
 	}
 	
+    public void onRowEdit(RowEditEvent event) {
+    	
+		if (this.hasRole("ROLE_ADMIN")) {
+
+			try {
+				
+				
+				
+	       		//registro de log de actividades de usuario
+        		List<IndicadorSerieFiltro> detalles = new ArrayList<IndicadorSerieFiltro>();
+         		detalles.add(((IndicadorSerieFiltro) event.getObject()));
+         		registraLog.registrarLog(detalles, RegistraLog.ACCION_EDITAR, RegistraLog.RECURSO_FILTRO_SERIE);
+
+         		indicadorSerieFiltroBeanRemote.mergeIndicadorSerieFiltro(((IndicadorSerieFiltro) event.getObject()));
+				
+				addMessage("ACTUALIZADO CON EXITO!!",FacesMessage.SEVERITY_INFO);
+				
+			} catch (Exception e) {
+				addMessage("Hubieron errores",FacesMessage.SEVERITY_ERROR);
+				e.printStackTrace();
+			}
+
+		} else {
+			addMessage("NO TIENE PERMISO PARA REALIZAR ESTA ACCION!!",FacesMessage.SEVERITY_WARN);
+		}
+    	
+        FacesMessage msg = new FacesMessage("Se editó el registro con Id #", ""+((IndicadorSerieFiltro) event.getObject()).getFiltro().getIdFiltro());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+   
+    }
+    
+
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Se canceló la edición del registro con Id #", ""+((IndicadorSerieFiltro) event.getObject()).getFiltro().getIdFiltro());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+	protected boolean hasRole(String role) {
+		// get security context from thread local
+		SecurityContext context = SecurityContextHolder.getContext();
+		if (context == null)
+			return false;
+
+		Authentication authentication = context.getAuthentication();
+		if (authentication == null)
+			return false;
+
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (role.equals(auth.getAuthority()))
+				return true;
+		}
+
+		return false;
+	}
+
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
+	}
+
 
 	public void addMessage(String summary,Severity severity) {
 		FacesMessage message = new FacesMessage(severity,

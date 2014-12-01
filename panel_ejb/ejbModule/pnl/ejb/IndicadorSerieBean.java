@@ -3,7 +3,6 @@ package pnl.ejb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -16,11 +15,13 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import pnl.interfaz.IndicadorSerieBeanRemote;
 import pnl.modelo.IndicadorSerie;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "IndicadorSerieBean")
 public class IndicadorSerieBean
         implements IndicadorSerieBeanRemote,Serializable {
@@ -143,22 +144,35 @@ public class IndicadorSerieBean
 
 
 	@Override
-	public void mergeIndicadorSeries(List<IndicadorSerie> indicadorSeries)
-			throws Exception {
-		for(IndicadorSerie indicadorSerie : indicadorSeries){
-			this.mergeIndicadorSerie(indicadorSerie);
-		}
-		
-	}
-
-
-
-	@Override
 	public void removeIndicadorSeries(List<IndicadorSerie> indicadorSeries)
 			throws Exception {
 		for(IndicadorSerie indicadorSerie : indicadorSeries){
 			this.removeIndicadorSerie(indicadorSerie);
 		}
 	}
+	
+	public IndicadorSerie obtenerIndicadorSeriePorId(long idSerie) throws Exception {
+
+		try {
+
+			String queryStr = "SELECT iss FROM IndicadorSerie iss "
+					+ " WHERE iss.idSerie = :idSerie ";
+
+			TypedQuery<IndicadorSerie> query = em.createQuery(queryStr,IndicadorSerie.class);
+
+			query.setParameter("idSerie", idSerie);
+			
+			IndicadorSerie indicadorSerie = query.getSingleResult();
+			
+			return indicadorSerie;
+
+		} catch (NoResultException nr) {
+			return null;
+		}
+
+	}
+
+
+
 
 }

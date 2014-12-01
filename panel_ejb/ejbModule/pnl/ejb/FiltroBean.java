@@ -3,7 +3,6 @@ package pnl.ejb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -16,11 +15,13 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.modelo.Filtro;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "FiltroBean")
 public class FiltroBean implements FiltroBeanRemote,Serializable {
 	private static final long serialVersionUID = 1L;
@@ -124,14 +125,6 @@ public class FiltroBean implements FiltroBeanRemote,Serializable {
 	}
 
 
-	
-	@Override
-	public void mergeFiltros(List<Filtro> filtros) throws Exception {
-		for (Filtro filtro : filtros) {
-				this.mergeFiltro(filtro);
-		}
-
-	}
 
 	@Override
 	public void removeFiltros(List<Filtro> filtros) throws Exception {
@@ -140,5 +133,29 @@ public class FiltroBean implements FiltroBeanRemote,Serializable {
 		}
 		
 	}
+	
+	public Filtro obtenerFiltroPorId(long idFiltro) throws Exception {
+
+		try {
+			
+			String queryStr = "SELECT f "
+					+ " FROM Filtro f "
+					+ " WHERE f.idFiltro = :idFiltro ";
+				
+			TypedQuery<Filtro> query = em.createQuery(queryStr,Filtro.class);
+
+			query.setParameter("idFiltro", idFiltro);
+			
+			Filtro filtro = query.getSingleResult();
+
+			return filtro;
+			
+		} catch (NoResultException nr) {
+			return null;
+		}
+
+	}
+	
+	
 
 }

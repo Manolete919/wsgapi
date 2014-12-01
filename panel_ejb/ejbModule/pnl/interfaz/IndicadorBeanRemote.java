@@ -40,5 +40,7 @@ public interface IndicadorBeanRemote
     public List<Indicador> getIndicadorFindAll();
 
 	void removeIndicadores(List<Indicador> selectedIndicadores) throws Exception;
+	
+	public Indicador obtenerIndicadorPorId(long idIndicador) throws Exception;
 
 }

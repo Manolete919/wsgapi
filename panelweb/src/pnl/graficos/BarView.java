@@ -36,6 +36,8 @@ public class BarView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private BarChartModel barModel;
     private HorizontalBarChartModel horizontalBarModel;
+	private String mensajeDeAplicacion = "";
+	private int codigoDeAplicacion = 0;
 
  
 	@ManagedProperty("#{dinamico}")
@@ -87,27 +89,25 @@ public class BarView implements Serializable {
     					List<Generico> datos = new ArrayList<Generico>();
     					datos.add(new Generico(0,0));
     					Servicio servicio = null;
-    					if(parametrosPropiedadValores != null ){
-    						if(!parametrosPropiedadValores.isEmpty()){
-    							Utileria u = new Utileria();
-    							try {
-    								
-    								System.out.print(Utileria.convertirDocumentToString(u.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
-    								servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getUsuariosWsg().getIdUsuario(), dinamico.getUsuario().getUsuariosWsg().getClave());
-    								if(servicio != null ){
-    									if(servicio.get_any() != null ){
-    										datos = new ArrayList<Generico>();
-    										datos = cg.procesaDatosDeGraficos(servicio.get_any());
-    									}
-    								}
+						Utileria u = new Utileria();
+						CatalogoError catalogo = new CatalogoError();
+						try {
+							
+							System.out.print(Utileria.convertirDocumentToString(u.convertirFiltroValorEnDocument(parametrosPropiedadValores)));
+							servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getUsuariosWsg().getIdUsuario(), dinamico.getUsuario().getUsuariosWsg().getClave());
+							if(servicio != null ){
+								if(servicio.get_any() != null ){
+									datos = new ArrayList<Generico>();
+									datos = cg.procesaDatosDeGraficos(servicio.get_any());
+								}
+								mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
+								codigoDeAplicacion = servicio.getCodigoError();
+							}
 
-    							} catch (Exception e) {
-    								// TODO Auto-generated catch block
-    								e.printStackTrace();
-    							}
-    						}
-    						
-    					}    					
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}  					
     					
     					
     					// setear cada serie
@@ -136,26 +136,15 @@ public class BarView implements Serializable {
      
     private void createBarModels() {
         createBarModel();
-        createHorizontalBarModel();
+        
     }
      
     private void createBarModel() {
     	
-    	/*String indiceSubmenu = TreeBean.getIndiceSubmenu();
-		String indiceItem = TreeBean.getIndiceItem();
-		String ordenGrafico = TreeBean.getOrdenGrafico(); */
-		
-		//PnlGraficoPK pnlGraficoPK = new PnlGraficoPK();
-		
-		/*pnlGraficoPK.setIndiceSubmenu(new Long(indiceSubmenu));
-		pnlGraficoPK.setIndiceItem(new Long(indiceItem));
-		pnlGraficoPK.setOrdenGrafico(new Long(ordenGrafico));*/
-    	
-		//PnlGrafico grafico;
+   
 		
 		try {
 			
-			//grafico = panelGraficoBeanRemote.consultaGraficoPorIdGraficoEIdGraficoDef(pnlGraficoPK,idGraficoDef);
 			barModel = initBarModel();
 	         
 	        barModel.setTitle(dinamico.getIndicador().getNombre());
@@ -179,41 +168,7 @@ public class BarView implements Serializable {
         
     }
      
-    private void createHorizontalBarModel() {
-        horizontalBarModel = new HorizontalBarChartModel();
- 
-        ChartSeries boys = new ChartSeries();
-        boys.setLabel("Boys");
-        boys.set("2004", 50);
-        boys.set("2005", 96);
-        boys.set("2006", 44);
-        boys.set("2007", 55);
-        boys.set("2008", 25);
- 
-        ChartSeries girls = new ChartSeries();
-        girls.setLabel("Girls");
-        girls.set("2004", 52);
-        girls.set("2005", 60);
-        girls.set("2006", 82);
-        girls.set("2007", 35);
-        girls.set("2008", 120);
- 
-        horizontalBarModel.addSeries(boys);
-        horizontalBarModel.addSeries(girls);
-         
-        horizontalBarModel.setTitle("Horizontal and Stacked");
-        horizontalBarModel.setLegendPosition("e");
-        //horizontalBarModel.setStacked(true);
-         
-        Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
-        xAxis.setLabel("Births");
-        xAxis.setMin(0);
-        xAxis.setMax(200);
-         
-        Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Gender");       
-    }
-    
+
 	public void addMessage(String summary, String detail) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				summary, detail);
@@ -224,6 +179,14 @@ public class BarView implements Serializable {
 
 	public void setDinamico(Dinamico dinamico) {
 		this.dinamico = dinamico;
+	}
+
+	public String getMensajeDeAplicacion() {
+		return mensajeDeAplicacion;
+	}
+
+	public int getCodigoDeAplicacion() {
+		return codigoDeAplicacion;
 	}
 
 

@@ -18,11 +18,13 @@ import javax.persistence.TypedQuery;
 import pnl.interfaz.IndicadorSerieFiltroBeanRemote;
 import pnl.modelo.IndicadorSerieFiltro;
 import pnl.modelo.IndicadorSerieFiltroPK;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @SuppressWarnings("unchecked")
 @Stateless(name = "IndicadorSerieFiltroBean")
 public class IndicadorSerieFiltroBean
@@ -163,18 +165,31 @@ public class IndicadorSerieFiltroBean
 	}
 
 
-
 	@Override
-	public void mergeIndicadorSerieFiltros(
-			List<IndicadorSerieFiltro> indicadorSerieFiltros) throws Exception {
+	public IndicadorSerieFiltro obtenerIndicadorSerieFiltroPorId(IndicadorSerieFiltroPK id) throws Exception {
 		
-		for(IndicadorSerieFiltro indicadorSerieFiltro :indicadorSerieFiltros ){
+		try{
+			String queryStr = "SELECT isf FROM IndicadorSerieFiltro isf  " 
+					+ " WHERE isf.id = :id ";
 
-			this.mergeIndicadorSerieFiltro(indicadorSerieFiltro);
-		
+
+			TypedQuery<IndicadorSerieFiltro> query = em.createQuery(queryStr,IndicadorSerieFiltro.class);
+
+			query.setParameter("id", id);
+				
+
+			IndicadorSerieFiltro indicadorSerieFiltro = query.getSingleResult();
+
+			return indicadorSerieFiltro;
+			
+		}catch(NoResultException nr){
+			return null;
 		}
 		
+		
+		
 	}
+
 
 
 }

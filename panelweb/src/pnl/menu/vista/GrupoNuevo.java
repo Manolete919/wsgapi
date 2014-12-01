@@ -1,11 +1,8 @@
 package pnl.menu.vista;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -21,18 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import pnl.interfaz.AccionUsuarioBeanRemote;
-import pnl.interfaz.LogUsuarioBeanRemote;
-import pnl.interfaz.RecursosAppBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
-import pnl.modelo.AccionUsuario;
 import pnl.modelo.Grupo;
-import pnl.modelo.LogUsuario;
-import pnl.modelo.RecursosApp;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
+import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 
 
@@ -50,12 +41,9 @@ public class GrupoNuevo implements Serializable{
 	
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
 	private List<UsuarioGrupo> usuarioGrupos = new ArrayList<UsuarioGrupo>();
-	private LogUsuarioBeanRemote logUsuarioBeanRemote;
-	private RecursosAppBeanRemote recursosAppBeanRemote;
-	private RecursosApp recursosApp;
-	private AccionUsuarioBeanRemote accionUsuarioBeanRemote;
-	private AccionUsuario accionUsuario;
-	private LogUsuario logUsuario;
+
+	
+	
     private Usuario usuario;
     private UsuarioGrupo usuarioGrupo;
     private Grupo grupo;
@@ -66,6 +54,10 @@ public class GrupoNuevo implements Serializable{
     
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
+	
+	
+	@ManagedProperty("#{registraLog}")
+	private RegistraLog registraLog;
 	
 
 	
@@ -95,15 +87,8 @@ public class GrupoNuevo implements Serializable{
 			
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),null);
 			
-			logUsuarioBeanRemote = (LogUsuarioBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/LogUsuarioBean");
-			
-			recursosAppBeanRemote  = (RecursosAppBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/RecursosAppBean");
-
-			recursosApp = recursosAppBeanRemote.obtenerRecursosAppPorId(1l);
-			
-			accionUsuarioBeanRemote = (AccionUsuarioBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/AccionUsuarioBean");
 		
-			accionUsuario = accionUsuarioBeanRemote.obtenerAccionUsuario(1l);
+		
     	
     	} catch (Exception e) {
 			e.printStackTrace();
@@ -126,21 +111,14 @@ public class GrupoNuevo implements Serializable{
         		usuarioGrupo.setEstado("A");
         		usuarioGrupoBeanRemote.persistUsuarioGrupo(usuarioGrupo);
         		
-        		
-        		
-        		Date d = new Date();
-                Calendar c = Calendar.getInstance();
-                c.setTime(d);
+        		//registro de log de actividades de usuario
+        		List<Grupo> detalles = new ArrayList<Grupo>();
+        		detalles.add(usuarioGrupo.getGrupo());
+        		registraLog.registrarLog(detalles, RegistraLog.ACCION_CREAR, RegistraLog.RECURSO_GRUPO);
+        
             	
         		
-        		logUsuario = new LogUsuario();
-        		logUsuario.setUsuario(usuarioServicio.getUsuario());
-        		logUsuario.setFecha(c.getTime());
-        		logUsuario.setAccionUsuario(accionUsuario);
-        		logUsuario.setRecursosApp(recursosApp);
-        		logUsuario.setIdSesion(usuarioServicio.getSession().getId());
-        		logUsuario.setDetalle(usuarioGrupo.getGrupo().getDescripcion());
-        		logUsuarioBeanRemote.persistLogUsuario(logUsuario);
+     
         		
         		grupo = new Grupo();
         		grupo.setEstado("A");
@@ -220,6 +198,11 @@ public class GrupoNuevo implements Serializable{
 
 	public List<UsuarioGrupo> getUsuarioGrupos() {
 		return usuarioGrupos;
+	}
+
+
+	public void setRegistraLog(RegistraLog registraLog) {
+		this.registraLog = registraLog;
 	}
 
 	

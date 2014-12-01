@@ -18,11 +18,13 @@ import javax.persistence.TypedQuery;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "UsuarioGrupoBean")
 public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
 {
@@ -118,16 +120,6 @@ public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
 		
 	}
 
-
-
-	@Override
-	public void mergeUsuarioGrupos(List<UsuarioGrupo> usuarioGrupos)
-			throws Exception {
-		for(UsuarioGrupo usuarioGrupo : usuarioGrupos){
-			this.mergeUsuarioGrupo(usuarioGrupo);
-		}
-		
-	}
 
 
 

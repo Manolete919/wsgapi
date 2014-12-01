@@ -21,39 +21,39 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
         super(wsdlLoc, sName);
     }
 
-    // Use to get a proxy class for GenericoPortTypePort
-    private java.lang.String GenericoPortTypePort_address = "http://localhost:7001/wsg/GenericoService";
+    // Use to get a proxy class for ServicioWebGenericoPort
+    private java.lang.String ServicioWebGenericoPort_address = "http://localhost:7001/wsg/GenericoService";
 
-    public java.lang.String getGenericoPortTypePortAddress() {
-        return GenericoPortTypePort_address;
+    public java.lang.String getServicioWebGenericoPortAddress() {
+        return ServicioWebGenericoPort_address;
     }
 
     // The WSDD service name defaults to the port name.
-    private java.lang.String GenericoPortTypePortWSDDServiceName = "GenericoPortTypePort";
+    private java.lang.String ServicioWebGenericoPortWSDDServiceName = "ServicioWebGenericoPort";
 
-    public java.lang.String getGenericoPortTypePortWSDDServiceName() {
-        return GenericoPortTypePortWSDDServiceName;
+    public java.lang.String getServicioWebGenericoPortWSDDServiceName() {
+        return ServicioWebGenericoPortWSDDServiceName;
     }
 
-    public void setGenericoPortTypePortWSDDServiceName(java.lang.String name) {
-        GenericoPortTypePortWSDDServiceName = name;
+    public void setServicioWebGenericoPortWSDDServiceName(java.lang.String name) {
+        ServicioWebGenericoPortWSDDServiceName = name;
     }
 
-    public pnl.wsg.GenericoPortType getGenericoPortTypePort() throws javax.xml.rpc.ServiceException {
+    public pnl.wsg.ServicioWebGenerico getServicioWebGenericoPort() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
-            endpoint = new java.net.URL(GenericoPortTypePort_address);
+            endpoint = new java.net.URL(ServicioWebGenericoPort_address);
         }
         catch (java.net.MalformedURLException e) {
             throw new javax.xml.rpc.ServiceException(e);
         }
-        return getGenericoPortTypePort(endpoint);
+        return getServicioWebGenericoPort(endpoint);
     }
 
-    public pnl.wsg.GenericoPortType getGenericoPortTypePort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public pnl.wsg.ServicioWebGenerico getServicioWebGenericoPort(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            pnl.wsg.GenericoPortTypePortBindingStub _stub = new pnl.wsg.GenericoPortTypePortBindingStub(portAddress, this);
-            _stub.setPortName(getGenericoPortTypePortWSDDServiceName());
+            pnl.wsg.ServicioWebGenericoPortBindingStub _stub = new pnl.wsg.ServicioWebGenericoPortBindingStub(portAddress, this);
+            _stub.setPortName(getServicioWebGenericoPortWSDDServiceName());
             return _stub;
         }
         catch (org.apache.axis.AxisFault e) {
@@ -61,8 +61,8 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
         }
     }
 
-    public void setGenericoPortTypePortEndpointAddress(java.lang.String address) {
-        GenericoPortTypePort_address = address;
+    public void setServicioWebGenericoPortEndpointAddress(java.lang.String address) {
+        ServicioWebGenericoPort_address = address;
     }
 
     /**
@@ -72,9 +72,9 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (pnl.wsg.GenericoPortType.class.isAssignableFrom(serviceEndpointInterface)) {
-                pnl.wsg.GenericoPortTypePortBindingStub _stub = new pnl.wsg.GenericoPortTypePortBindingStub(new java.net.URL(GenericoPortTypePort_address), this);
-                _stub.setPortName(getGenericoPortTypePortWSDDServiceName());
+            if (pnl.wsg.ServicioWebGenerico.class.isAssignableFrom(serviceEndpointInterface)) {
+                pnl.wsg.ServicioWebGenericoPortBindingStub _stub = new pnl.wsg.ServicioWebGenericoPortBindingStub(new java.net.URL(ServicioWebGenericoPort_address), this);
+                _stub.setPortName(getServicioWebGenericoPortWSDDServiceName());
                 return _stub;
             }
         }
@@ -94,8 +94,8 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
             return getPort(serviceEndpointInterface);
         }
         java.lang.String inputPortName = portName.getLocalPart();
-        if ("GenericoPortTypePort".equals(inputPortName)) {
-            return getGenericoPortTypePort();
+        if ("ServicioWebGenericoPort".equals(inputPortName)) {
+            return getServicioWebGenericoPort();
         }
         else  {
             java.rmi.Remote _stub = getPort(serviceEndpointInterface);
@@ -113,7 +113,7 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "GenericoPortTypePort"));
+            ports.add(new javax.xml.namespace.QName("http://axis/EISApiOnlineWS.wsdl/types/", "ServicioWebGenericoPort"));
         }
         return ports.iterator();
     }
@@ -123,8 +123,8 @@ public class GenericoServiceLocator extends org.apache.axis.client.Service imple
     */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         
-if ("GenericoPortTypePort".equals(portName)) {
-            setGenericoPortTypePortEndpointAddress(address);
+if ("ServicioWebGenericoPort".equals(portName)) {
+            setServicioWebGenericoPortEndpointAddress(address);
         }
         else 
 { // Unknown Port Name

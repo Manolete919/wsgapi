@@ -17,12 +17,14 @@ import javax.persistence.TypedQuery;
 
 import pnl.interfaz.RolBeanRemote;
 import pnl.modelo.Rol;
+import pnl.qualificadores.AuditorGeneral;
 
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "RolBean")
 public class RolBean
         implements  RolBeanRemote,Serializable {

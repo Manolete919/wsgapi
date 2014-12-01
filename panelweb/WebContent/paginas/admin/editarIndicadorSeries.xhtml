@@ -29,32 +29,39 @@
 
 
 					<p:dataTable id="tabla" value="#{indicadorSerieEditar.indicadorSeries}"
-						style="margin:10px;" var="indicadorSerie" rows="5"
+						style="margin:10px;" var="indicadorSerie" rows="5" editable="true"
 							paginator="true">
+							
+						<p:ajax event="rowEdit" listener="#{indicadorSerieEditar.onRowEdit}" update=":form:msgs" />
+       					<p:ajax event="rowEditCancel" listener="#{indicadorSerieEditar.onRowCancel}" update=":form:msgs" />
+							
+							
+						<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{indicadorSerie.idSerie}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{indicadorSerie.idSerie}" />		          						
+						</p:column>
 						
 						
 						<p:column headerText="Nombre" footerText="contiene" filterBy="#{indicadorSerie.nombre}" filterFunction="#{filterView.filterByName}"  >
-							<p:inputText value="#{indicadorSerie.nombre}" required="true" requiredMessage="El nombre no debe estar vacio"  />
+							
+							<p:cellEditor>
+				               <f:facet name="output"><p:outputLabel style="text-align: center" value="#{indicadorSerie.nombre}" /></f:facet>
+				               <f:facet name="input"><p:inputText style="text-align: center" value="#{indicadorSerie.nombre}" required="true" requiredMessage="El nombre no debe estar vacio"  /></f:facet>
+				            </p:cellEditor>	
+						
+						
 						</p:column>
 
 						<p:column headerText="Estado" footerText="contiene" filterBy="#{indicadorSerie.estadoVisual}" filterFunction="#{filterView.filterByName}"  >
-							<p:outputLabel value="#{indicadorSerie.estadoVisual}" />
+							<p:cellEditor>
+				               <f:facet name="output"><p:outputLabel value="#{indicadorSerie.estadoVisual}" /></f:facet>
+				               <f:facet name="input"><p:selectBooleanCheckbox value="#{indicadorSerie.estadoBoolean}" /></f:facet>
+				            </p:cellEditor>	
 						</p:column>
 						
 						
-						
-						
-						<p:column headerText="Acción">
-							<p:selectBooleanCheckbox value="#{indicadorSerie.estadoBoolean}" />
-						</p:column>
-						
-						<f:facet name="footer">
-							<p:commandButton value="Actualizar" disabled="#{indicadorSerieEditar.indicadorSeries.size() == 0 }"  update=":form:msgs,tabla"
-								actionListener="#{indicadorSerieEditar.actualizar}"> 
-									<f:param name="idIndicador" value="#{menuVista.indicador.idIndicador}" />
-									<f:param name="idModelo" value="#{menuVista.indicador.modeloGrafico.idModelo}" />																
-							</p:commandButton>
-						</f:facet>
+						<p:column headerText="Editar" style="text-align: center">
+				           <p:rowEditor />
+				       	</p:column>
 						
 	
 					</p:dataTable>

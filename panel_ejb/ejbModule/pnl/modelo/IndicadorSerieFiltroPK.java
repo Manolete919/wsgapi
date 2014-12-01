@@ -3,7 +3,7 @@ package pnl.modelo;
 import java.io.Serializable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 
 /**
  * The primary key class for the INDICADOR_SERIE_FILTROS database table.

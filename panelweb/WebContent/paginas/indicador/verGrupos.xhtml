@@ -32,6 +32,10 @@
 						style="margin:10px;" var="usuarioGrupo" rows="5"
 							paginator="true">
 						
+						<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{usuarioGrupo.grupo.idGrupo}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{usuarioGrupo.grupo.idGrupo}" />		          						
+						</p:column>
+						
 						<p:column headerText="Descripción"  footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}"  filterFunction="#{filterView.filterByName}"  >
 							<p:outputLabel required="true" requiredMessage="La descripción no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
 						</p:column>

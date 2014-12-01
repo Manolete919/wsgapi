@@ -23,17 +23,34 @@
 			</f:facet>
 			<p:row>
 				<p:column>
-					<p:dataTable emptyMessage="No existen filtros configurados a nivel de Indicador" resizableColumns="true" value="#{filtrosIndicadorConfiguracion.filtros}"
+					<p:dataTable emptyMessage="No existen filtros configurados a nivel de Indicador" editable="true" resizableColumns="true" value="#{filtrosIndicadorConfiguracion.filtros}"
 						style="margin:10px;" var="filtro">
-						<p:column headerText="Filtro">
-							<h:outputText value="#{filtro.nombre}" />
+						
+						<p:ajax event="rowEdit" listener="#{filtrosIndicadorConfiguracion.onRowEdit}" update=":form:msgs" />
+       					<p:ajax event="rowEditCancel" listener="#{filtrosIndicadorConfiguracion.onRowCancel}" update=":form:msgs" />
+							
+						
+						<p:column headerText="Filtro" footerText="contiene" style="text-align: center"  filterBy="#{filtro.nombre}"  filterFunction="#{filterView.filterByName}"  >
+							<p:outputLabel value="#{filtro.nombre}" />
 						</p:column>
+						
 						<p:column headerText="Valor">
-							<p:inputText value="#{filtro.valorInicial}" />
+						
+							<p:cellEditor>
+				               <f:facet name="output"><h:outputText style="text-align: center"  value="#{filtro.valorInicial}" /></f:facet>
+				               <f:facet name="input"><p:inputText style="text-align: center" value="#{filtro.valorInicial}" /></f:facet>
+				           </p:cellEditor>	
+							
 						</p:column>
+						
+						<p:column headerText="Editar" style="text-align: center">
+				           <p:rowEditor />
+				       	</p:column>
+						
+						
 						<f:facet name="footer">
-							<p:commandButton value="Consultar"  disabled="#{filtrosIndicadorConfiguracion.filtros.size()==0}" update=":form:msgs"
-								actionListener="#{filtrosIndicadorConfiguracion.guardarValoresFiltros}">
+							<p:commandButton value="Ver consulta"  disabled="#{empty filtrosIndicadorConfiguracion.filtros}" update=":form:msgs"
+								actionListener="#{filtrosIndicadorConfiguracion.irAIndicador}">
 								<f:param name="opcion" value="#{menuVista.opcion}" />
 								<f:param name="idIndicador"
 									value="#{menuVista.indicador.idIndicador}" />
@@ -41,6 +58,9 @@
 									value="#{menuVista.indicador.modeloGrafico.idModelo}" />
 							</p:commandButton>
 						</f:facet>
+						
+						
+						
 					</p:dataTable>
 				</p:column>
 			</p:row>

@@ -3,6 +3,7 @@ package pnl.ejb;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -13,13 +14,16 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import pnl.interfaz.LogUsuarioBeanRemote;
 import pnl.modelo.LogUsuario;
+import pnl.qualificadores.AuditorGeneral;
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "LogUsuarioBean")
 public class LogUsuarioBean
         implements LogUsuarioBeanRemote

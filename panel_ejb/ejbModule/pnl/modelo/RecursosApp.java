@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="RECURSOS_APP")
 @Cacheable(false)
-@NamedQuery(name="RecursosApp.findAll", query="SELECT r FROM RecursosApp r")
+@NamedQuery(name="RecursosApp.findAll", query="SELECT r FROM RecursosApp r ORDER BY r.idRecursosApp")
 public class RecursosApp implements Serializable {
 	private static final long serialVersionUID = 1L;
 

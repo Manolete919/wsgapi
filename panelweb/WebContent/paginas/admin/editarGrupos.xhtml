@@ -28,26 +28,34 @@
 				<p:column>
 
 
-					<p:dataTable id="tabla" value="#{grupoEditar.usuarioGrupos}" resizableColumns="true" emptyMessage="No hay grupos"
+					<p:dataTable id="tabla" value="#{grupoEditar.usuarioGrupos}" editable="true" resizableColumns="true" emptyMessage="No hay grupos"
 						style="margin:10px;" var="usuarioGrupo" rows="5"
 							paginator="true">
+							
+						<p:ajax event="rowEdit" listener="#{grupoEditar.onRowEdit}" update=":form:msgs" />
+       					<p:ajax event="rowEditCancel" listener="#{grupoEditar.onRowCancel}" update=":form:msgs" />
+ 
+         				<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{usuarioGrupo.grupo.idGrupo}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{usuarioGrupo.grupo.idGrupo}" />		          						
+						</p:column>
 						
-						<p:column headerText="Descripicon" >
-							<p:inputText required="true" requiredMessage="La descripcion no debe estar vacia" value="#{usuarioGrupo.grupo.descripcion}" />
+						<p:column headerText="Descripción" footerText="contiene" filterBy="#{usuarioGrupo.grupo.descripcion}"  filterFunction="#{filterView.filterByName}"  >					
+						   <p:cellEditor>
+				               <f:facet name="output"><h:outputText value="#{usuarioGrupo.grupo.descripcion}" /></f:facet>
+				               <f:facet name="input"><p:inputText required="true" requiredMessage="La descripcion no debe estar vacia" id="modelInput" value="#{usuarioGrupo.grupo.descripcion}" /></f:facet>
+				           </p:cellEditor>							
 						</p:column>
-
-						<p:column headerText="Activo/Inactivo">
-							<p:outputLabel value="#{(usuarioGrupo.grupo.estado=='A')?'Activo':'Inactivo'}" />
+						<p:column headerText="Activo/Inactivo" footerText="contiene" filterBy="#{usuarioGrupo.grupo.estadoVisual}"  filterFunction="#{filterView.filterByName}"  >
+							<p:cellEditor>
+								<f:facet name="output"><p:outputLabel value="#{usuarioGrupo.grupo.estadoVisual}" /></f:facet>
+								<f:facet name="input"><p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" /></f:facet>
+							</p:cellEditor>
 						</p:column>
 						
-						<p:column headerText="Acción">
-							<p:selectBooleanCheckbox value="#{usuarioGrupo.grupo.activoInactivo}" />
-						</p:column>
-						<f:facet name="footer">
-							<p:commandButton value="Actualizar"  update=":form:msgs,tabla" disabled="#{grupoEditar.usuarioGrupos.size() == 0 }" actionListener="#{grupoEditar.actualizarUsuarioGrupos}" /> 													
-						</f:facet>
-											
-	
+						<p:column headerText="Editar" style="text-align: center">
+				           <p:rowEditor />
+				       	</p:column>
+				       
 					</p:dataTable>
 
 

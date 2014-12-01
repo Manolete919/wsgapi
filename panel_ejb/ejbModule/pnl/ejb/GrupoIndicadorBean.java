@@ -14,16 +14,19 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.GrupoIndicadorPK;
 import pnl.modelo.Indicador;
+import pnl.qualificadores.AuditorGeneral;
 
 
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "GrupoIndicadorBean")
 public class GrupoIndicadorBean
         implements  GrupoIndicadorBeanRemote, Serializable {

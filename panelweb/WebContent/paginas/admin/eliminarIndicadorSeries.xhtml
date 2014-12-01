@@ -37,6 +37,9 @@
         				<p:ajax event="rowSelectCheckbox" update="btnEliminar" /> 
         				<p:ajax event="rowUnselectCheckbox" update="btnEliminar" /> 
         				
+        				<p:column  headerText="Id" style="text-align: center" footerText="contiene" filterBy="#{indicadorSerie.idSerie}"  filterFunction="#{filterView.filterByName}"  >					
+						   <h:outputText value="#{indicadorSerie.idSerie}" />		          						
+						</p:column>
         				
         				<p:column headerText="Nombre" footerText="contiene" filterBy="#{indicadorSerie.nombre}" filterFunction="#{filterView.filterByName}"  >
 							<p:outputLabel value="#{indicadorSerie.nombre}"  />

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="ACCION_USUARIO")
 @Cacheable(false)
-@NamedQuery(name="AccionUsuario.findAll", query="SELECT a FROM AccionUsuario a")
+@NamedQuery(name="AccionUsuario.findAll", query="SELECT a FROM AccionUsuario a ORDER BY a.idAccionUsuario")
 public class AccionUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 

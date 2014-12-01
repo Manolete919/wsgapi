@@ -11,11 +11,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pnl.wsg.Bind;
-import pnl.wsg.GenericoPortType;
 import pnl.wsg.GenericoServiceLocator;
 import pnl.wsg.Servicio;
 import pnl.wsg.ServicioElement;
 import pnl.wsg.ServicioResponseElement;
+import pnl.wsg.ServicioWebGenerico;
 
 
 public class ConsultaGenerico implements Serializable {
@@ -28,7 +28,7 @@ public class ConsultaGenerico implements Serializable {
 		try {
 			
 			GenericoServiceLocator localizadorDeServicio = new GenericoServiceLocator();
-			GenericoPortType genericoPortType = localizadorDeServicio.getGenericoPortTypePort();
+			ServicioWebGenerico serv = localizadorDeServicio.getServicioWebGenericoPort();
 
 			
 			ServicioElement parameters = new ServicioElement();
@@ -49,7 +49,8 @@ public class ConsultaGenerico implements Serializable {
 			parameters.setSentencias_binds(sentencias_binds);
 			
 			
-			ServicioResponseElement servicioResponseElement = genericoPortType.obtenerXml(parameters);
+			
+			ServicioResponseElement servicioResponseElement = serv.obtenerXml(parameters);
 			
 			Servicio servicio = servicioResponseElement.getResult();
 			
