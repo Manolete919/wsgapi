@@ -22,4 +22,7 @@ public interface WsgServicioBeanRemote {
 	public List<WsgServicio> findRange(int[] range);
 
 	int count();
+	
+	public WsgServicio buscarServicioPorIdActivoYVigente(long idServicio) throws Exception;
+	
 }

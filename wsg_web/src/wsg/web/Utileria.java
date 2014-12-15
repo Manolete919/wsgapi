@@ -2,12 +2,10 @@ package wsg.web;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,12 +19,14 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
+
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
 
 public class Utileria {
 
@@ -75,8 +75,7 @@ public class Utileria {
 		trans = transfac.newTransformer();
 		trans.setOutputProperty(OutputKeys.METHOD, "xml");
 		trans.setOutputProperty(OutputKeys.INDENT, "yes");
-		trans.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-				"5");
+		trans.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","5");
 		trans.setOutputProperty(OutputKeys.STANDALONE, "yes");
 		trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes"); // omite
 																			// el
@@ -233,15 +232,13 @@ public class Utileria {
 
 			if (sentenciasList.getLength() > 0) {
 
-				System.out.print("CANTIDAD DE SENTENCIAS SQL "
-						+ sentenciasList.getLength());
+				System.out.print("CANTIDAD DE SENTENCIAS SQL "+ sentenciasList.getLength());
 				for (int c = 0; c < sentenciasList.getLength(); c++) {
 
 					NodeList parametrosList = sentenciasList.item(c)
 							.getChildNodes();
 
-					System.out.print("CANTIDAD DE PARAMETROS BINDS "
-							+ parametrosList.getLength());
+					System.out.print("CANTIDAD DE PARAMETROS BINDS " + parametrosList.getLength());
 
 					ListaParametros parametros = new ListaParametros();
 
@@ -264,5 +261,16 @@ public class Utileria {
 		return arrayDeListasDeParametros;
 
 	}
+	
+    public static String generateHash(String password) {
+        // This is one way of generating a SHA-256 hash. I uses classes/methods
+        // from the Google Guava project. See the Maven pom.xml file which
+        // I've modified to include the Guava libraries. See the imports
+        // above which show what is being used.
+        String hash = Hashing.sha256().hashString(password, Charsets.UTF_8).toString();
+
+        return hash;
+    }
+	
 
 }

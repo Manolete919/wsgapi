@@ -203,7 +203,6 @@ public class RegistraLog implements Serializable {
 						
 						IndicadorSerieFiltro serieFiltroViejo = indicadorSerieFiltroBeanRemote.obtenerIndicadorSerieFiltroPorId(serieFiltroNuevo.getId());
 						
-						//RECURSO_FILTRO_SERIE
 						if(serieFiltroViejo != null )
 						
 							logUsuario.setDetalle(serieFiltroViejo.getIndicadorSery().getNombre()+":"+serieFiltroViejo.getFiltro().getNombre()+":"+serieFiltroViejo.getValor()+"->"+serieFiltroNuevo.getValor());				

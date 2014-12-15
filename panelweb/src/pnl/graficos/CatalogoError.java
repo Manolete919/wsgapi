@@ -28,80 +28,71 @@ public class CatalogoError implements Serializable {
 	
 	public String obtenerMensajeDeErrorPorNombrePropiedad(String proveedorBase, int codigoError){
 		
-		String mensaje = null;
+		
+		String erroresConocidos = null;
 		
 		if(codigoError == -1){
-			mensaje = getPropiedades().getProperty("pnl.wsg.servicioUsuarioNoExiste"); 
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos =  getPropiedades().getProperty("pnl.wsg.servicioUsuarioNoExiste");
+			if(erroresConocidos==null){
+				return "Servicio o usuario no disponibles";
 			}
+			return erroresConocidos;
+			
 		}
 		
 		if(codigoError == -2){
-			mensaje = getPropiedades().getProperty("pnl.wsg.claveIncorrecta"); 
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos = getPropiedades().getProperty("pnl.wsg.claveIncorrecta"); 
+			if(erroresConocidos==null){
+				return "La clave no coincide";
 			}
+			return erroresConocidos;
 		}
 		
 		if(codigoError == -3){
-			mensaje = getPropiedades().getProperty("pnl.wsg.servicioUsuarioInactivo"); 
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos = getPropiedades().getProperty("pnl.wsg.servicioUsuarioInactivo"); 
+			if(erroresConocidos==null){
+				return "Servicio o usuario inactivos";
 			}
+			return erroresConocidos;
 		}
 		
 		if(codigoError == -4){
-			mensaje = getPropiedades().getProperty("pnl.wsg.cuentaBloqueada"); 
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos =  getPropiedades().getProperty("pnl.wsg.cuentaBloqueada"); 
+			if(erroresConocidos==null){
+				return "Cuenta bloqueada";
 			}
+			return erroresConocidos;
 		}
 		
 		if(codigoError == -5){
-			mensaje = getPropiedades().getProperty("pnl.wsg.errorNoCatalogado"); 
-			
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos = getPropiedades().getProperty("pnl.wsg.errorNoCatalogado");
+			if(erroresConocidos==null){
+				return "Error no catalogado";
 			}
+			return erroresConocidos;
 		}
 		
 		
 		if(codigoError == -6){
-			
-			
-			mensaje = getPropiedades().getProperty("pnl.wsg.nombreNoEncontrado");
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos =  getPropiedades().getProperty("pnl.wsg.nombreNoEncontrado"); 
+			if(erroresConocidos==null){
+				return "Fuente de datos no encontrada, o no se ha configurado";
 			}
-		
+			return erroresConocidos;
 		}
 		
 		if(codigoError == -38170){
-			mensaje = getPropiedades().getProperty("pnl.wsg.exito"); 
-			if(mensaje == null){
-				return "Error codigo: " +codigoError+" no catalogado";
-			}else{
-				return mensaje;
+			erroresConocidos = getPropiedades().getProperty("pnl.wsg.exito"); 
+			if(erroresConocidos==null){
+				return "Exito";
 			}
+			return erroresConocidos;
 		}
 		
-		mensaje = getPropiedades().getProperty(proveedorBase+"."+codigoError);
+		String mensaje = getPropiedades().getProperty(proveedorBase+"."+codigoError);
 		
 		if(mensaje == null ){
-			return "Error codigo: " +codigoError+" no catalogado";
+			return getPropiedades().getProperty("pnl.wsg.errorNoCatalogado");
 		}else{
 			return mensaje;
 		}

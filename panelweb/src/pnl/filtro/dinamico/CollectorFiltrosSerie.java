@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -17,7 +16,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import pnl.interfaz.FiltroBeanRemote;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.IndicadorSerieBeanRemote;
@@ -28,7 +26,6 @@ import pnl.modelo.IndicadorSerie;
 import pnl.modelo.IndicadorSerieFiltro;
 import pnl.modelo.IndicadorSerieFiltroPK;
 import pnl.modelo.Usuario;
-import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 import pnl.webservice.integracion.ConsultaGenerico;
 import pnl.webservice.integracion.Utileria;
@@ -62,10 +59,6 @@ public class CollectorFiltrosSerie implements Serializable {
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
-	
-	
-	@ManagedProperty("#{registraLog}")
-	private RegistraLog registraLog;
 
 	@PostConstruct
 	public void init() {
@@ -198,8 +191,6 @@ public class CollectorFiltrosSerie implements Serializable {
 
 			// cada uno de los filtros deben agregar seccion e indicador
 			filtroBeanRemote.persistFiltros(filtros2);
-			registraLog.registrarLog(filtros2, RegistraLog.ACCION_CREAR, RegistraLog.RECURSO_FILTRO_SERIE);
-			
 
 			addMessage("Datos Guardados exitosamente");
 			filtro = new Filtro();
@@ -304,10 +295,6 @@ public class CollectorFiltrosSerie implements Serializable {
 
 	public List<IndicadorSerieFiltro> getIndicadorSerieFiltrosConfigurados() {
 		return indicadorSerieFiltrosConfigurados;
-	}
-	
-	public void setRegistraLog(RegistraLog registraLog) {
-		this.registraLog = registraLog;
 	}
 
 }

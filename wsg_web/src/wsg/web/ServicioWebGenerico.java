@@ -119,9 +119,10 @@ public class ServicioWebGenerico {
 			wsgServiciosLogBeanRemote = (WsgServiciosLogBeanRemote)ctx.lookup("java:global.wsg_ejb_ear.wsg_ejb/WsgServiciosLogBean"); 
 			
 			
-			wsgServicio = wsgServicioBeanRemote.find(idServicio);
+			//wsgServicio = wsgServicioBeanRemote.find(idServicio);
 			
-			ds = Conexion.obtenerFuenteDeDatos(wsgServicio.getWsgJndi().getJndi());
+			wsgServicio = wsgServicioBeanRemote.buscarServicioPorIdActivoYVigente(idServicio);
+			
 			
 			
 			//preguntar si tiene acceso, caso contrario devolver mensaje
@@ -134,7 +135,7 @@ public class ServicioWebGenerico {
 			wsgUsuarioServicio =  wsgUsuarioServicioBeanRemote.find(id);			
 			
 			
-			if(wsgUsuarioServicio == null ){
+			if(wsgUsuarioServicio == null || wsgServicio == null ){
 				
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.servicioUsuarioNoExiste"));
 				logger.error(servicio.getMensajeError());
@@ -153,9 +154,12 @@ public class ServicioWebGenerico {
 				
 			}
 			
+			ds = Conexion.obtenerFuenteDeDatos(wsgServicio.getWsgJndi().getJndi());
+			
 			wsgUsuario = wsgUsuarioServicio.getWsgUsuario(); 
 			
-			
+			//encriptar la clave
+			clave = Utileria.generateHash(clave);
 			if(!wsgUsuario.getClave().equals(clave)){
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.claveIncorrecta"));
 				logger.error(servicio.getMensajeError());
@@ -314,6 +318,7 @@ public class ServicioWebGenerico {
 								try{	
 									wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
 									wsgServiciosLog.setMsgError(servicio.getMensajeError());
+									wsgServiciosLog.setProveedor(servicio.getProveedorBase());
 									wsgServiciosLog.setFechaFin(new Date());
 									wsgServiciosLogBeanRemote.create(wsgServiciosLog);
 									return servicio;

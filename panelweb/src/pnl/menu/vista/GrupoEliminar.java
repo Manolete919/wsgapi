@@ -19,12 +19,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import pnl.interfaz.GrupoBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.Usuario;
 import pnl.modelo.UsuarioGrupo;
-import pnl.servicio.RegistraLog;
 import pnl.servicio.UsuarioServicio;
 
 @ManagedBean
@@ -51,9 +49,6 @@ public class GrupoEliminar implements Serializable {
 	
 	@ManagedProperty("#{menuVista}")
 	private MenuVista menuVista;
-	
-	@ManagedProperty("#{registraLog}")
-	private RegistraLog registraLog;
 	
 	
 
@@ -117,7 +112,7 @@ public class GrupoEliminar implements Serializable {
 				//eliminar todos los grupos
 				grupoBeanRemote.removeGrupos(selectedGrupos);
 				
-				registraLog.registrarLog(selectedGrupos, RegistraLog.ACCION_BORRAR, RegistraLog.RECURSO_INDICADOR);
+				
 			
 				addMessage("Se eliminaron exitosamente!!",FacesMessage.SEVERITY_INFO);
 				usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioNoOcupados(usuario.getIdUsuario());
@@ -190,9 +185,7 @@ public class GrupoEliminar implements Serializable {
 		this.menuVista = menuVista;
 	}
 
-	public void setRegistraLog(RegistraLog registraLog) {
-		this.registraLog = registraLog;
-	}
+
 
 
 }

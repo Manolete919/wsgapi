@@ -184,7 +184,7 @@
 
 							<f:facet name="right">
 								<p:commandButton id="filtroBtn"
-									actionListener="#{filtrosConfiguracion.obtenerConfigurados}"
+									actionListener="#{filtrosEditar.obtenerConfigurados}"
 									icon="ui-icon-info" value="Filtros"
 									title="Ver filtros configurados">
 									<f:param name="idIndicador"
@@ -202,7 +202,7 @@
 
 					<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade" dynamic="true" style="width:600px">
 						<p:dataTable var="filtro" emptyMessage="No hay filtros configurados"
-							value="#{filtrosConfiguracion.filtrosConfigurados}" rows="5"
+							value="#{filtrosEditar.filtrosConfigurados}" rows="5"
 							paginator="true">
 							
 							<p:column headerText="Orden" footerText="contiene" filterBy="#{filtro.indiceFiltro}"  filterFunction="#{filterView.filterByName}"  >
@@ -218,7 +218,7 @@
 							<h:outputText rendered="#{filtro.anivelIndicador=='S'}" value="#{filtro.valorInicial}" />
 							
 				             <p:commandButton rendered="#{filtro.anivelIndicador=='N'}" update=":form:serieFiltroValorDetalles" oncomplete="PF('seriesFiltrosValorDialogos').show()" icon="ui-icon-search" title="Ver detalle">
-				                <f:setPropertyActionListener value="#{filtro}" target="#{filtrosConfiguracion.selectedFiltro}" />
+				                <f:setPropertyActionListener value="#{filtro}" target="#{filtrosEditar.selectedFiltro}" />
 				            </p:commandButton>
 			            							
 						</p:column>
@@ -316,7 +316,7 @@
 					<p:outputPanel id="serieFiltroValorDetalles"  style="text-align:center;">
 				        
 				            
-				            <p:dataTable value="#{filtrosConfiguracion.indicadorSerieFiltros}" style="width:600px;" var="indicadorSerieFiltro">
+				            <p:dataTable value="#{filtrosEditar.indicadorSerieFiltros}" style="width:600px;" var="indicadorSerieFiltro">
 				            	<p:column headerText="Serie"  footerText="contiene" filterBy="#{indicadorSerieFiltro.indicadorSery.nombre}"  filterFunction="#{filterView.filterByName}"  >
 				            		<h:outputText value="#{indicadorSerieFiltro.indicadorSery.nombre}"/>
 				            	</p:column>

@@ -119,7 +119,7 @@ public class IndicadorEditar implements Serializable{
 			
 			filtroValores.add(new FiltroValorDefault(null,usuario.getIdUsuario()));
 			
-			Servicio servicio  = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getIdUsuario(), usuario.getClave());	
+			Servicio servicio  = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(filtroValores), new Long(2), usuario.getUsuariosWsg().getIdUsuario(), usuario.getUsuariosWsg().getClave());	
 			wsgServicios = new ArrayList<WsgServicio>();
 			if(servicio != null ){
 				if(servicio.get_any() != null ){					
