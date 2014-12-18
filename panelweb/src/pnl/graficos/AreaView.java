@@ -98,7 +98,7 @@ public class AreaView implements Serializable {
 					
 					
 					List<Generico> datos = new ArrayList<Generico>();					
-					datos.add(new Generico(0,0));
+					datos.add(new Generico("",0));
 					Servicio servicio = null;
 					CatalogoError catalogo = new CatalogoError();
 					
@@ -109,18 +109,22 @@ public class AreaView implements Serializable {
 						servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getUsuariosWsg().getIdUsuario(), dinamico.getUsuario().getUsuariosWsg().getClave());
 						if(servicio != null ){
 							if(servicio.get_any() != null ){
-								datos = new ArrayList<Generico>();
 								datos = cg.procesaDatosDeGraficos(servicio.get_any());		
 							}
 							
 							mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
-							codigoDeAplicacion = servicio.getCodigoError();
-							
-							
+							codigoDeAplicacion = servicio.getCodigoError();							
+						}else{
+							mensajeDeAplicacion =    "El servicio web al que accesa la aplicacion no está disponible, intentelo mas tarde, o póngase en contacto con sistemas";
+							codigoDeAplicacion = -10;
 						}
 
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
+					}catch(NumberFormatException nfe){
+						mensajeDeAplicacion =    "Se esperaba en la segunda columna de la sentencia un valor numério y se ha obtenido caracter, revise la consulta";
+						codigoDeAplicacion = -11;
+					}catch (Exception e) {
+						mensajeDeAplicacion =    "Ha ocurrido algun error inesperado, comuníquese con sistemas";
+						codigoDeAplicacion = -12;
 						e.printStackTrace();
 					}	
 					

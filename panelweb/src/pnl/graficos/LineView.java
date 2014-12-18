@@ -82,7 +82,7 @@ public class LineView implements Serializable {
 					// agregar los parametros del grafico
 					List<FiltroValorDefault> parametrosPropiedadValores = serieGraficoParametrosPropiedadValor.getFiltroValorDefaults();
 					List<Generico> datos = new ArrayList<Generico>();
-					datos.add(new Generico(0, 0));
+					datos.add(new Generico("", 0));
 					Servicio servicio = null;
 					Utileria u = new Utileria();
 					CatalogoError catalogo = new CatalogoError();
@@ -98,9 +98,16 @@ public class LineView implements Serializable {
 							}
 							mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
 							codigoDeAplicacion = servicio.getCodigoError();
+						}else{
+							mensajeDeAplicacion =    "El servicio web al que accesa la aplicacion no está disponible, intentelo mas tarde, o póngase en contacto con sistemas";
+							codigoDeAplicacion = -10;
 						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
+					}catch(NumberFormatException nfe){
+						mensajeDeAplicacion =    "Se esperaba en la segunda columna de la sentencia un valor numério y se ha obtenido caracter, revise la consulta";
+						codigoDeAplicacion = -11;
+					}catch (Exception e) {
+						mensajeDeAplicacion =    "Ha ocurrido algun error inesperado, comuníquese con sistemas";
+						codigoDeAplicacion = -12;
 						e.printStackTrace();
 					}
 					// setear cada serie

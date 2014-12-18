@@ -12,16 +12,18 @@
 	</ui:define>
 
 	<ui:define name="content" >
+		<p:outputLabel rendered="#{areaView.codigoDeAplicacion != -38170 }"
+			style="color:green;font-size:15px;font-weight:bold"
+			value="Aviso: " />
 		<p:outputLabel rendered="#{areaView.codigoDeAplicacion != -38170 }" style="color:green;font-size:15px;font-weight:bold" value="Mensaje de la aplicacion: "/><p:outputLabel rendered="#{areaView.codigoDeAplicacion != -38170 }" style="color:red;font-size:15px;" value="#{areaView.mensajeDeAplicacion}"/>
 		
-			<p:panelGrid  rendered="#{menuVista.indicador.idIndicador != 0}"   style="margin:10px; width:97%;"   columns="1">
-			<p:scrollPanel mode="native" style="height:350px;">
-			<p:chart type="bar" id="barra1"
+	
+		<p:chart rendered="#{menuVista.indicador.idIndicador != 0}" type="bar" id="barra1"
 						model="#{barView.barModel}"
-						style="margin:15px;" />
+						style="margin:15px;width:1800px;" />
 			
-			</p:scrollPanel>	
-			</p:panelGrid>
+			
+		
 			
 	</ui:define>
 

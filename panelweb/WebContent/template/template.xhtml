@@ -11,9 +11,23 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Panel</title>
 	</ui:insert>
+	<style>
+		.ui-layout-north {
+	        z-index:20 !important;
+	        overflow:visible !important;
+	    }
+	
+	    .ui-layout-north .ui-layout-unit-content {
+	        overflow:visible !important;
+	    }
+	
+	</style>
+	
 </h:head>
 
 <h:body>
+<p:layout fullPage="true">
+<p:layoutUnit position="north" size="110" header="Administración" resizable="true" closable="true" collapsible="true">
 	<ui:insert name="top">
 		<h:form id="formBarra">
 			<p:growl id="messages" />
@@ -126,7 +140,10 @@
 		</h:form>
 	</ui:insert>
 
-	<p:layout fullPage="false"  style="margin-top:10px;">
+	</p:layoutUnit>
+	
+	
+	
 		<p:layoutUnit position="west" size="300"
 			header="Indicadores" resizable="true"
 			closable="true" collapsible="true">
@@ -148,7 +165,7 @@
 		</p:layoutUnit>
 
 
-		<p:layoutUnit position="center" resizable="true">
+		<p:layoutUnit position="center" minSize="1300" maxSize="5000" resizable="true">
 			<h:form id="form">
 				<ui:insert name="overlay">
 					<c:if test="#{menuVista.indicador.idIndicador != 0}">

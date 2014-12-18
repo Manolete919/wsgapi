@@ -68,7 +68,7 @@ public class ConsultaGenerico implements Serializable {
 	
 			
 	
-	public List<Generico> procesaDatosDeGraficos(MessageElement[] get_any) {
+	public List<Generico> procesaDatosDeGraficos(MessageElement[] get_any) throws NumberFormatException, Exception {
 		
 		List<Generico> listaGenerica = new ArrayList<Generico>();
 		Iterator<?> it = get_any[0].getChildElements();
@@ -89,7 +89,14 @@ public class ConsultaGenerico implements Serializable {
 			//va a la siguiente columna
 			if(it2.hasNext()){
 				MessageElement me3 = (MessageElement) it2.next();
-				objetoY = Integer.parseInt(me3.getValue());
+				try{
+					objetoY = Integer.parseInt(me3.getValue());
+				}catch(NumberFormatException nfe ){
+					throw new NumberFormatException();
+				}catch(Exception e ){
+					throw new Exception();
+				}
+				
 			}
 			
 			
@@ -106,7 +113,7 @@ public class ConsultaGenerico implements Serializable {
 
 
 	
-	public List<WsgServicio> procesaDatosServiciosDeUsuario(MessageElement[] get_any) {
+	public List<WsgServicio> procesaDatosServiciosDeUsuario(MessageElement[] get_any) throws NumberFormatException,Exception {
 		// TODO Auto-generated method stub
 		Iterator<?> it = get_any[0].getChildElements();
 		List<WsgServicio> wsgServicios = new ArrayList<WsgServicio>();
@@ -143,13 +150,10 @@ public class ConsultaGenerico implements Serializable {
 				tieneSiguiente = it.hasNext();
 				
 			}catch(NumberFormatException nfe ){
-				tieneSiguiente = false;
-				wsgServicios = new ArrayList<WsgServicio>();
-				nfe.printStackTrace();
+				throw new NumberFormatException();
+				
 			}catch(Exception e ){
-				tieneSiguiente = false;
-				wsgServicios = new ArrayList<WsgServicio>();
-				e.printStackTrace();
+				throw new NumberFormatException();				
 			}
 			
 		}

@@ -75,6 +75,9 @@ public class ServicioWebGenerico {
 			@XmlElement(required = true, namespace = "http://axis/EISApiOnlineWS.wsdl/types/") @WebParam(name = "clave") String clave,
 			@XmlElement(required = false, namespace = "http://axis/EISApiOnlineWS.wsdl/types/") @WebParam(name = "sentencias_binds") Bind sentencias_binds) {
 	
+		//encriptar la clave
+		clave = Utileria.generateHash(clave);
+		
 		Servicio servicio = new Servicio();
 		WsgServiciosLog wsgServiciosLog = new WsgServiciosLog();
 		wsgServiciosLog.setIdServicio(new BigDecimal(idServicio));
@@ -158,8 +161,7 @@ public class ServicioWebGenerico {
 			
 			wsgUsuario = wsgUsuarioServicio.getWsgUsuario(); 
 			
-			//encriptar la clave
-			clave = Utileria.generateHash(clave);
+			
 			if(!wsgUsuario.getClave().equals(clave)){
 				servicio.setMensajeError(getPropiedades().getProperty("wsgwar.claveIncorrecta"));
 				logger.error(servicio.getMensajeError());

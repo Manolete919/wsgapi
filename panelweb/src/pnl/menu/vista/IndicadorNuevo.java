@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import pnl.filtro.dinamico.FiltroValorDefault;
+import pnl.graficos.CatalogoError;
 import pnl.interfaz.GrupoIndicadorBeanRemote;
 import pnl.interfaz.ModeloGraficoBeanRemote;
 import pnl.interfaz.UsuarioGrupoBeanRemote;
@@ -79,6 +80,10 @@ public class IndicadorNuevo implements Serializable {
 	List<Grupo> gruposSource;
 	List<Grupo> gruposTarget;
 	
+	CatalogoError catalogo = new CatalogoError();
+	private String mensajeDeAplicacion = "";
+	private int codigoDeAplicacion = 0;
+	
 
 	@ManagedProperty("#{usuarioServicio}")
 	private UsuarioServicio usuarioServicio;
@@ -122,16 +127,11 @@ public class IndicadorNuevo implements Serializable {
 
 			InitialContext ic = new InitialContext(pr);
 
-			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
+			grupoIndicadorBeanRemote = (GrupoIndicadorBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/GrupoIndicadorBean");
 
-			modeloGraficoBeanRemote = (ModeloGraficoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/ModeloGraficoBean");
+			modeloGraficoBeanRemote = (ModeloGraficoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/ModeloGraficoBean");
 
-			
-
-			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic
-					.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
+			usuarioGrupoBeanRemote = (UsuarioGrupoBeanRemote) ic.lookup("java:global.panel_ear.panel_ejb/UsuarioGrupoBean");
 
 			
 		} catch (Exception e) {
@@ -149,6 +149,13 @@ public class IndicadorNuevo implements Serializable {
 				if(servicio.get_any() != null ){					
 					wsgServicios = cg.procesaDatosServiciosDeUsuario(servicio.get_any());
 				}
+				mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
+				codigoDeAplicacion = servicio.getCodigoError();	
+
+				
+			}else{
+				mensajeDeAplicacion =    "El servicio web al que accesa la aplicacion no está disponible, intentelo mas tarde, o póngase en contacto con sistemas";
+				codigoDeAplicacion = -10;
 			}
 			usuarioGrupos = usuarioGrupoBeanRemote.obtenerGruposPorIdUSuarioEstado(usuario.getIdUsuario(),"A");
 		
@@ -444,5 +451,24 @@ public class IndicadorNuevo implements Serializable {
 	public void setRegistraLog(RegistraLog registraLog) {
 		this.registraLog = registraLog;
 	}
+
+	public String getMensajeDeAplicacion() {
+		return mensajeDeAplicacion;
+	}
+
+	public void setMensajeDeAplicacion(String mensajeDeAplicacion) {
+		this.mensajeDeAplicacion = mensajeDeAplicacion;
+	}
+
+	public int getCodigoDeAplicacion() {
+		return codigoDeAplicacion;
+	}
+
+	public void setCodigoDeAplicacion(int codigoDeAplicacion) {
+		this.codigoDeAplicacion = codigoDeAplicacion;
+	}
+	
+	
+	
 
 }

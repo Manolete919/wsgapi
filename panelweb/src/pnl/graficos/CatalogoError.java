@@ -92,10 +92,20 @@ public class CatalogoError implements Serializable {
 		String mensaje = getPropiedades().getProperty(proveedorBase+"."+codigoError);
 		
 		if(mensaje == null ){
-			return getPropiedades().getProperty("pnl.wsg.errorNoCatalogado");
-		}else{
-			return mensaje;
+			
+			String mensaje2= getPropiedades().getProperty("pnl.wsg.errorNoCatalogado");
+			
+			if(mensaje2 == null){
+				
+				return "Error producido con código: " + codigoError +", no catalogado, proveedor->: "+proveedorBase+", contacte con sistemas";
+			}
+			
+			return mensaje2;
+		
 		}
+		
+		return mensaje;
+		
 		
 		
 	}
