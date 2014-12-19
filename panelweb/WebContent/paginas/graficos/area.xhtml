@@ -20,10 +20,12 @@
 			style="color:red;font-size:15px;"
 			value="#{areaView.mensajeDeAplicacion}" />
 
-
-			<p:chart rendered="#{menuVista.indicador.idIndicador != 0}"    type="line" id="area1" model="#{areaView.areaModel}"
+		<p:panel>
+			<p:scrollPanel mode="native"  style="height:350px;">	
+					<p:chart rendered="#{menuVista.indicador.idIndicador != 0}"    type="line" id="area1" model="#{areaView.areaModel}"
 				style="margin:15px;width:1800px;" />
-	
+			</p:scrollPanel>
+		</p:panel>
 		
 			
 		

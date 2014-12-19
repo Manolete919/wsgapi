@@ -19,14 +19,14 @@
 		<p:outputLabel rendered="#{areaView.codigoDeAplicacion != -38170 }"
 			style="color:red;font-size:15px;"
 			value="#{areaView.mensajeDeAplicacion}" />
-		
-		
-
-		<p:chart rendered="#{menuVista.indicador.idIndicador != 0}" type="line" id="linea2" model="#{lineView.lineModel2}"
-				style="margin:15px;width:1800px;" />
+				
+		<p:panel>
+			<p:scrollPanel mode="native"  style="height:350px;">
+				<p:chart rendered="#{menuVista.indicador.idIndicador != 0}" type="line" id="linea2" model="#{lineView.lineModel2}"
+					style="margin:15px;width:1800px;" />
+			</p:scrollPanel>
+		</p:panel>
 	
-	
-
 
 
 	</ui:define>
