@@ -212,12 +212,8 @@
 
 
 						</p:toolbar>
-
-					</c:if>
-					<p:outputLabel rendered="#{menuVista.indicador.idIndicador == 0}"
-						value="El indicador no existe, o ha sido eliminado" />
-
-					<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade" dynamic="true" style="width:600px">
+						
+						<p:overlayPanel id="filtrosPanel" for="filtroBtn" hideEffect="fade" dynamic="true" style="width:600px">
 						<p:dataTable var="filtro" emptyMessage="No hay filtros configurados"
 							value="#{filtrosEditar.filtrosConfigurados}" rows="5"
 							paginator="true">
@@ -248,6 +244,12 @@
 							
 						</p:dataTable>
 					</p:overlayPanel>
+
+					</c:if>
+					<p:outputLabel rendered="#{menuVista.indicador.idIndicador == 0}"
+						value="Aviso: El indicador no existe, o ha sido eliminado" />
+
+
 
 				</ui:insert>
 				<ui:insert name="content">
