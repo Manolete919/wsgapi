@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "UsuarioBean")
 public class UsuarioBean
-        implements  UsuarioBeanRemote,Serializable {
+        implements  UsuarioBeanRemote  {
         	private static final long serialVersionUID = 1L;
 
     /**

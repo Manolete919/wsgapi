@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="WSG_JNDI")
-@Cacheable(false)
+//@Cacheable(false)
 @NamedQuery(name="WsgJndi.findAll", query="SELECT w FROM WsgJndi w")
 public class WsgJndi implements Serializable {
 	private static final long serialVersionUID = 1L;

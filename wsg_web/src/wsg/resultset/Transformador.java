@@ -7,16 +7,20 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.w3c.dom.Document;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Element;
 
+import wsg.qualificadores.AuditorGeneralWeb;
 
-@Stateless
-@LocalBean
+
+
+@Named
+@RequestScoped
+@AuditorGeneralWeb
 public class Transformador implements Serializable {
 	
 	

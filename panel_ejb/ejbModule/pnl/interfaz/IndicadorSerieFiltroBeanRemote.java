@@ -1,4 +1,5 @@
 package pnl.interfaz;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -12,7 +13,7 @@ import pnl.modelo.IndicadorSerieFiltroPK;
  * @generated DT_ID=none
  */
 @Remote
-public interface IndicadorSerieFiltroBeanRemote
+public interface IndicadorSerieFiltroBeanRemote extends Serializable
 {
 
     /**

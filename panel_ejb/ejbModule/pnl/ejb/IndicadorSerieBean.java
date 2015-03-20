@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -24,7 +24,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "IndicadorSerieBean")
 public class IndicadorSerieBean
-        implements IndicadorSerieBeanRemote,Serializable {
+        implements IndicadorSerieBeanRemote {
         	private static final long serialVersionUID = 1L;
 
     /**

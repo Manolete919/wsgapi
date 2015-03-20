@@ -1,5 +1,6 @@
 package wsg.interfaz;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -7,7 +8,7 @@ import javax.ejb.Remote;
 import wsg.modelo.WsgServiciosLog;
 
 @Remote
-public interface WsgServiciosLogBeanRemote {
+public interface WsgServiciosLogBeanRemote extends Serializable {
 
 	void create(WsgServiciosLog wsgServiciosLog);
 

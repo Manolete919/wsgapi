@@ -1,7 +1,10 @@
 package pnl.interfaz;
 
+import java.io.Serializable;
 import java.util.List;
+
 import javax.ejb.Remote;
+
 import pnl.modelo.GrupoIndicador;
 import pnl.modelo.Indicador;
 
@@ -11,7 +14,7 @@ import pnl.modelo.Indicador;
  * @generated DT_ID=none
  */
 @Remote
-public interface GrupoIndicadorBeanRemote
+public interface GrupoIndicadorBeanRemote extends Serializable
 {
 
     /**

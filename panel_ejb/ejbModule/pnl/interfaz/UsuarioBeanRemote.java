@@ -1,5 +1,6 @@
 package pnl.interfaz;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -11,7 +12,7 @@ import pnl.modelo.Usuario;
  * @generated DT_ID=none
  */
 @Remote
-public interface UsuarioBeanRemote
+public interface UsuarioBeanRemote extends Serializable
 {
 
     /**

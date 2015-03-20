@@ -1,15 +1,12 @@
 package wsg.bean;
 
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.Properties;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import wsg.beanAbstracto.AbstractBean;
 import wsg.interfaz.WsgUsuarioServicioBeanRemote;
 import wsg.modelo.WsgUsuarioServicio;
@@ -21,19 +18,18 @@ import wsg.qualificadores.AuditorGeneral;
  */
 @AuditorGeneral
 @Stateless
-public class WsgUsuarioServicioBean extends AbstractBean<WsgUsuarioServicio> implements WsgUsuarioServicioBeanRemote , Serializable {
+public class WsgUsuarioServicioBean extends AbstractBean<WsgUsuarioServicio> implements WsgUsuarioServicioBeanRemote{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static final Logger logger = Logger.getLogger(WsgJndiBean.class);
-	private Properties propiedades = new Properties();
+	static final Logger logger = LogManager.getLogger(WsgJndiBean.class);
 
+	@Inject
 	private EntityManager em;
 	
-	private EntityManagerFactory entityManagerFactory = null;
-       
+     
     /**
      * @see AbstractBean#AbstractBean(Class<T>)
      */
@@ -44,27 +40,9 @@ public class WsgUsuarioServicioBean extends AbstractBean<WsgUsuarioServicio> imp
 	@Override
 	protected EntityManager getEntityManager() {
 		
-		InputStream iostream = Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/wsg-ejb-ear.properties");
-		try {
-			propiedades.load(iostream);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		   
-	    em = getEntityManagerFactory().createEntityManager();	
-	    
 		return em;
 		
 	}
 
 
-
-	public EntityManagerFactory getEntityManagerFactory() {
-		
-		entityManagerFactory = Persistence.createEntityManagerFactory(propiedades.getProperty("wsgejb.pu"));
-		
-		return entityManagerFactory;
-		
-	}
 }

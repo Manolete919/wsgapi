@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="WSG_USUARIO_SERVICIO")
-@Cacheable(false)
+//@Cacheable(false)
 @NamedQuery(name="WsgUsuarioServicio.findAll", query="SELECT w FROM WsgUsuarioServicio w")
 public class WsgUsuarioServicio implements Serializable {
 	private static final long serialVersionUID = 1L;

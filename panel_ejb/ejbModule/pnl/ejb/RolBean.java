@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +27,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "RolBean")
 public class RolBean
-        implements  RolBeanRemote,Serializable {
+        implements  RolBeanRemote {
         	private static final long serialVersionUID = 1L;
 
     /**

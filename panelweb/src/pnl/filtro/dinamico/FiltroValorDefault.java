@@ -17,10 +17,6 @@ public class FiltroValorDefault implements Comparable<FiltroValorDefault>{
 
 
 
-
-
-
-
 	public Filtro getFiltro() {
 		return filtro;
 	}

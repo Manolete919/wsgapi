@@ -8,19 +8,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
-import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import wsg.modelo.WsgServicio;
-import wsg.resultset.Transformador;
-import javax.ejb.Stateless;
 
-@Stateless
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.w3c.dom.Document;
+
+import wsg.modelo.WsgServicio;
+import wsg.qualificadores.AuditorGeneralWeb;
+import wsg.resultset.Transformador;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+
+@Named
+@RequestScoped
+@AuditorGeneralWeb
 public class EjecutaQuery implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Inject Transformador converter;
 
 
 	Properties propiedades = new Properties();
@@ -50,9 +64,9 @@ public class EjecutaQuery implements Serializable {
 
 
 
-	Transformador converter = null;
+
 	String message = "";
-	static final Logger logger = Logger.getLogger(EjecutaQuery.class);
+	static final Logger logger = LogManager.getLogger(EjecutaQuery.class);
 	
 	
 	String resultadoTotal = null;
@@ -78,9 +92,7 @@ public class EjecutaQuery implements Serializable {
 		int mtadtacnt;
 		ParameterMetaData pmtadta;
 		
-		converter = new Transformador();
-		
-		
+			
 
 		String sentenciaSQL = wsgServicio.getWsgQuery().getQuery();
 		

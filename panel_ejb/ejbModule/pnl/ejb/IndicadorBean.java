@@ -1,8 +1,7 @@
 package pnl.ejb;
 
-import java.io.Serializable;
-import java.util.List;
 
+import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -13,7 +12,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.IndicadorBeanRemote;
 import pnl.modelo.Indicador;
 import pnl.qualificadores.AuditorGeneral;
@@ -25,7 +23,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "IndicadorBean")
 public class IndicadorBean
-        implements IndicadorBeanRemote ,Serializable {
+        implements IndicadorBeanRemote {
         	private static final long serialVersionUID = 1L;
 
 

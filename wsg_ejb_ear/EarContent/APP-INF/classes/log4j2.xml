@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Don't forget to set system property -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector 
+	to make all loggers asynchronous. -->
+
+<Configuration status="DEBUG">
+
+	<Properties>
+		<Property name="log-path">/Oracle/Middleware/Oracle_Home/user_projects/domains/wsg/wsg-ejb/logs</Property>
+		<Property name="log-path2">C:/logs/</Property>
+	</Properties>
+
+	<Appenders>
+		<!-- Async Loggers will auto-flush in batches, so switch off immediateFlush. -->
+		<RandomAccessFile name="RandomAccessFile" fileName="${log-path}/wsg-ejb.log4j.log"
+			immediateFlush="false" append="false">
+			<PatternLayout>
+				<Pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</Pattern>
+			</PatternLayout>
+		</RandomAccessFile>
+	</Appenders>
+	<Loggers>
+		<Root level="debug" includeLocation="false">
+			<AppenderRef ref="RandomAccessFile" />
+		</Root>
+	</Loggers>
+</Configuration>
+
+

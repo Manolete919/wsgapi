@@ -15,12 +15,19 @@ import javax.persistence.TypedQuery;
 
 import pnl.interfaz.AccionUsuarioBeanRemote;
 import pnl.modelo.AccionUsuario;
+import pnl.qualificadores.AuditorGeneral;
 
 /**
  * @generated DT_ID=none
  */
+@AuditorGeneral
 @Stateless(name = "AccionUsuarioBean")
 public class AccionUsuarioBean implements AccionUsuarioBeanRemote {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @generated DT_ID=none

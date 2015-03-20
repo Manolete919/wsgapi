@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="WSG_SERVICIO")
-@Cacheable(false)
+//@Cacheable(false)
 @NamedQuery(name="WsgServicio.findAll", query="SELECT w FROM WsgServicio w")
 public class WsgServicio implements Serializable {
 	private static final long serialVersionUID = 1L;

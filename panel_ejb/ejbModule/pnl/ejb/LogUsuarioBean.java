@@ -30,6 +30,11 @@ public class LogUsuarioBean
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * @generated DT_ID=none
      */
 	@Resource

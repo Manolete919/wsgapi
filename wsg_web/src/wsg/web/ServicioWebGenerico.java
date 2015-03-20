@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -17,11 +20,17 @@ import javax.jws.soap.SOAPBinding;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
-import org.apache.log4j.Logger;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import wsg.conexion.Conexion;
 import wsg.interfaz.WsgServicioBeanRemote;
 import wsg.interfaz.WsgServiciosLogBeanRemote;
@@ -40,17 +49,29 @@ import wsg.response.Servicio;
 public class ServicioWebGenerico {
 	
 	
-	static final Logger logger = Logger.getLogger(ServicioWebGenerico.class);
+	static final Logger logger = LogManager.getLogger(ServicioWebGenerico.class);
+	
+	@Resource(name="wsContext") WebServiceContext wsCtxt;
+	
+	@Inject EjecutaQuery q;
+	
 
+	
+	WsgServiciosLogBeanRemote wsgServiciosLogBeanRemote = null;
 
+	String urlEJB = "";
+	
+	String ipLocal;
+	
+	int puertoLocal;
 
 	public ServicioWebGenerico() {
 	}
 
 	Properties propiedades = new Properties();
 	
-	@WebMethod(exclude=true)
-	public Properties getPropiedades() {
+
+	private Properties getPropiedades() {
 		InputStream iostream = Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/wsg-war-ear.properties");
 		try {
 			propiedades.load(iostream);
@@ -61,8 +82,6 @@ public class ServicioWebGenerico {
 		return propiedades; 
 		
 	}
-	
-	
 	
 	
 	@WebMethod(operationName = "obtenerXml", action = "http://axis/EISApiOnlineWS.wsdl/types//obtenerXml")
@@ -78,6 +97,13 @@ public class ServicioWebGenerico {
 		//encriptar la clave
 		clave = Utileria.generateHash(clave);
 		
+	    MessageContext msgCtxt = wsCtxt.getMessageContext();
+	    HttpServletRequest req = (HttpServletRequest)msgCtxt.get(MessageContext.SERVLET_REQUEST);
+
+		ipLocal = req.getLocalAddr();
+		
+		puertoLocal = req.getLocalPort();
+		
 		Servicio servicio = new Servicio();
 		WsgServiciosLog wsgServiciosLog = new WsgServiciosLog();
 		wsgServiciosLog.setIdServicio(new BigDecimal(idServicio));
@@ -91,13 +117,32 @@ public class ServicioWebGenerico {
 		String xmlString = "";
 		WsgServicioBeanRemote wsgServicioBeanRemote;
 		WsgUsuarioServicioBeanRemote wsgUsuarioServicioBeanRemote;
-		WsgServiciosLogBeanRemote wsgServiciosLogBeanRemote = null;
 		WsgUsuario wsgUsuario;
 		WsgUsuarioServicio wsgUsuarioServicio;
 		WsgServicio wsgServicio;
-		EjecutaQuery q = new EjecutaQuery();
 		
-		// recupero todos los parametros de todos los queries
+		
+		
+		urlEJB = propiedades.getProperty("wsgwar.jndi.modulo.ejb.url");
+		
+		//si no existe la propiedad definida, se asume que el modulo EJB, está en el mismo servidor
+		if(urlEJB == null){
+			urlEJB = "t3://"+ipLocal+":"+puertoLocal;
+		}
+		
+		
+		if(urlEJB != null){
+			//si no existe valor para la propiedad definida, se asume que el modulo EJB, está en el mismo servidor
+			if(urlEJB.trim().equals("")){
+				urlEJB = "t3://"+ipLocal+":"+puertoLocal;
+			}
+			
+		}
+		
+		
+		
+		
+
 		DataSource ds = null;
 		
 		Context ctx = null;
@@ -105,10 +150,9 @@ public class ServicioWebGenerico {
 		Hashtable<String, String> ht = new Hashtable<String, String>();
 		ht.put(Context.INITIAL_CONTEXT_FACTORY,
 				"weblogic.jndi.WLInitialContextFactory");
-		ht.put(Context.PROVIDER_URL, "t3://127.0.0.1:7001");
+		ht.put(Context.PROVIDER_URL, urlEJB);
 		
 		
-
 	    try {
 	    	
 			arrayDeListasDeParametros = t.extraerListaDeParametros(sentencias_binds);
@@ -150,7 +194,7 @@ public class ServicioWebGenerico {
 				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
 				wsgServiciosLog.setMsgError(servicio.getMensajeError());
 				wsgServiciosLog.setFechaFin(new Date());
-				wsgServiciosLogBeanRemote.create(wsgServiciosLog);
+				bitacorizar(wsgServiciosLog);
 				return servicio;
 				
 				
@@ -175,23 +219,11 @@ public class ServicioWebGenerico {
 				wsgServiciosLog.setMsgError(servicio.getMensajeError());
 				
 				//Grabar actividades del WS
-				try{						
-					wsgServiciosLog.setFechaFin(new Date());
-					wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-					return servicio;
-				}catch (Exception ex) {
-					
-					Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-					
-					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-					servicio.setCodigoError(sqlException.getErrorCode());
-					servicio.setProveedorBase(vendor);
-					servicio.setMensajeError(sqlException.getMessage());
-					logger.error(ex);
-					logger.error(sqlException.getErrorCode());
-					logger.error(sqlException.getMessage());
-					return servicio;
-				}
+				wsgServiciosLog.setFechaFin(new Date());
+				bitacorizar(wsgServiciosLog);
+				return servicio;
+				
+
 				
 			}
 				
@@ -228,24 +260,12 @@ public class ServicioWebGenerico {
 						wsgServiciosLog.setResultado(q.getResultadoTotal());
 									
 						//Grabar actividades del WS
-						try{	
-							wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-							wsgServiciosLog.setMsgError(servicio.getMensajeError());
-							wsgServiciosLog.setFechaFin(new Date());
-							wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-							return servicio;
-						}catch (Exception ex) {
-							
-							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-							servicio.setCodigoError(sqlException.getErrorCode());
-							servicio.setProveedorBase(vendor);
-							servicio.setMensajeError(sqlException.getMessage());
-							logger.error(ex);
-							logger.error(sqlException.getErrorCode());
-							logger.error(sqlException.getMessage());
-							return servicio;
-						}
+		
+						wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+						wsgServiciosLog.setMsgError(servicio.getMensajeError());
+						wsgServiciosLog.setFechaFin(new Date());
+						bitacorizar(wsgServiciosLog);
+						return servicio;
 										
 						
 					} catch (SQLException sqlError) {
@@ -262,50 +282,28 @@ public class ServicioWebGenerico {
 						logger.error(sqlError.getMessage());
 						
 						//Grabar actividades del WS
-						try{	
-							wsgServiciosLog.setCodError(new BigDecimal(sqlError.getErrorCode()));
-							wsgServiciosLog.setMsgError(sqlError.getMessage());
-							wsgServiciosLog.setFechaFin(new Date());
-							wsgServiciosLog.setProveedor(vendor);
-							wsgServiciosLog.setSentenciaSql(wsgServicio.getWsgQuery().getQuery());
-							wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-							return servicio;
-						}catch (Exception ex) {
-							
-							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-							servicio.setCodigoError(sqlException.getErrorCode());
-							servicio.setProveedorBase(vendor);
-							servicio.setMensajeError(sqlException.getMessage());
-							logger.error(ex);
-							logger.error(sqlException.getErrorCode());
-							logger.error(sqlException.getMessage());
-							return servicio;
-						}
+				
+						wsgServiciosLog.setCodError(new BigDecimal(sqlError.getErrorCode()));
+						wsgServiciosLog.setMsgError(sqlError.getMessage());
+						wsgServiciosLog.setFechaFin(new Date());
+						wsgServiciosLog.setProveedor(vendor);
+						wsgServiciosLog.setSentenciaSql(wsgServicio.getWsgQuery().getQuery());
+						bitacorizar(wsgServiciosLog);
+						return servicio;
+	
 					} catch (Exception e0) {
 						servicio.setCodigoError(-5);
 						servicio.setMensajeError(e0.getMessage());
 						servicio.setProveedorBase(vendor);
 						logger.error(e0);
 						//Grabar actividades del WS
-						try{
-							wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-							wsgServiciosLog.setMsgError(servicio.getMensajeError());
-							wsgServiciosLog.setFechaFin(new Date());
-							wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-							return servicio;
-						}catch (Exception ex) {
-							
-							Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-							SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-							servicio.setCodigoError(sqlException.getErrorCode());
-							servicio.setProveedorBase(vendor);
-							servicio.setMensajeError(sqlException.getMessage());
-							logger.error(ex);
-							logger.error(sqlException.getErrorCode());
-							logger.error(sqlException.getMessage());
-							return servicio;
-						}
+			
+						wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+						wsgServiciosLog.setMsgError(servicio.getMensajeError());
+						wsgServiciosLog.setFechaFin(new Date());
+						bitacorizar(wsgServiciosLog);
+						return servicio;
+	
 					} finally {
 						if (conn != null)
 							try {
@@ -317,24 +315,14 @@ public class ServicioWebGenerico {
 								servicio.setProveedorBase(vendor);
 								logger.error(e);
 								//Grabar actividades del WS								
-								try{	
-									wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-									wsgServiciosLog.setMsgError(servicio.getMensajeError());
-									wsgServiciosLog.setProveedor(servicio.getProveedorBase());
-									wsgServiciosLog.setFechaFin(new Date());
-									wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-									return servicio;
-								}catch (Exception ex) {									
-									Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-									SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-									servicio.setCodigoError(sqlException.getErrorCode());
-									servicio.setProveedorBase(vendor);
-									servicio.setMensajeError(sqlException.getMessage());
-									logger.error(ex);
-									logger.error(sqlException.getErrorCode());
-									logger.error(sqlException.getMessage());
-									return servicio;
-								}
+					
+								wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+								wsgServiciosLog.setMsgError(servicio.getMensajeError());
+								wsgServiciosLog.setProveedor(servicio.getProveedorBase());
+								wsgServiciosLog.setFechaFin(new Date());
+								bitacorizar(wsgServiciosLog);
+								return servicio;
+				
 								
 							}
 					}		
@@ -353,25 +341,14 @@ public class ServicioWebGenerico {
 					wsgServiciosLog.setXml(xmlString);
 					
 					//Grabar actividades del WS								
-					try{	
-						wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-						servicio.setProveedorBase(vendor);
-						wsgServiciosLog.setMsgError(servicio.getMensajeError());
-						wsgServiciosLog.setFechaFin(new Date());
-						wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-						return servicio;
-					}catch (Exception ex) {
-						
-						Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-						SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-						servicio.setCodigoError(sqlException.getErrorCode());
-						servicio.setProveedorBase(vendor);
-						servicio.setMensajeError(sqlException.getMessage());
-						logger.error(ex);
-						logger.error(sqlException.getErrorCode());
-						logger.error(sqlException.getMessage());
-						return servicio;
-					}
+
+					wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+					servicio.setProveedorBase(vendor);
+					wsgServiciosLog.setMsgError(servicio.getMensajeError());
+					wsgServiciosLog.setFechaFin(new Date());
+					bitacorizar(wsgServiciosLog);
+					return servicio;
+
 					
 					
 					
@@ -388,24 +365,13 @@ public class ServicioWebGenerico {
 				
 				
 				//Grabar actividades del WS								
-				try{
-					wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-					wsgServiciosLog.setMsgError(servicio.getMensajeError());
-					wsgServiciosLog.setFechaFin(new Date());
-					wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-					return servicio;
-				}catch (Exception ex) {
-					
-					Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-					SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-					servicio.setCodigoError(sqlException.getErrorCode());
-					servicio.setProveedorBase(vendor);
-					servicio.setMensajeError(sqlException.getMessage());
-					logger.error(ex);
-					logger.error(sqlException.getErrorCode());
-					logger.error(sqlException.getMessage());
-					return servicio;
-				}
+	
+				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+				wsgServiciosLog.setMsgError(servicio.getMensajeError());
+				wsgServiciosLog.setFechaFin(new Date());
+				bitacorizar(wsgServiciosLog);
+				return servicio;
+
 				
 			}
 			
@@ -426,18 +392,14 @@ public class ServicioWebGenerico {
 				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
 				wsgServiciosLog.setMsgError(servicio.getMensajeError());
 				wsgServiciosLog.setFechaFin(new Date());
-				wsgServiciosLogBeanRemote.create(wsgServiciosLog);
+				bitacorizar(wsgServiciosLog);
 				return servicio;
 			}catch (Exception ex) {
-				
-				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-				servicio.setCodigoError(sqlException.getErrorCode());
+												
+				servicio.setCodigoError(-100);
 				servicio.setProveedorBase(vendor);
-				servicio.setMensajeError(sqlException.getMessage());
+				servicio.setMensajeError(ex.getMessage());
 				logger.error(ex);
-				logger.error(sqlException.getErrorCode());
-				logger.error(sqlException.getMessage());
 				return servicio;
 			}
 			
@@ -451,28 +413,15 @@ public class ServicioWebGenerico {
 			logger.error(e);
 			e.printStackTrace();
 			//Grabar actividades del WS	
-			try{		
-				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-				wsgServiciosLog.setMsgError(servicio.getMensajeError());
-				wsgServiciosLog.setFechaFin(new Date());
-				wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-				return servicio;
-			}catch (Exception ex) {
-				
-				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-				servicio.setCodigoError(sqlException.getErrorCode());
-				servicio.setProveedorBase(vendor);
-				servicio.setMensajeError(sqlException.getMessage());
-				
-				logger.error(ex);
-				logger.error(sqlException.getErrorCode());
-				logger.error(sqlException.getMessage());
-				return servicio;
-			}
+	
+			wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+			wsgServiciosLog.setMsgError(servicio.getMensajeError());
+			wsgServiciosLog.setFechaFin(new Date());
+			bitacorizar(wsgServiciosLog);
+			return servicio;
 
-		}
-	    catch (Exception e0) {
+
+		}catch (Exception e0) {
 			// TODO Auto-generated catch block
 			e0.printStackTrace();
 			servicio.setCodigoError(-5);
@@ -481,34 +430,48 @@ public class ServicioWebGenerico {
 			ds = null;
 			logger.error(e0);
 			//Grabar actividades del WS		
-			try{	
-				wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
-				wsgServiciosLog.setMsgError(servicio.getMensajeError());
-				wsgServiciosLog.setFechaFin(new Date());
-				wsgServiciosLogBeanRemote.create(wsgServiciosLog);
-				return servicio;
-			}catch (Exception ex) {
-				
-				Throwable t2 = getLastThrowable(ex);  //fetching Internal Exception
-				SQLException sqlException = (SQLException) t2;  //casting Throwable object to SQL Exception									
-				servicio.setCodigoError(sqlException.getErrorCode());
-				servicio.setProveedorBase(vendor);
-				servicio.setMensajeError(sqlException.getMessage());
-				logger.error(ex);
-				logger.error(sqlException.getErrorCode());
-				logger.error(sqlException.getMessage());
-				return servicio;
-			}
+	
+			wsgServiciosLog.setCodError(new BigDecimal(servicio.getCodigoError()));
+			wsgServiciosLog.setMsgError(servicio.getMensajeError());
+			wsgServiciosLog.setFechaFin(new Date());
+			bitacorizar(wsgServiciosLog);
+			return servicio;
+			
 			
 		}
 	    
 	}
 	
-	private Throwable getLastThrowable(Exception e) {
+	/*private Throwable getLastThrowable(Exception e) {
 		Throwable t = null;
 		
 		for(t = e.getCause(); t.getCause() != null; t = t.getCause());
 		return t;
+	} */
+	
+	private void bitacorizar(WsgServiciosLog wsgServiciosLog){
+		
+		//todo exitoso
+		//inicio del metdo
+		long startTime4 = System.currentTimeMillis();
+
+		
+		Runnable qs1 = new QueueSend(wsgServiciosLog,urlEJB);
+		try {
+			
+			new Thread(qs1).start();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		long stopTime4 = System.currentTimeMillis();
+	    long elapsedTime4 = stopTime4 - startTime4;
+	
+	    logger.info("bitacorizar: tiempo->"+ elapsedTime4 + " ms" );
+
+
 	}
 
 }

@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -23,7 +23,7 @@ import pnl.qualificadores.AuditorGeneral;
  */
 @AuditorGeneral
 @Stateless(name = "FiltroBean")
-public class FiltroBean implements FiltroBeanRemote,Serializable {
+public class FiltroBean implements FiltroBeanRemote{
 	private static final long serialVersionUID = 1L;
 
 	/**

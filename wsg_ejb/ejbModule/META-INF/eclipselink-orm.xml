@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.4"
+	xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.eclipse.org/eclipselink/xsds/persistence/orm http://www.eclipse.org/eclipselink/xsds/eclipselink_orm_2_4.xsd">
+
+	<entity name="WsgCategoria" class="wsg.modelo.WsgCategoria"
+		access="FIELD">
+		<cache type="SOFT_WEAK" size="600000" shared="true"
+			always-refresh="false" refresh-only-if-newer="true" disable-hits="false">
+			<expiry>600000</expiry>
+		</cache>
+	</entity>
+
+	<entity name="WsgJndi" class="wsg.modelo.WsgJndi"
+		access="FIELD">
+		<cache type="SOFT_WEAK" size="600000" shared="true"
+			always-refresh="false" refresh-only-if-newer="true" disable-hits="false">
+			<expiry>600000</expiry>
+		</cache>
+	</entity>
+
+	<entity name="WsgQuery" class="wsg.modelo.WsgQuery"
+		access="FIELD">
+		<cache type="SOFT_WEAK" size="600000" shared="true"
+			always-refresh="false" refresh-only-if-newer="true" disable-hits="false">
+			<expiry>600000</expiry>
+		</cache>
+	</entity>
+
+
+	<entity name="WsgServicio" class="wsg.modelo.WsgServicio"
+		access="FIELD">
+
+		
+		<named-query 
+			name="buscarServicioPorIdActivoYVigente">
+			<query>SELECT si FROM WsgServicio si WHERE si.estado = 'A' AND CURRENT_TIMESTAMP BETWEEN COALESCE(si.fechaDesde,CURRENT_TIMESTAMP) AND COALESCE(si.fechaHasta,CURRENT_TIMESTAMP) AND si.idServicio = :idServicio </query>
+			<hint name="eclipselink.query-results-cache" value="true" />
+			<hint name="eclipselink.query-results-cache.size" value="600000" />
+			<hint name="eclipselink.query-results-cache.expiry" value="600000" />
+		</named-query>
+	</entity>
+
+
+	<entity name="WsgUsuario" class="wsg.modelo.WsgUsuario" access="FIELD">
+		<cache type="SOFT_WEAK" size="600000" shared="true"
+			always-refresh="false" refresh-only-if-newer="true" disable-hits="false">
+			<expiry>600000</expiry>
+		</cache>
+
+	</entity>
+	
+	<entity name="WsgUsuarioServicio" class="wsg.modelo.WsgUsuarioServicio"
+		access="FIELD">
+		
+		<cache type="SOFT_WEAK" size="600000" shared="true"
+			always-refresh="false" refresh-only-if-newer="true" disable-hits="false">
+			<expiry>600000</expiry>
+		</cache>
+
+	</entity>
+	
+
+	<entity name="WsgServiciosLog" class="wsg.modelo.WsgServiciosLog"
+		access="FIELD">
+		<cache shared="false" />
+		<attributes>
+			<id name="idServiciosLog">		
+				<column name="ID_SERVICIOS_LOG"/>
+				<generated-value generator="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR" strategy="SEQUENCE" />
+				<sequence-generator name="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR" sequence-name="SQ_SERVICIOS_LOG" allocation-size="1" />														
+			</id>
+		</attributes>
+	</entity>
+
+
+
+</entity-mappings>

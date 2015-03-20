@@ -9,6 +9,8 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -29,7 +31,7 @@ import pnl.modelo.Usuario;
 @Transactional(readOnly=true)
 public class CustomUserDetailsService implements UserDetailsService ,Serializable {
 	private static final long serialVersionUID = 1L;
-   
+	Logger logger = LogManager.getLogger(CustomUserDetailsService.class.getName());
 
     private List<Rol> roles;
     private Usuario usuario;
@@ -58,6 +60,7 @@ public class CustomUserDetailsService implements UserDetailsService ,Serializabl
 			
 
 		} catch (Exception e) {
+			logger.error(e);
 			e.printStackTrace();
 		}
     	

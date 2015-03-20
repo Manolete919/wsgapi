@@ -25,6 +25,11 @@ import pnl.qualificadores.AuditorGeneral;
 public class RecursosAppBean implements RecursosAppBeanRemote {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * @generated DT_ID=none
 	 */
 	@Resource

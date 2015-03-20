@@ -1,6 +1,5 @@
 package pnl.ejb;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "GrupoIndicadorBean")
 public class GrupoIndicadorBean
-        implements  GrupoIndicadorBeanRemote, Serializable {
+        implements  GrupoIndicadorBeanRemote {
         	private static final long serialVersionUID = 1L;
 
     /**

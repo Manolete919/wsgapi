@@ -1,12 +1,11 @@
 package pnl.interceptor;
 
 import java.io.Serializable;
-
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import pnl.qualificadores.AuditorGeneral;
 
@@ -17,7 +16,7 @@ public class InterceptorAuditorGeneral implements Serializable {
 
 	private static final long serialVersionUID = -8204333469527307739L;
 
-	Logger logger = Logger.getLogger("AuditorGeneral");
+	Logger logger = LogManager.getLogger("Panel_EJB");
 
 	@AroundInvoke
 	public Object auditoriaGeneral(InvocationContext ctx) throws Exception {
@@ -28,15 +27,11 @@ public class InterceptorAuditorGeneral implements Serializable {
 		Object[] params = ctx.getParameters();
 		Object object =null;
 		
-		String estadoEjecucion="Exitosa";
+		
 
 		try {
 
-			
-			logger.debug("********************************************************************");
-			logger.debug("* <" + target + "> : Iniciando ejecución");
-			logger.debug("********************************************************************");
-
+	
 			StringBuilder sbParams = new StringBuilder();
 			sbParams.append("[");
 			for (int i = 1; i < params.length; i++) {
@@ -44,25 +39,21 @@ public class InterceptorAuditorGeneral implements Serializable {
 				sbParams.append(";");
 			}
 			sbParams.append("]");
-			logger.debug("<" + target + "> - Parámetros:" + sbParams.toString());
+			if(sbParams != null)
+				logger.debug("<" + target + "> - Parametros:" + sbParams.toString());
 
 			object = ctx.proceed();
 			return object;
 		} catch (Exception e) {
-			estadoEjecucion="Con errores";			
+		
 			logger.error("<" + target + "> (Exception)-->"+e.getMessage());
 			throw e;
 
 		}finally{
 			long stop = System.currentTimeMillis();
-			logger.debug("********************************************************************");
-			logger.debug("* <" + target + "> : Finalizando Ejecución ["+estadoEjecucion+"].");
-			logger.debug("*------------------------------------------------------------------*");
-			logger.debug("* <" + target + "> : El tiempo de respuesta fue de "
+			logger.debug("<" + target + "> finalizo en "
 					+ String.valueOf(stop - start) + " ms.");
-			logger.debug("********************************************************************");
-
-			
+					
 		}
 		
 		

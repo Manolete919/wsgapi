@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ import pnl.qualificadores.AuditorGeneral;
 @SuppressWarnings("unchecked")
 @Stateless(name = "IndicadorSerieFiltroBean")
 public class IndicadorSerieFiltroBean
-        implements IndicadorSerieFiltroBeanRemote,Serializable {
+        implements IndicadorSerieFiltroBeanRemote {
         	private static final long serialVersionUID = 1L;
     /**
      * @generated DT_ID=none

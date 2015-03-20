@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="oraclePU" transaction-type="JTA">
+		<jta-data-source>jdbc/oracle</jta-data-source>
+		<mapping-file>META-INF/eclipselink-orm.xml</mapping-file>
+		<class>wsg.modelo.WsgCategoria</class>
+		<class>wsg.modelo.WsgJndi</class>
+		<class>wsg.modelo.WsgQuery</class>
+		<class>wsg.modelo.WsgServicio</class>
+		<class>wsg.modelo.WsgUsuario</class>
+		<class>wsg.modelo.WsgUsuarioServicio</class>
+		<class>wsg.modelo.WsgUsuarioServicioPK</class>
+		<class>wsg.modelo.WsgServiciosLog</class>
+		<properties>
+			<property name="eclipselink.target-server" value="WebLogic" />
+						<!--Global logging level -->
+			<property name="eclipselink.logging.level" value="FINE" />
+			<!-- Show sql -->
+			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="eclipselink.logging.parameters" value="true" />
+			<!-- Additional info -->
+			<!--property name="eclipselink.logging.timestamp" value="true" / -->
+
+			<!-- Fichero para el log. If not present, it uses console -->
+			<!-- property name="eclipselink.logging.file" value="output.log" / -->
+			<!-- Logger -->
+			<!-- ServerLogger|DefaultLogger|JavaLogger -->
+			<property name="eclipselink.logging.logger" value="ServerLogger" />
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="mySQlPU" transaction-type="JTA">
+		<jta-data-source>jdbc/mysql</jta-data-source>
+		<mapping-file>META-INF/eclipselink-orm.xml</mapping-file>
+		<class>wsg.modelo.WsgCategoria</class>
+		<class>wsg.modelo.WsgJndi</class>
+		<class>wsg.modelo.WsgQuery</class>
+		<class>wsg.modelo.WsgServicio</class>
+		<class>wsg.modelo.WsgUsuario</class>
+		<class>wsg.modelo.WsgUsuarioServicio</class>
+		<class>wsg.modelo.WsgUsuarioServicioPK</class>
+		<class>wsg.modelo.WsgServiciosLog</class>
+		<properties>
+			<property name="eclipselink.target-server" value="WebLogic" />
+						<!--Global logging level -->
+			<property name="eclipselink.logging.level" value="FINE" />
+			<!-- Show sql -->
+			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="eclipselink.logging.parameters" value="true" />
+			<!-- Additional info -->
+			<!--property name="eclipselink.logging.timestamp" value="true" / -->
+
+			<!-- Fichero para el log. If not present, it uses console -->
+			<!-- property name="eclipselink.logging.file" value="output.log" / -->
+			<!-- Logger -->
+			<!-- ServerLogger|DefaultLogger|JavaLogger -->
+			<property name="eclipselink.logging.logger" value="ServerLogger" />
+		</properties>
+	</persistence-unit>
+</persistence>

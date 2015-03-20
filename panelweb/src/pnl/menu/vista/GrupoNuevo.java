@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -36,7 +35,7 @@ public class GrupoNuevo implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	final static Logger logger = Logger.getLogger(GrupoNuevo.class);
+
 	
 	
 	private UsuarioGrupoBeanRemote usuarioGrupoBeanRemote;
@@ -124,7 +123,7 @@ public class GrupoNuevo implements Serializable{
         		grupo.setEstado("A");
         		usuarioGrupo.setGrupo(grupo);
          		
-        		logger.info("GRABO EXITOSAMENTE");
+        		
             	
                 addMessage("Se guardo exitosamente!!",FacesMessage.SEVERITY_INFO);
                 

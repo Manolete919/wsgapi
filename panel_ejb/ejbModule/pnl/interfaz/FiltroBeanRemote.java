@@ -1,4 +1,5 @@
 package pnl.interfaz;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -11,7 +12,7 @@ import pnl.modelo.Filtro;
  * @generated DT_ID=none
  */
 @Remote
-public interface FiltroBeanRemote
+public interface FiltroBeanRemote extends Serializable
 {
 
     /**

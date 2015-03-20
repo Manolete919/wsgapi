@@ -10,7 +10,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import pnl.interfaz.UsuariosWsgBeanRemote;
 import pnl.modelo.UsuariosWsg;
 import pnl.qualificadores.AuditorGeneral;
@@ -25,6 +24,11 @@ public class UsuariosWsgBean implements UsuariosWsgBeanRemote
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * @generated DT_ID=none
      */
 	@Resource

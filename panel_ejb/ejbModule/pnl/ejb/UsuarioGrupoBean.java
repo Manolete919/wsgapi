@@ -1,9 +1,7 @@
 package pnl.ejb;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -14,7 +12,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import pnl.interfaz.UsuarioGrupoBeanRemote;
 import pnl.modelo.UsuarioGrupo;
 import pnl.modelo.UsuarioGrupoPK;
@@ -26,7 +23,7 @@ import pnl.qualificadores.AuditorGeneral;
  */
 @AuditorGeneral
 @Stateless(name = "UsuarioGrupoBean")
-public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote, Serializable
+public class UsuarioGrupoBean  implements  UsuarioGrupoBeanRemote 
 {
 
     /**

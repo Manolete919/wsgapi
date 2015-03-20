@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ import pnl.qualificadores.AuditorGeneral;
  */
 @AuditorGeneral
 @Stateless(name = "GrupoBean")
-public class GrupoBean implements GrupoBeanRemote, Serializable
+public class GrupoBean implements GrupoBeanRemote
 {
 
     /**

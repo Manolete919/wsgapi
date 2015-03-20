@@ -1,7 +1,10 @@
 package pnl.interfaz;
 
+import java.io.Serializable;
 import java.util.List;
+
 import javax.ejb.Remote;
+
 import pnl.modelo.UsuariosWsg;
 
 
@@ -9,7 +12,7 @@ import pnl.modelo.UsuariosWsg;
  * @generated DT_ID=none
  */
 @Remote
-public interface UsuariosWsgBeanRemote
+public interface UsuariosWsgBeanRemote extends Serializable
 {
 
     /**

@@ -1,6 +1,6 @@
 package pnl.ejb;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import pnl.qualificadores.AuditorGeneral;
 @AuditorGeneral
 @Stateless(name = "ModeloGraficoBean")
 public class ModeloGraficoBean
-        implements  ModeloGraficoBeanRemote,Serializable {
+        implements  ModeloGraficoBeanRemote {
         	private static final long serialVersionUID = 1L;
 
     /**

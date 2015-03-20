@@ -1,5 +1,6 @@
 package pnl.interfaz;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import pnl.modelo.LogUsuario;
  * @generated DT_ID=none
  */
 @Remote
-public interface LogUsuarioBeanRemote
+public interface LogUsuarioBeanRemote extends Serializable
 {
 
     /**

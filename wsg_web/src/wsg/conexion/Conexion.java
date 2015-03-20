@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 
 
@@ -40,7 +44,7 @@ public class Conexion implements Serializable {
 	} 
 
 	
-	static final Logger logger = Logger.getLogger(Conexion.class); 
+	static final Logger logger = LogManager.getLogger(Conexion.class); 
 
 	private static DataSource dataSource = null;
 	private static Context context = null;

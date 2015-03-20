@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="WSG_SERVICIOS_LOG")
-@Cacheable(false)
+//@Cacheable(false)
 @NamedQuery(name="WsgServiciosLog.findAll", query="SELECT w FROM WsgServiciosLog w")
 public class WsgServiciosLog implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,8 +25,8 @@ public class WsgServiciosLog implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-	@SequenceGenerator(name="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR", sequenceName="SQ_SERVICIOS_LOG",allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR")
+	//@SequenceGenerator(name="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR", sequenceName="SQ_SERVICIOS_LOG",allocationSize=1)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="WSG_SERVICIOS_LOG_IDSERVICIOSLOG_GENERATOR")
 	@Column(name="ID_SERVICIOS_LOG")
 	private long idServiciosLog;
     

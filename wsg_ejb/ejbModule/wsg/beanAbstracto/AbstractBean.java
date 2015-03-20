@@ -2,7 +2,6 @@ package wsg.beanAbstracto;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.Query;
@@ -22,31 +21,23 @@ public abstract class AbstractBean<T> {
     }
 
     protected abstract EntityManager getEntityManager();
-    protected abstract EntityManagerFactory getEntityManagerFactory();
+
 
     public void create(T entity){
         getEntityManager().persist(entity);
-        getEntityManager().close();
-        getEntityManagerFactory().close();
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
-        getEntityManager().close();
-        getEntityManagerFactory().close();
     }
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
-        getEntityManager().close();
-        getEntityManagerFactory().close();
     }
 
     public T find(Object id) {
     	
         T objeto = getEntityManager().find(entityClass, id);
-        getEntityManager().close();
-        getEntityManagerFactory().close();
         return objeto;
         
         
@@ -59,8 +50,6 @@ public abstract class AbstractBean<T> {
 		CriteriaQuery  cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         List<T> objetos = getEntityManager().createQuery(cq).getResultList();
-        getEntityManager().close();
-        getEntityManagerFactory().close();
         return objetos;
     }
 
@@ -74,8 +63,6 @@ public abstract class AbstractBean<T> {
         q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
         List<T> objetos = q.getResultList();
-        getEntityManager().close();
-        getEntityManagerFactory().close();
         return objetos;
     }
 
@@ -87,8 +74,6 @@ public abstract class AbstractBean<T> {
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         Query q = getEntityManager().createQuery(cq);
         int cant =  ((Long) q.getSingleResult()).intValue();
-        getEntityManager().close();
-        getEntityManagerFactory().close();
         return cant;
     }
     

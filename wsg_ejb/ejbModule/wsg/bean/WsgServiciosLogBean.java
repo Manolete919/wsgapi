@@ -1,16 +1,10 @@
 package wsg.bean;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.Properties;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.apache.log4j.Logger;
+
 import wsg.beanAbstracto.AbstractBean;
-import wsg.modelo.WsgServicio;
+import wsg.interfaz.WsgServiciosLogBeanRemote;
 import wsg.modelo.WsgServiciosLog;
 import wsg.qualificadores.AuditorGeneral;
 
@@ -19,18 +13,17 @@ import wsg.qualificadores.AuditorGeneral;
  */
 @AuditorGeneral
 @Stateless
-public class WsgServiciosLogBean extends AbstractBean<WsgServiciosLog>  implements wsg.interfaz.WsgServiciosLogBeanRemote, Serializable{
+public class WsgServiciosLogBean extends AbstractBean<WsgServiciosLog>  implements WsgServiciosLogBeanRemote{
 
    
    
  
 	private static final long serialVersionUID = 1L;
-	static final Logger logger = Logger.getLogger(WsgServicio.class);
-	private Properties propiedades = new Properties();
-	
+
+	@Inject
 	private EntityManager em;
 	
-	private EntityManagerFactory entityManagerFactory = null;
+
 
 	/**
      * Default constructor. 
@@ -45,32 +38,13 @@ public class WsgServiciosLogBean extends AbstractBean<WsgServiciosLog>  implemen
 	
 	@Override
 	protected EntityManager getEntityManager() {
-		
-		InputStream iostream = Thread.currentThread().getContextClassLoader().getResourceAsStream("properties/wsg-ejb-ear.properties");
-		try {
-			propiedades.load(iostream);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		   
-	    em = getEntityManagerFactory().createEntityManager();	
-	    
 		return em;
 		
 	}
 
 
 
-	public EntityManagerFactory getEntityManagerFactory() {
-		
-		entityManagerFactory = Persistence.createEntityManagerFactory(propiedades.getProperty("wsgejb.pu"));
-		
-		return entityManagerFactory;
-		
-	}
-	
-	
 	
 
 }
