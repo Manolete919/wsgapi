@@ -25,7 +25,7 @@
 			<p:scrollPanel mode="native"  style="height:350px;">
 				<p:chart rendered="#{menuVista.indicador.idIndicador != 0}" type="bar" id="barra1"
 					model="#{barView.barModel}"
-					style="margin:15px;width:1800px;" />
+					style="margin:15px;width:#{barView.cantidadRegistros * 257}px;" />
 			</p:scrollPanel>
 		</p:panel>
 			

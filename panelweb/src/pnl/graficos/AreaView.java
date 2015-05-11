@@ -37,6 +37,7 @@ public class AreaView implements Serializable {
 	private LineChartModel areaModel;
 	private String mensajeDeAplicacion = "";
 	private int codigoDeAplicacion = 0;
+	private int cantidadRegistros  = 0;
 
 	
 	@ManagedProperty("#{dinamico}")
@@ -109,7 +110,8 @@ public class AreaView implements Serializable {
 						servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(),dinamico.getUsuario().getUsuariosWsg().getIdUsuario(), dinamico.getUsuario().getUsuariosWsg().getClave());
 						if(servicio != null ){
 							if(servicio.get_any() != null ){
-								datos = cg.procesaDatosDeGraficos(servicio.get_any());		
+								datos = cg.procesaDatosDeGraficos(servicio.get_any());
+								cantidadRegistros = datos.size();
 							}
 							
 							mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
@@ -165,6 +167,14 @@ public class AreaView implements Serializable {
 
 	public int getCodigoDeAplicacion() {
 		return codigoDeAplicacion;
+	}
+
+	public int getCantidadRegistros() {
+		return cantidadRegistros;
+	}
+
+	public void setCantidadRegistros(int cantidadRegistros) {
+		this.cantidadRegistros = cantidadRegistros;
 	}
 
 	

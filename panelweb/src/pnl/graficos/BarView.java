@@ -38,6 +38,7 @@ public class BarView implements Serializable {
     private HorizontalBarChartModel horizontalBarModel;
 	private String mensajeDeAplicacion = "";
 	private int codigoDeAplicacion = 0;
+	private int cantidadRegistros  = 0;
 
  
 	@ManagedProperty("#{dinamico}")
@@ -98,6 +99,7 @@ public class BarView implements Serializable {
 							if(servicio != null ){
 								if(servicio.get_any() != null ){
 									datos = cg.procesaDatosDeGraficos(servicio.get_any());
+									cantidadRegistros = datos.size();
 								}
 								mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
 								codigoDeAplicacion = servicio.getCodigoError();
@@ -195,9 +197,15 @@ public class BarView implements Serializable {
 		return codigoDeAplicacion;
 	}
 
+	public int getCantidadRegistros() {
+		return cantidadRegistros;
+	}
+
+	public void setCantidadRegistros(int cantidadRegistros) {
+		this.cantidadRegistros = cantidadRegistros;
+	}
 
 
-	
-	
+
  
 }

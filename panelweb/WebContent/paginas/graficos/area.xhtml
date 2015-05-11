@@ -26,7 +26,7 @@
 				<p:panel>
 					<p:scrollPanel mode="native"  style="height:350px;">	
 							<p:chart rendered="#{menuVista.indicador.idIndicador != 0}"    type="line" id="area1" model="#{areaView.areaModel}"
-						style="margin:15px;width:1800px;" />
+							style="margin:15px;width:#{areaView.cantidadRegistros * 257}px;" />
 					</p:scrollPanel>
 				</p:panel>
 		</c:if>

@@ -35,6 +35,7 @@ public class LineView implements Serializable {
 	private Dinamico dinamico;
 	private String mensajeDeAplicacion = "";
 	private int codigoDeAplicacion = 0;
+	private int cantidadRegistros  = 0;
 
 	@PostConstruct
 	public void init() {
@@ -91,10 +92,13 @@ public class LineView implements Serializable {
 						servicio = cg.consultarServicioWebGenerico(u.convertirFiltroValorEnDocument(parametrosPropiedadValores),dinamico.getIndicador().getIdServicio().longValue(), dinamico.getUsuario().getUsuariosWsg().getIdUsuario(),dinamico.getUsuario().getUsuariosWsg().getClave());
 						if (servicio != null) {
 							if (servicio.get_any() != null) {
+								
 								datos = new ArrayList<Generico>();
-								datos = cg
-										.procesaDatosDeGraficos(servicio
-												.get_any());
+								datos = cg.procesaDatosDeGraficos(servicio.get_any());
+								
+								cantidadRegistros = datos.size();
+								
+								
 							}
 							mensajeDeAplicacion =    catalogo.obtenerMensajeDeErrorPorNombrePropiedad(servicio.getProveedorBase(), servicio.getCodigoError());
 							codigoDeAplicacion = servicio.getCodigoError();
@@ -140,6 +144,15 @@ public class LineView implements Serializable {
 	public int getCodigoDeAplicacion() {
 		return codigoDeAplicacion;
 	}
+
+	public int getCantidadRegistros() {
+		return cantidadRegistros;
+	}
+
+	public void setCantidadRegistros(int cantidadRegistros) {
+		this.cantidadRegistros = cantidadRegistros;
+	}
+	
 	
 	
 
